@@ -50,7 +50,6 @@ export const updatePrices = (skus: Sku[]) => {
       '[data-sku-code="' + sku.code + '"] > .compare-at-amount'
     )
     priceCompareAmounts.forEach(priceCompareAmount => {
-      console.log(price.compareAtAmountCents > price.amountCents)
       if (price.compareAtAmountCents > price.amountCents) {
         priceCompareAmount.innerHTML = price.formattedCompareAtAmount
       }
@@ -99,21 +98,23 @@ export const updateVariantsQuantity = (skus: Sku[]) => {
 export const updateAddVariantQuantitySKU = (
   skuId,
   skuName,
-  skuReference,
+  skuCode,
   skuImageUrl,
   skuMaxQuantity,
   addToBagQuantityId
 ) => {
-  // let addVariantQuantity = document.querySelector(`#${addToBagQuantityId}`)
-  // if (addVariantQuantity) {
-  //   addVariantQuantity.dataset.skuId = skuId
-  //   addVariantQuantity.value = 1
-  //   addVariantQuantity.min = 1
-  //   if (skuName) addVariantQuantity.dataset.skuName = skuName
-  //   if (skuReference) addVariantQuantity.dataset.skuReference = skuReference
-  //   if (skuImageUrl) addVariantQuantity.dataset.skuImageUrl = skuImageUrl
-  //   if (skuMaxQuantity) addVariantQuantity.max = skuMaxQuantity
-  // }
+  let addVariantQuantity: HTMLInputElement = document.querySelector(
+    `#${addToBagQuantityId}`
+  )
+  if (addVariantQuantity) {
+    addVariantQuantity.dataset.skuId = skuId
+    addVariantQuantity.value = '1'
+    addVariantQuantity.min = '1'
+    if (skuName) addVariantQuantity.dataset.skuName = skuName
+    if (skuCode) addVariantQuantity.dataset.skuCode = skuCode
+    if (skuImageUrl) addVariantQuantity.dataset.skuImageUrl = skuImageUrl
+    if (skuMaxQuantity) addVariantQuantity.max = skuMaxQuantity
+  }
 }
 
 export const updateAddToBags = (skus: Sku[]) => {
@@ -161,7 +162,7 @@ export const displayAvailableMessage = (container, stockLevel) => {
     ? dlt.shipping_method.formatted_price_amount
     : ''
 
-  if (container) {
+  if (container && dlt) {
     const template = document.querySelector(
       '#clayer-availability-message-available-template'
     )
@@ -211,7 +212,7 @@ export const displayAvailableMessage = (container, stockLevel) => {
 export const updateAddToBagSKU = (
   skuId,
   skuName,
-  skuReference,
+  skuCode,
   skuImageUrl,
   addToBagId,
   addToBagQuantityId
@@ -220,7 +221,7 @@ export const updateAddToBagSKU = (
   if (addToBag) {
     addToBag.dataset.skuId = skuId
     if (skuName) addToBag.dataset.skuName = skuName
-    if (skuReference) addToBag.dataset.skuReference = skuReference
+    if (skuCode) addToBag.dataset.skuCode = skuCode
     if (skuImageUrl) addToBag.dataset.skuImageUrl = skuImageUrl
     if (addToBagQuantityId)
       addToBag.dataset.addToBagQuantityId = addToBagQuantityId

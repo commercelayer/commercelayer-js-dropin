@@ -1,9 +1,10 @@
-// const ui = require('./ui')
-// const api = require('./api')
-// const utils = require('./utils')
 import api from './api'
-import { toggleShoppingBag } from 'ui'
 import { getOrderToken } from './utils'
+import {
+  displayUnavailableMessage,
+  toggleShoppingBag,
+  openShoppingBag
+} from './ui'
 
 export default {
   setupVariants: () => {
@@ -17,7 +18,7 @@ export default {
         api.selectSku(
           selectedOption.value,
           selectedOption.dataset.skuName,
-          selectedOption.dataset.skuReference,
+          selectedOption.dataset.skuCode,
           selectedOption.dataset.skuImageUrl,
           target.dataset.priceContainerId,
           target.dataset.availabilityMessageContainerId,
@@ -83,33 +84,31 @@ export default {
           quantity = val
         }
         let orderPromise = getOrderToken() ? api.getOrder() : api.createOrder()
-        // orderPromise.then(function(order) {
-        //   api
-        //     .createLineItem(
-        //       order.id,
-        //       addToBag.dataset.skuId,
-        //       addToBag.dataset.skuName,
-        //       addToBag.dataset.skuReference,
-        //       addToBag.dataset.skuImageUrl,
-        //       quantity
-        //     )
-        //     .then(function(lineItem) {
-        //       api.getOrder()
-        //       ui.openShoppingBag()
-        //     })
-        //     .catch(function(error) {
-        //       switch (error.status) {
-        //         case 422:
-        //           let availabilityMessageContainer = document.querySelector(
-        //             `#${addToBag.dataset.availabilityMessageContainerId}`
-        //           )
-        //           if (availabilityMessageContainer) {
-        //             ui.displayUnavailableMessage(availabilityMessageContainer)
-        //           }
-        //           break
-        //       }
-        //     })
-        // })
+        orderPromise.then(order => {
+          api
+            .createLineItem(
+              order.id,
+              addToBag.dataset.skuId,
+              addToBag.dataset.skuName,
+              addToBag.dataset.skuCode,
+              addToBag.dataset.skuImageUrl,
+              quantity
+            )
+            .then(lineItem => {
+              api.getOrder()
+              openShoppingBag()
+            })
+            .catch(error => {
+              if (error && error.status === 422) {
+                const availabilityMessageContainer = document.querySelector(
+                  `#${addToBag.dataset.availabilityMessageContainerId}`
+                )
+                if (availabilityMessageContainer) {
+                  displayUnavailableMessage(availabilityMessageContainer)
+                }
+              }
+            })
+        })
       })
     })
   },

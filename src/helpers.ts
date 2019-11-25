@@ -36,8 +36,8 @@ export const updateShoppingBagItemsCount = order => {
   let shoppingBagItemsCounts = document.querySelectorAll(
     '.clayer-shopping-bag-items-count'
   )
-  shoppingBagItemsCounts.forEach(function(shoppingBagItemsCount) {
-    shoppingBagItemsCount.innerHTML = order.attributes.skus_count
+  shoppingBagItemsCounts.forEach(shoppingBagItemsCount => {
+    shoppingBagItemsCount.innerHTML = order.skusCount
   })
 }
 
@@ -45,9 +45,8 @@ export const updateShoppingBagTotal = order => {
   let shoppingBagTotals = document.querySelectorAll(
     '.clayer-shopping-bag-total'
   )
-  shoppingBagTotals.forEach(function(shoppingBagTotal) {
-    shoppingBagTotal.innerHTML =
-      order.attributes.formatted_total_amount_with_taxes
+  shoppingBagTotals.forEach(shoppingBagTotal => {
+    shoppingBagTotal.innerHTML = order.formattedTotalAmountWithTaxes
   })
 }
 
@@ -55,8 +54,8 @@ export const updateShoppingBagSubtotal = order => {
   let shoppingBagSubtotals = document.querySelectorAll(
     '.clayer-shopping-bag-subtotal'
   )
-  shoppingBagSubtotals.forEach(function(shoppingBagSubtotal) {
-    shoppingBagSubtotal.innerHTML = order.attributes.formatted_subtotal_amount
+  shoppingBagSubtotals.forEach(shoppingBagSubtotal => {
+    shoppingBagSubtotal.innerHTML = order.formattedSubtotalAmount
   })
 }
 
@@ -64,8 +63,8 @@ export const updateShoppingBagShipping = order => {
   let shoppingBagShippings = document.querySelectorAll(
     '.clayer-shopping-bag-shipping'
   )
-  shoppingBagShippings.forEach(function(shoppingBagShipping) {
-    shoppingBagShipping.innerHTML = order.attributes.formatted_shipping_amount
+  shoppingBagShippings.forEach(shoppingBagShipping => {
+    shoppingBagShipping.innerHTML = order.formattedShippingAmount
   })
 }
 
@@ -73,16 +72,15 @@ export const updateShoppingBagPayment = order => {
   let shoppingBagPayments = document.querySelectorAll(
     '.clayer-shopping-bag-payment'
   )
-  shoppingBagPayments.forEach(function(shoppingBagPayment) {
-    shoppingBagPayment.innerHTML =
-      order.attributes.formatted_payment_method_amount
+  shoppingBagPayments.forEach(shoppingBagPayment => {
+    shoppingBagPayment.innerHTML = order.formattedPaymentMethodAmount
   })
 }
 
 export const updateShoppingBagTaxes = order => {
   let shoppingBagTaxes = document.querySelectorAll('.clayer-shopping-bag-taxes')
-  shoppingBagTaxes.forEach(function(shoppingBagTax) {
-    shoppingBagTax.innerHTML = order.attributes.formatted_total_tax_amount
+  shoppingBagTaxes.forEach(shoppingBagTax => {
+    shoppingBagTax.innerHTML = order.formattedTotalTaxAmount
   })
 }
 
@@ -90,7 +88,7 @@ export const updateShoppingBagDiscount = order => {
   let shoppingBagDiscounts = document.querySelectorAll(
     '.clayer-shopping-bag-discount'
   )
-  shoppingBagDiscounts.forEach(function(shoppingBagDiscount) {
-    shoppingBagDiscount.innerHTML = order.attributes.formatted_discount_amount
+  shoppingBagDiscounts.forEach(shoppingBagDiscount => {
+    shoppingBagDiscount.innerHTML = order.formattedDiscountAmount
   })
 }

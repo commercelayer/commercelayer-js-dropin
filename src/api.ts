@@ -1,7 +1,8 @@
 // import api from './api' import listeners from './listeners'
 import config from './config'
-import { Sku, Order } from '@commercelayer/js-sdk'
+import { Sku, Order, LineItem } from '@commercelayer/js-sdk'
 import { itemsPerPage } from './helpers'
+import { updateShoppingBagSummary, updateShoppingBagCheckout } from './ui'
 import {
   setOrderToken,
   getOrderToken,
@@ -159,7 +160,7 @@ const getAddToBags = () => {
 const selectSku = (
   skuId,
   skuName,
-  skuReference,
+  skuCode,
   skuImageUrl,
   priceContainerId,
   availabilityMessageContainerId,
@@ -173,7 +174,7 @@ const selectSku = (
       updateAddToBagSKU(
         skuId,
         skuName,
-        skuReference,
+        skuCode,
         skuImageUrl,
         addToBagId,
         addToBagQuantityId
@@ -181,7 +182,7 @@ const selectSku = (
       updateAddVariantQuantitySKU(
         skuId,
         skuName,
-        skuReference,
+        skuCode,
         skuImageUrl,
         s.inventory.quantity,
         addToBagQuantityId
@@ -214,7 +215,6 @@ const createOrder = async () => {
 const getOrder = () => {
   const orderId = getOrderToken()
   return Order.includes('line_items').find(orderId).then(o => {
-    debugger
     updateShoppingBagItems(o)
     updateShoppingBagSummary(o)
     updateShoppingBagCheckout(o)
@@ -237,46 +237,48 @@ const refreshOrder = () => {
   }
 }
 
-const createLineItem = (
+// TODO: Refactory
+const createLineItem = async (
   orderId,
   skuId,
   skuName,
-  skuReference,
+  skuCode,
   skuImageUrl,
   quantity = 1
 ) => {
-  // let lineItemData = { 	type: 'line_items', 	attributes: { 		quantity,
-  // 		_update_quantity: 1 	}, 	relationships: { 		order: { 			data: { 				type:
-  // 'orders', 				id: orderId 			} 		}, 		item: { 			data: { 				type: 'skus',
-  // 				id: skuId 			} 		} 	} } if (skuName) lineItemData.attributes.name =
-  // skuName if (skuReference) lineItemData.attributes.reference = skuReference if
-  // (skuImageUrl) lineItemData.attributes.image_url = skuImageUrl if (quantity)
-  // lineItemData.attributes.quantity = quantity return clsdk 	.createLineItem({
-  // data: lineItemData }) 	.then(function(response) {
-  // 		document.dispatchEvent(new Event('clayer-line-item-created')) 		return
-  // response 	})
+  // FIXME: Check the Sku reference
+  const order = Order.build({ id: orderId })
+  const lineItemData: any = {
+    // skuCode: sku.code,
+    order
+  }
+  if (skuName) lineItemData.name = skuName
+  if (skuCode) lineItemData.skuCode = skuCode
+  if (skuImageUrl) lineItemData.image_url = skuImageUrl
+  if (quantity) lineItemData.quantity = quantity
+  debugger
+
+  return LineItem.create(lineItemData)
+    .then(lnIt => {
+      document.dispatchEvent(new Event('clayer-line-item-created'))
+      return lnIt
+    })
+    .catch(error => error)
 }
 
 const updateLineItem = (lineItemId, attributes) => {
-  // return clsdk
-  // 		.updateLineItem(lineItemId, {
-  // 			data: {
-  // 				type: 'line_items',
-  // 				id: lineItemId,
-  // 				attributes: attributes
-  // 			}
-  // 		})
-  // 		.then(function(response) {
-  // 			document.dispatchEvent(new Event('clayer-line-item-updated'))
-  // 			return response
-  // 		})
+  document.dispatchEvent(new Event('clayer-line-item-updated'))
+  // FIXME: Write the right type in the sdk
+  return LineItem.find(lineItemId).then((lnIt: any) => {
+    return lnIt.update(attributes)
+  })
 }
 
 const deleteLineItem = lineItemId => {
-  // return clsdk.deleteLineItem(lineItemId).then(function(response) {
-  //   document.dispatchEvent(new Event('clayer-line-item-deleted'))
-  //   return response
-  // })
+  return LineItem.find(lineItemId).then(lnI => {
+    document.dispatchEvent(new Event('clayer-line-item-deleted'))
+    return lnI.destroy()
+  })
 }
 
 const updateShoppingBagItems = order => {
@@ -284,13 +286,13 @@ const updateShoppingBagItems = order => {
     '#clayer-shopping-bag-items-container'
   )
   if (shoppingBagItemsContainer) {
-    if (order.lineItems) {
+    const lineItems = order.lineItems().toArray()
+    if (lineItems) {
       shoppingBagItemsContainer.innerHTML = ''
 
-      for (let i = 0; i < order.lineItems.length; i++) {
-        const lineItem = order.lineItems[i]
-
-        if (lineItem.item_type == 'skus') {
+      for (let i = 0; i < lineItems.length; i++) {
+        const lineItem = lineItems[i]
+        if (lineItem.itemType == 'skus') {
           const shoppingBagItemTemplate = document.querySelector(
             '#clayer-shopping-bag-item-template'
           )
@@ -305,7 +307,7 @@ const updateShoppingBagItems = order => {
               '.clayer-shopping-bag-item-image'
             )
             if (shoppingBagItemImage) {
-              shoppingBagItemImage.src = lineItem.image_url
+              shoppingBagItemImage.src = lineItem.imageUrl
             }
 
             // name
@@ -348,10 +350,11 @@ const updateShoppingBagItems = order => {
                 qtySelect.appendChild(option)
               }
 
-              qtySelect.addEventListener('change', () => {
+              qtySelect.addEventListener('change', (event: any) => {
+                const target = event.target
                 updateLineItemQty(
-                  this.dataset.lineItemId,
-                  this.value,
+                  target.dataset.lineItemId,
+                  target.value,
                   availabilityMessageContainer
                 )
               })
@@ -366,8 +369,7 @@ const updateShoppingBagItems = order => {
               '.clayer-shopping-bag-item-unit-amount'
             )
             if (shoppingBagItemUnitAmount) {
-              shoppingBagItemUnitAmount.innerHTML =
-                lineItem.formatted_unit_amount
+              shoppingBagItemUnitAmount.innerHTML = lineItem.formattedUnitAmount
             }
 
             // total_amount
@@ -376,7 +378,7 @@ const updateShoppingBagItems = order => {
             )
             if (shoppingBagItemTotalAmount) {
               shoppingBagItemTotalAmount.innerHTML =
-                lineItem.formatted_total_amount
+                lineItem.formattedTotalAmount
             }
 
             // remove
@@ -385,10 +387,11 @@ const updateShoppingBagItems = order => {
             )
             if (shoppingBagItemRemove) {
               shoppingBagItemRemove.dataset.lineItemId = lineItem.id
-              shoppingBagItemRemove.addEventListener('click', function(event) {
+              shoppingBagItemRemove.addEventListener('click', event => {
+                const target = event.target
                 event.preventDefault()
                 event.stopPropagation()
-                deleteLineItem(this.dataset.lineItemId).then(lineItem => {
+                deleteLineItem(target.dataset.lineItemId).then(() => {
                   getOrder()
                 })
               })

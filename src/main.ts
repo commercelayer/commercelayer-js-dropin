@@ -24,9 +24,9 @@ const init = async () => {
   listeners.setupVariants()
   listeners.setupAddVariantQuantity()
   listeners.setupAddToBags()
-  // listeners.setupShoppingBagToggles()
+  listeners.setupShoppingBagToggles()
 
-  // api.refreshOrder()
+  api.refreshOrder()
 }
 
 function initCommercelayer() {
