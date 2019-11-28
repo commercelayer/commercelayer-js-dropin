@@ -5,13 +5,21 @@ import { initCLayer } from '@commercelayer/js-sdk'
 import api from './api'
 import config from './config'
 import listeners from './listeners'
+import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 
 const init = async () => {
-  const auth = await salesChannel({
-    clientId: config.clientId,
-    endpoint: config.baseUrl,
-    scopes: `market:${config.marketId}`
-  })
+  let auth: any = {}
+  // TODO: add access_token in cookies
+  if (!getAccessTokenCookie()) {
+    auth = await salesChannel({
+      clientId: config.clientId,
+      endpoint: config.baseUrl,
+      scopes: `market:${config.marketId}`
+    })
+    setAccessTokenCookie(auth.accessToken, auth.expiresIn)
+  } else {
+    auth.accessToken = getAccessTokenCookie()
+  }
   initCLayer({
     accessToken: auth.accessToken,
     host: config.baseUrl.replace('https://', '')

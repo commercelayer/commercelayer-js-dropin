@@ -34,9 +34,11 @@ const getPrices = () => {
   if (prices.length > 0) {
     const skuCodes = []
     prices.forEach(price => {
-      skuCodes.push(price.dataset.skuCode)
+      if (price.dataset.skuCode) {
+        skuCodes.push(price.dataset.skuCode)
+      }
     })
-    Sku.where({ codes: skuCodes.join(',') })
+    Sku.where({ codeIn: skuCodes.join(',') })
       .includes('prices')
       .perPage(itemsPerPage)
       .all()
@@ -70,22 +72,23 @@ const getVariants = () => {
     const skuCodes = []
 
     variants.forEach(variant => {
-      skuCodes.push(variant.dataset.skuCode)
+      if (variant.dataset.skuCode) {
+        skuCodes.push(variant.dataset.skuCode)
+      }
     })
-
-    Sku.where({ codes: skuCodes.join(',') })
+    Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
       .then(r => {
         updateVariants(r.toArray(), true)
         if (r.hasNextPage()) {
           r.nextPage().then(n => {
-            updateVariants(r.toArray(), false)
+            updateVariants(n.toArray(), false)
           })
         }
         if (r.hasPrevPage()) {
           r.prevPage().then(p => {
-            updateVariants(r.toArray(), false)
+            updateVariants(p.toArray(), false)
           })
         }
         document.dispatchEvent(new Event('clayer-variants-ready'))
@@ -105,8 +108,11 @@ const getVariantsQuantity = () => {
         skuCodes.push(variant.dataset.skuCode)
       }
     })
-
-    Sku.where({ codes: skuCodes.join(',') })
+    if (skuCodes.length === 0) {
+      updateVariantsQuantity(skuCodes)
+      return null
+    }
+    Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
       .then(r => {
@@ -135,9 +141,15 @@ const getAddToBags = () => {
     const skuCodes = []
 
     addToBags.forEach(addToBag => {
-      skuCodes.push(addToBag.dataset.skuCode)
+      if (addToBag.dataset.skuCode) {
+        skuCodes.push(addToBag.dataset.skuCode)
+      }
     })
-    Sku.where({ codes: skuCodes.join(',') })
+    if (skuCodes.length === 0) {
+      updateAddToBags(skuCodes)
+      return null
+    }
+    Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
       .then(r => {
@@ -256,7 +268,6 @@ const createLineItem = async (
   if (skuCode) lineItemData.skuCode = skuCode
   if (skuImageUrl) lineItemData.image_url = skuImageUrl
   if (quantity) lineItemData.quantity = quantity
-  debugger
 
   return LineItem.create(lineItemData)
     .then(lnIt => {
