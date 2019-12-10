@@ -1,6 +1,6 @@
 // import api from './api' import listeners from './listeners' const config =
 // require('./config')
-import { salesChannel } from '@commercelayer/js-auth'
+import { getSalesChannelToken } from '@commercelayer/js-auth'
 import { initCLayer } from '@commercelayer/js-sdk'
 import api from './api'
 import config from './config'
@@ -9,12 +9,11 @@ import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 
 const init = async () => {
   let auth: any = {}
-  // TODO: add access_token in cookies
   if (!getAccessTokenCookie()) {
-    auth = await salesChannel({
+    auth = await getSalesChannelToken({
       clientId: config.clientId,
       endpoint: config.baseUrl,
-      scopes: `market:${config.marketId}`
+      scope: `market:${config.marketId}`
     })
     setAccessTokenCookie(auth.accessToken, auth.expiresIn)
   } else {
@@ -37,13 +36,13 @@ const init = async () => {
   api.refreshOrder()
 }
 
-function initCommercelayer() {
+async function initCommercelayer() {
   // const api = require('./api') const listeners = require('./listeners') const
   // config = require('./config') const clsdk = require('@commercelayer/sdk')
   window.commercelayer = {
     init
   }
-  init()
+  await init()
 }
 
 if (document.readyState == 'loading') {
