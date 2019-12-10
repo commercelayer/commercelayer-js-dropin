@@ -179,34 +179,37 @@ const selectSku = (
   addToBagId,
   addToBagQuantityId
 ) => {
-  Sku.includes('prices').perPage(itemsPerPage).find(skuId).then(s => {
-    updatePrice(s, priceContainerId)
-    updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
-    if (s.inventory.available) {
-      updateAddToBagSKU(
-        skuId,
-        skuName,
-        skuCode,
-        skuImageUrl,
-        addToBagId,
-        addToBagQuantityId
-      )
-      updateAddVariantQuantitySKU(
-        skuId,
-        skuName,
-        skuCode,
-        skuImageUrl,
-        s.inventory.quantity,
-        addToBagQuantityId
-      )
-      enableAddToBag(addToBagId)
-      enableAddVariantQuantity(addToBagQuantityId)
-    } else {
-      disableAddToBag(addToBagId)
-      disableAddVariantQuantity(addToBagQuantityId)
-    }
-    document.dispatchEvent(new Event('clayer-variant-selected'))
-  })
+  Sku.includes('prices')
+    .perPage(itemsPerPage)
+    .find(skuId)
+    .then(s => {
+      updatePrice(s, priceContainerId)
+      updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
+      if (s.inventory.available) {
+        updateAddToBagSKU(
+          skuId,
+          skuName,
+          skuCode,
+          skuImageUrl,
+          addToBagId,
+          addToBagQuantityId
+        )
+        updateAddVariantQuantitySKU(
+          skuId,
+          skuName,
+          skuCode,
+          skuImageUrl,
+          s.inventory.quantity,
+          addToBagQuantityId
+        )
+        enableAddToBag(addToBagId)
+        enableAddVariantQuantity(addToBagQuantityId)
+      } else {
+        disableAddToBag(addToBagId)
+        disableAddVariantQuantity(addToBagQuantityId)
+      }
+      document.dispatchEvent(new Event('clayer-variant-selected'))
+    })
 }
 
 const createOrder = async () => {
@@ -226,16 +229,18 @@ const createOrder = async () => {
 
 const getOrder = () => {
   const orderId = getOrderToken()
-  return Order.includes('line_items').find(orderId).then(o => {
-    updateShoppingBagItems(o)
-    updateShoppingBagSummary(o)
-    updateShoppingBagCheckout(o)
-    if (o.skusCount === 0) {
-      clearShoppingBag()
-    }
-    document.dispatchEvent(new Event('clayer-order-ready'))
-    return o
-  })
+  return Order.includes('line_items')
+    .find(orderId)
+    .then(o => {
+      updateShoppingBagItems(o)
+      updateShoppingBagSummary(o)
+      updateShoppingBagCheckout(o)
+      if (o.skusCount === 0) {
+        clearShoppingBag()
+      }
+      document.dispatchEvent(new Event('clayer-order-ready'))
+      return o
+    })
 }
 
 const refreshOrder = () => {

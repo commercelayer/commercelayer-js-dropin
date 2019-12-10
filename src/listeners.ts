@@ -8,9 +8,9 @@ import {
 
 export default {
   setupVariants: () => {
-    const variantSelects: NodeListOf<
-      HTMLSelectElement
-    > = document.querySelectorAll('.clayer-variant-select')
+    const variantSelects: NodeListOf<HTMLSelectElement> = document.querySelectorAll(
+      '.clayer-variant-select'
+    )
     variantSelects.forEach(variantSelect => {
       variantSelect.addEventListener('change', (event: any) => {
         const target = event.target
@@ -28,25 +28,25 @@ export default {
       })
     })
     const variantRadios = document.querySelectorAll('.clayer-variant-radio')
-    variantRadios.forEach(variantRadio => {
-      variantRadio.addEventListener('click', event => {
+    variantRadios.forEach((variantRadio: HTMLInputElement) => {
+      variantRadio.addEventListener('click', () => {
         api.selectSku(
-          this.value,
-          this.dataset.skuName,
-          this.dataset.skuReference,
-          this.dataset.skuImageUrl,
-          this.dataset.priceContainerId,
-          this.dataset.availabilityMessageContainerId,
-          this.dataset.addToBagId,
-          this.dataset.addToBagQuantityId
+          variantRadio.value,
+          variantRadio.dataset.skuName,
+          variantRadio.dataset.skuCode,
+          variantRadio.dataset.skuImageUrl,
+          variantRadio.dataset.priceContainerId,
+          variantRadio.dataset.availabilityMessageContainerId,
+          variantRadio.dataset.addToBagId,
+          variantRadio.dataset.addToBagQuantityId
         )
       })
     })
   },
   setupAddVariantQuantity: () => {
-    const addVariantsQuantity: NodeListOf<
-      HTMLInputElement
-    > = document.querySelectorAll('.clayer-add-to-bag-quantity')
+    const addVariantsQuantity: NodeListOf<HTMLInputElement> = document.querySelectorAll(
+      '.clayer-add-to-bag-quantity'
+    )
     addVariantsQuantity.forEach(addVariantQuantity => {
       addVariantQuantity.addEventListener('change', event => {
         event.preventDefault()
