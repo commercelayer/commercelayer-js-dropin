@@ -1,15 +1,15 @@
 {
-	"compilerOptions": {
-		"outDir": "dist",
-		"baseUrl": "src",
-		"sourceMap": true,
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "src",
+    "sourceMap": true,
     "noImplicitAny": false,
     "module": "esnext",
     "moduleResolution": "node",
-		"target": "es5",
+    "target": "es5",
     "declaration": true,
     "lib": ["dom", "es2015"]
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
