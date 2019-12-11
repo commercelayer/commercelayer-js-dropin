@@ -49,8 +49,8 @@ export const deleteOrderToken = () => {
 export const getAccessTokenCookie = () => {
   return cookies.get(getAccessTokenCookieName())
 }
-export const setAccessTokenCookie = (access_token, expires_in) => {
-  cookies.set(getAccessTokenCookieName(), access_token, expires_in)
+export const setAccessTokenCookie = (access_token, expires) => {
+  cookies.set(getAccessTokenCookieName(), access_token, { expires })
 }
 export const getAccessTokenRetryLockCookie = () => {
   return cookies.get(getAccessTokenRetryLockCookieName())
