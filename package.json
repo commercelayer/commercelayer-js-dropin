@@ -1,8 +1,8 @@
 {
   "name": "@commercelayer/js-dropin",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "The Official Commerce Layer JS library",
-  "main": "./src/main.js",
+  "main": "./dist/commercelayer.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cypress:open": "cypress open",
@@ -36,11 +36,12 @@
   "homepage": "https://github.com/commercelayer/commercelayer-js#readme",
   "dependencies": {
     "@commercelayer/js-auth": "^2.0.1",
-    "@types/node": "^12.12.17",
+    "@commercelayer/js-sdk": "^2.0.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@types/node": "^12.12.18",
     "@babel/core": "^7.7.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
     "@babel/preset-env": "^7.7.6",
@@ -51,7 +52,7 @@
     "cypress": "^3.8.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.3",
-    "webpack": "^4.41.2",
+    "webpack": "^4.41.3",
     "webpack-cli": "^3.3.10"
   }
 }
