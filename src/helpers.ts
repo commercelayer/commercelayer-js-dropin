@@ -1,3 +1,5 @@
+import { OrderCollection } from '@commercelayer/js-sdk'
+
 export const itemsPerPage: number = 25
 export const enableElement = element => {
   if (element) {
@@ -32,12 +34,25 @@ export const setElementHTML = (parent, selector, html) => {
   }
 }
 
+export const shoppingBagItemsQuantity = (order: OrderCollection): string => {
+  let count = 0
+  if (order.lineItems().size() > 0) {
+    order
+      .lineItems()
+      .toArray()
+      .map(l => {
+        count = count + l.quantity
+      })
+  }
+  return `${count}`
+}
+
 export const updateShoppingBagItemsCount = order => {
   let shoppingBagItemsCounts = document.querySelectorAll(
     '.clayer-shopping-bag-items-count'
   )
   shoppingBagItemsCounts.forEach(shoppingBagItemsCount => {
-    shoppingBagItemsCount.innerHTML = order.skusCount
+    shoppingBagItemsCount.innerHTML = shoppingBagItemsQuantity(order)
   })
 }
 

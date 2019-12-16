@@ -1,4 +1,3 @@
-import { Sku } from '@commercelayer/js-sdk/dist/resources/Sku'
 import * as _ from 'lodash'
 import {
   disableElement,
@@ -15,10 +14,11 @@ import {
 } from './helpers'
 import { getInventoryFirstAvailableLevel, getElementFromTemplate } from 'utils'
 import { hideElement } from './helpers'
+import { SkuCollection } from '@commercelayer/js-sdk'
 // const utils = require('./utils')
 // const normalize = require('json-api-normalize')
 
-export const updatePrice = (sku: Sku, priceContainerId: string) => {
+export const updatePrice = (sku: SkuCollection, priceContainerId: string) => {
   const price = _.first(sku.prices().toArray())
   const priceContainer = document.querySelector(`#${priceContainerId}`)
   if (priceContainer) {
@@ -37,7 +37,7 @@ export const updatePrice = (sku: Sku, priceContainerId: string) => {
   }
 }
 
-export const updatePrices = (skus: Sku[]) => {
+export const updatePrices = (skus: SkuCollection[]) => {
   skus.map(sku => {
     const price = _.first(sku.prices().toArray())
     const priceAmounts = document.querySelectorAll(
@@ -57,7 +57,7 @@ export const updatePrices = (skus: Sku[]) => {
   })
 }
 
-export const updateVariants = (skus: Sku[], clear) => {
+export const updateVariants = (skus: SkuCollection[], clear) => {
   if (clear === true) {
     let allVariants = document.querySelectorAll('.clayer-variant')
     allVariants.forEach(variant => {
@@ -75,7 +75,7 @@ export const updateVariants = (skus: Sku[], clear) => {
   })
 }
 
-export const updateVariantsQuantity = (skus: Sku[]) => {
+export const updateVariantsQuantity = (skus: SkuCollection[]) => {
   let allAddVariantQuantity = document.querySelectorAll(
     '.clayer-add-to-bag-quantity'
   )
@@ -83,9 +83,7 @@ export const updateVariantsQuantity = (skus: Sku[]) => {
     disableElement(addVariantQuantity)
   })
   skus.forEach(sku => {
-    let addVariantsQuantity: NodeListOf<
-      HTMLElement
-    > = document.querySelectorAll(
+    let addVariantsQuantity: NodeListOf<HTMLElement> = document.querySelectorAll(
       '.clayer-add-to-bag-quantity[data-sku-code="' + sku.code + '"]'
     )
     addVariantsQuantity.forEach(addVariantQuantity => {
@@ -117,7 +115,7 @@ export const updateAddVariantQuantitySKU = (
   }
 }
 
-export const updateAddToBags = (skus: Sku[]) => {
+export const updateAddToBags = (skus: SkuCollection[]) => {
   let allAddToBags = document.querySelectorAll('.clayer-add-to-bag')
   allAddToBags.forEach(addToBag => {
     disableElement(addToBag)
@@ -220,11 +218,10 @@ export const updateAddToBagSKU = (
   let addToBag: HTMLElement = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
     addToBag.dataset.skuId = skuId
-    if (skuName) addToBag.dataset.skuName = skuName
-    if (skuCode) addToBag.dataset.skuCode = skuCode
-    if (skuImageUrl) addToBag.dataset.skuImageUrl = skuImageUrl
-    if (addToBagQuantityId)
-      addToBag.dataset.addToBagQuantityId = addToBagQuantityId
+    addToBag.dataset.skuName = skuName ?? ''
+    addToBag.dataset.skuCode = skuCode ?? ''
+    addToBag.dataset.skuImageUrl = skuImageUrl ?? ''
+    addToBag.dataset.addToBagQuantityId = addToBagQuantityId ?? ''
   }
 }
 
@@ -293,9 +290,9 @@ export const updateShoppingBagSummary = order => {
   updateShoppingBagDiscount(order)
 }
 export const updateShoppingBagCheckout = order => {
-  let shoppingBagCheckouts: NodeListOf<
-    HTMLAnchorElement
-  > = document.querySelectorAll('.clayer-shopping-bag-checkout')
+  let shoppingBagCheckouts: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(
+    '.clayer-shopping-bag-checkout'
+  )
   shoppingBagCheckouts.forEach(shoppingBagCheckout => {
     if (order.lineItems) {
       enableElement(shoppingBagCheckout)

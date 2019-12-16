@@ -1,5 +1,3 @@
-// import api from './api' import listeners from './listeners' const config =
-// require('./config')
 import { getSalesChannelToken } from '@commercelayer/js-auth'
 import { initCLayer } from '@commercelayer/js-sdk'
 import api from './api'
@@ -15,13 +13,13 @@ const init = async () => {
       endpoint: config.baseUrl,
       scope: `market:${config.marketId}`
     })
-    setAccessTokenCookie(auth.accessToken, auth.expiresIn)
+    setAccessTokenCookie(auth.accessToken, auth.expires)
   } else {
     auth.accessToken = getAccessTokenCookie()
   }
   initCLayer({
     accessToken: auth.accessToken,
-    host: config.baseUrl.replace('https://', '')
+    endpoint: config.baseUrl
   })
   api.getPrices()
   api.getVariants()

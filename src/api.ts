@@ -1,6 +1,6 @@
 // import api from './api' import listeners from './listeners'
 import config from './config'
-import { Sku, Order, LineItem } from '@commercelayer/js-sdk'
+import { Sku, Order, LineItem, OrderCollection } from '@commercelayer/js-sdk'
 import { itemsPerPage } from './helpers'
 import { updateShoppingBagSummary, updateShoppingBagCheckout } from './ui'
 import {
@@ -232,10 +232,11 @@ const getOrder = () => {
   return Order.includes('line_items')
     .find(orderId)
     .then(o => {
+      const countItems = o.lineItems().size()
       updateShoppingBagItems(o)
       updateShoppingBagSummary(o)
       updateShoppingBagCheckout(o)
-      if (o.skusCount === 0) {
+      if (countItems === 0) {
         clearShoppingBag()
       }
       document.dispatchEvent(new Event('clayer-order-ready'))
@@ -263,16 +264,14 @@ const createLineItem = async (
   skuImageUrl,
   quantity = 1
 ) => {
-  // FIXME: Check the Sku reference
   const order = Order.build({ id: orderId })
   const lineItemData: any = {
-    // skuCode: sku.code,
     order
   }
-  if (skuName) lineItemData.name = skuName
-  if (skuCode) lineItemData.skuCode = skuCode
-  if (skuImageUrl) lineItemData.image_url = skuImageUrl
-  if (quantity) lineItemData.quantity = quantity
+  lineItemData.name = skuName ?? ''
+  lineItemData.skuCode = skuCode ?? ''
+  lineItemData.image_url = skuImageUrl ?? ''
+  lineItemData.quantity = quantity ?? ''
 
   return LineItem.create(lineItemData)
     .then(lnIt => {
@@ -284,7 +283,6 @@ const createLineItem = async (
 
 const updateLineItem = (lineItemId, attributes) => {
   document.dispatchEvent(new Event('clayer-line-item-updated'))
-  // FIXME: Write the right type in the sdk
   return LineItem.find(lineItemId).then((lnIt: any) => {
     return lnIt.update(attributes)
   })
@@ -297,7 +295,7 @@ const deleteLineItem = lineItemId => {
   })
 }
 
-const updateShoppingBagItems = order => {
+const updateShoppingBagItems = (order: OrderCollection) => {
   const shoppingBagItemsContainer = document.querySelector(
     '#clayer-shopping-bag-items-container'
   )
@@ -308,7 +306,10 @@ const updateShoppingBagItems = order => {
 
       for (let i = 0; i < lineItems.length; i++) {
         const lineItem = lineItems[i]
-        if (lineItem.itemType == 'skus') {
+        if (
+          lineItem.itemType === 'skus' ||
+          lineItem.itemType === 'gift_cards'
+        ) {
           const shoppingBagItemTemplate = document.querySelector(
             '#clayer-shopping-bag-item-template'
           )
@@ -350,8 +351,10 @@ const updateShoppingBagItems = order => {
               const availabilityMessageContainer = shoppingBagItemQtyContainer.querySelector(
                 '.clayer-shopping-bag-item-availability-message-container'
               )
-
               const qtySelect = document.createElement('select')
+              if (lineItem.itemType === 'gift_cards') {
+                qtySelect.disabled = true
+              }
               qtySelect.dataset.lineItemId = lineItem.id
 
               for (let qty = 1; qty <= 50; qty++) {
