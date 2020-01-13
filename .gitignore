@@ -3,3 +3,4 @@ dist
 .vscode
 css
 *.html
+.DS_Store

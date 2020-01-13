@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/commercelayer/commercelayer-js.git"
+    "url": "git+https://github.com/commercelayer/commercelayer-js-dropin.git"
   },
   "keywords": [
     "jamstack",
@@ -31,9 +31,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/commercelayer/commercelayer-js/issues"
+    "url": "https://github.com/commercelayer/commercelayer-js-dropin/issues"
   },
-  "homepage": "https://github.com/commercelayer/commercelayer-js#readme",
+  "homepage": "https://github.com/commercelayer/commercelayer-js-dropin#readme",
   "dependencies": {
     "@commercelayer/js-auth": "^2.0.1",
     "@commercelayer/js-sdk": "^2.0.1",
