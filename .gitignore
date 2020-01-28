@@ -1,6 +1,4 @@
 node_modules
 dist
 .vscode
-css
-*.html
 .DS_Store

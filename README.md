@@ -1,5 +1,7 @@
 # Commerce Layer JS
 
+[![](https://data.jsdelivr.com/v1/package/npm/@commercelayer/js-dropin/badge)](https://www.jsdelivr.com/package/npm/@commercelayer/js-dropin)
+
 > A JavaScript Library that helps you integrate the [Commerce Layer API](https://commercelayer.io/api/reference/) into any HTML page.
 
 ### What is Commerce Layer?
