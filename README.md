@@ -1,4 +1,4 @@
-# Commerce Layer JS Dropin
+# Commerce Layer JS Drop-in
 
 [![](https://data.jsdelivr.com/v1/package/npm/@commercelayer/js-dropin/badge)](https://www.jsdelivr.com/package/npm/@commercelayer/js-dropin)
 
@@ -12,7 +12,7 @@ Commerce Layer is a headless platform that lets you easily build enterprise-grad
 
 # How it works
 
-Commerce Layer JS Dropin lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e. class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG and tools you use to build your site pages.
+Commerce Layer JS Drop-in lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e. class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG and tools you use to build your site pages.
 
 > As a reference, feel free to check the HTML code of the sample [category](/demo/category-page.html) and [product](/demo/product-page-radio.html) pages in the `demo` folder of this repository.
 
@@ -555,7 +555,7 @@ Add an element with `clayer-shopping-bag-checkout` class wherever you want to sh
 
 ## 10. Document events
 
-Commerce Layer JS Dropin dispatches the following document events:
+Commerce Layer JS Drop-in dispatches the following document events:
 
 | Event name               | Description                          |
 | ------------------------ | ------------------------------------ |
@@ -581,7 +581,7 @@ We developed an open source [checkout application](https://github.com/commercela
 
 Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e. saved payment methods), address book and returns.
 
-The next versions of Commerce Layer JS Dropin will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
+The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
 ---
 
