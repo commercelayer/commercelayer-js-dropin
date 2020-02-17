@@ -1,4 +1,4 @@
-import { Collection } from '@commercelayer/js-sdk/dist/@types/Library'
+import { Collection } from '@commercelayer/js-sdk/'
 
 export interface GenericFunction<T, R> {
   ([...T]): R
