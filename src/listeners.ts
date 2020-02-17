@@ -87,6 +87,7 @@ export default {
         orderPromise.then(order => {
           api
             .createLineItem(
+              // @ts-ignore
               order.id,
               addToBag.dataset.skuId,
               addToBag.dataset.skuName,

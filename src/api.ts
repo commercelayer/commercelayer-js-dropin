@@ -227,20 +227,34 @@ const createOrder = async () => {
   })
 }
 
+const cleanOrder = () => {
+  clearShoppingBag()
+  deleteOrderToken()
+}
+
 const getOrder = () => {
   const orderId = getOrderToken()
   return Order.includes('line_items')
     .find(orderId)
     .then(o => {
       const countItems = o.lineItems().size()
-      updateShoppingBagItems(o)
-      updateShoppingBagSummary(o)
-      updateShoppingBagCheckout(o)
       if (countItems === 0) {
         clearShoppingBag()
       }
+      if (o.status === 'placed') {
+        cleanOrder()
+        return null
+      }
+      updateShoppingBagSummary(o)
+      updateShoppingBagCheckout(o)
+      updateShoppingBagItems(o)
       document.dispatchEvent(new Event('clayer-order-ready'))
       return o
+    })
+    .catch(e => {
+      if (e.code === 'UNAUTHORIZED') {
+        cleanOrder()
+      }
     })
 }
 
