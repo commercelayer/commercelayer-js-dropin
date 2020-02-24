@@ -362,6 +362,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
               '.clayer-shopping-bag-item-qty-container'
             )
             if (shoppingBagItemQtyContainer) {
+              const maxQty = shoppingBagItemQtyContainer.dataset['maxQty'] || 50
               const availabilityMessageContainer = shoppingBagItemQtyContainer.querySelector(
                 '.clayer-shopping-bag-item-availability-message-container'
               )
@@ -371,7 +372,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
               }
               qtySelect.dataset.lineItemId = lineItem.id
 
-              for (let qty = 1; qty <= 50; qty++) {
+              for (let qty = 1; qty <= maxQty; qty++) {
                 const option: HTMLOptionElement = document.createElement(
                   'option'
                 )
