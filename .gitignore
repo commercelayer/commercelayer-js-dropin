@@ -2,3 +2,6 @@ node_modules
 dist
 .vscode
 .DS_Store
+cypress/fixtures/!routes.json
+cypress/fixtures/!fixture.json
+cypress/fixtures/*.json

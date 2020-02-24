@@ -100,7 +100,7 @@ export default {
               openShoppingBag()
             })
             .catch(error => {
-              if (error && error.status === 422) {
+              if (!error.errors().empty()) {
                 const availabilityMessageContainer = document.querySelector(
                   `#${addToBag.dataset.availabilityMessageContainerId}`
                 )

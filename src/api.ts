@@ -362,40 +362,56 @@ const updateShoppingBagItems = (order: OrderCollection) => {
               '.clayer-shopping-bag-item-qty-container'
             )
             if (shoppingBagItemQtyContainer) {
+              const inputNumber = shoppingBagItemQtyContainer.querySelector(
+                'input[type="number"]'
+              )
               const maxQty = shoppingBagItemQtyContainer.dataset['maxQty'] || 50
               const availabilityMessageContainer = shoppingBagItemQtyContainer.querySelector(
                 '.clayer-shopping-bag-item-availability-message-container'
               )
-              const qtySelect = document.createElement('select')
-              if (lineItem.itemType === 'gift_cards') {
-                qtySelect.disabled = true
-              }
-              qtySelect.dataset.lineItemId = lineItem.id
-
-              for (let qty = 1; qty <= maxQty; qty++) {
-                const option: HTMLOptionElement = document.createElement(
-                  'option'
-                )
-                option.value = `${qty}`
-                option.text = `${qty}`
-                if (qty == lineItem.quantity) {
-                  option.selected = true
+              if (!inputNumber) {
+                const qtySelect = document.createElement('select')
+                if (lineItem.itemType === 'gift_cards') {
+                  qtySelect.disabled = true
                 }
-                qtySelect.appendChild(option)
-              }
+                qtySelect.dataset.lineItemId = lineItem.id
 
-              qtySelect.addEventListener('change', (event: any) => {
-                const target = event.target
-                updateLineItemQty(
-                  target.dataset.lineItemId,
-                  target.value,
-                  availabilityMessageContainer
+                for (let qty = 1; qty <= maxQty; qty++) {
+                  const option: HTMLOptionElement = document.createElement(
+                    'option'
+                  )
+                  option.value = `${qty}`
+                  option.text = `${qty}`
+                  if (qty == lineItem.quantity) {
+                    option.selected = true
+                  }
+                  qtySelect.appendChild(option)
+                }
+                qtySelect.addEventListener('change', (event: any) => {
+                  const target = event.target
+                  updateLineItemQty(
+                    target.dataset.lineItemId,
+                    target.value,
+                    availabilityMessageContainer
+                  )
+                })
+                shoppingBagItemQtyContainer.insertBefore(
+                  qtySelect,
+                  shoppingBagItemQtyContainer.firstChild
                 )
-              })
-              shoppingBagItemQtyContainer.insertBefore(
-                qtySelect,
-                shoppingBagItemQtyContainer.firstChild
-              )
+              } else {
+                inputNumber.dataset.lineItemId = lineItem.id
+                inputNumber.value = lineItem.quantity
+                inputNumber.min = 1
+                inputNumber.addEventListener('change', (event: any) => {
+                  const target = event.target
+                  updateLineItemQty(
+                    target.dataset.lineItemId,
+                    target.value,
+                    availabilityMessageContainer
+                  )
+                })
+              }
             }
 
             // unit_amount
@@ -430,7 +446,6 @@ const updateShoppingBagItems = (order: OrderCollection) => {
                 })
               })
             }
-
             shoppingBagItemsContainer.appendChild(shoppingBagItem)
           }
         }
@@ -444,17 +459,15 @@ const updateLineItemQty = (
   quantity,
   availabilityMessageContainer
 ) => {
-  updateLineItem(lineItemId, { quantity: quantity })
-    .then(() => {
-      getOrder()
-    })
-    .catch(error => {
-      if (error && error.status === 422) {
-        if (availabilityMessageContainer) {
-          displayUnavailableMessage(availabilityMessageContainer)
-        }
+  updateLineItem(lineItemId, { quantity: quantity }).then(res => {
+    if (!res.errors().empty()) {
+      if (availabilityMessageContainer) {
+        displayUnavailableMessage(availabilityMessageContainer)
       }
-    })
+    } else {
+      getOrder()
+    }
+  })
 }
 
 export default {

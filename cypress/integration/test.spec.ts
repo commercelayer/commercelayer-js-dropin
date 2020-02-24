@@ -64,10 +64,12 @@ Cypress.env('pages').map(page => {
       if (Cypress.env('RECORD')) {
         Object.keys(xhrData).map(v => {
           const path = `./cypress/fixtures/${page.filePrefix}${v}.json`
-          cy.writeFile(path, xhrData[v])
+          const data = xhrData[v]
+          cy.writeFile(path, data)
         })
         const path = `./cypress/fixtures/${page.filePrefix}-alias.json`
-        cy.writeFile(path, Object.keys(xhrData))
+        const keys = Object.keys(xhrData)
+        cy.writeFile(path, keys)
       }
     })
     it(page.title, () => {
@@ -125,10 +127,16 @@ Cypress.env('pages').map(page => {
         'contain.text',
         'Black Baby Onesie Short Sleeve with Pink Logo (New born)'
       )
-      cy.get('.clayer-shopping-bag-item-qty-container > select').should(
-        'have.value',
-        '2'
-      )
+      if (page.typeSelectSku === 'select') {
+        cy.get(
+          '.clayer-shopping-bag-item-qty-container > input[type="number"]'
+        ).should('have.value', '2')
+      } else {
+        cy.get('.clayer-shopping-bag-item-qty-container > select').should(
+          'have.value',
+          '2'
+        )
+      }
       cy.get('.clayer-shopping-bag-item-total-amount').should(
         'contain.text',
         '€58,00'
