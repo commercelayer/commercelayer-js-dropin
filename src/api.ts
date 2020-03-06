@@ -42,17 +42,14 @@ const getPrices = () => {
       .includes('prices')
       .perPage(itemsPerPage)
       .all()
-      .then(r => {
+      .then(async r => {
         updatePrices(r.toArray())
-        if (r.hasNextPage()) {
-          r.nextPage().then(n => {
-            updatePrices(n.toArray())
-          })
-        }
-        if (r.hasPrevPage()) {
-          r.prevPage().then(p => {
-            updatePrices(p.toArray())
-          })
+        let nextP = r
+        if (nextP.hasNextPage()) {
+          for (let index = 0; index < nextP.pageCount(); index++) {
+            nextP = await nextP.nextPage()
+            updatePrices(nextP.toArray())
+          }
         }
         document.dispatchEvent(new Event('clayer-prices-ready'))
 
@@ -402,7 +399,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
               } else {
                 inputNumber.dataset.lineItemId = lineItem.id
                 inputNumber.value = lineItem.quantity
-                inputNumber.min = 1
+                inputNumber.min = inputNumber.min || 1
                 inputNumber.addEventListener('change', (event: any) => {
                   const target = event.target
                   updateLineItemQty(
