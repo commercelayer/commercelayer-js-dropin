@@ -16,7 +16,9 @@
     "cypress:run": "cypress run -b chrome",
     "build": "webpack --progress --mode=production",
     "patch": "npm version patch",
+    "minor": "npm version minor",
     "publish:patch": "npm run build && npm run patch && npm publish --access public",
+    "publish:minor": "npm run build && npm run minor && npm publish --access public",
     "start": "rm -rf ./dist && webpack --progress --watch --mode=development"
   },
   "repository": {
