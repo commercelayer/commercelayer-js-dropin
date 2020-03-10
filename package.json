@@ -17,8 +17,8 @@
     "build": "webpack --progress --mode=production",
     "patch": "npm version patch",
     "minor": "npm version minor",
-    "publish:patch": "npm run build && npm run patch && npm publish --access public",
-    "publish:minor": "npm run build && npm run minor && npm publish --access public",
+    "publish:patch": "npm run build && npm run patch && git push --follow-tags && npm publish --access public",
+    "publish:minor": "npm run build && npm run minor && git push --follow-tags && npm publish --access public",
     "start": "rm -rf ./dist && webpack --progress --watch --mode=development",
     "start:dev": "webpack-dev-server"
   },
@@ -46,7 +46,7 @@
   "homepage": "https://github.com/commercelayer/commercelayer-js-dropin#readme",
   "dependencies": {
     "@commercelayer/js-auth": "^2.0.2",
-    "@commercelayer/js-sdk": "^2.6.3",
+    "@commercelayer/js-sdk": "^2.7.0",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15"
   },
