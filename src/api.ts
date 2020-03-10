@@ -283,6 +283,7 @@ const createLineItem = async (
   lineItemData.skuCode = skuCode ?? ''
   lineItemData.image_url = skuImageUrl ?? ''
   lineItemData.quantity = quantity ?? ''
+  lineItemData._updateQuantity = 1
 
   return LineItem.create(lineItemData)
     .then(lnIt => {
