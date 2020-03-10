@@ -119,11 +119,6 @@ const getVariantsQuantity = () => {
             updateVariantsQuantity(r.toArray())
           })
         }
-        if (r.hasPrevPage()) {
-          r.prevPage().then(p => {
-            updateVariantsQuantity(r.toArray())
-          })
-        }
         document.dispatchEvent(new Event('clayer-variants-quantity-ready'))
       })
   }
@@ -364,6 +359,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
                 'input[type="number"]'
               )
               const maxQty = shoppingBagItemQtyContainer.dataset['maxQty'] || 50
+              const minQty = shoppingBagItemQtyContainer.dataset['minQty'] || 1
               const availabilityMessageContainer = shoppingBagItemQtyContainer.querySelector(
                 '.clayer-shopping-bag-item-availability-message-container'
               )
@@ -374,7 +370,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
                 }
                 qtySelect.dataset.lineItemId = lineItem.id
 
-                for (let qty = 1; qty <= maxQty; qty++) {
+                for (let qty = Number(minQty); qty <= Number(maxQty); qty++) {
                   const option: HTMLOptionElement = document.createElement(
                     'option'
                   )

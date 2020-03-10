@@ -105,10 +105,12 @@ export const updateAddVariantQuantitySKU = (
     `#${addToBagQuantityId}`
   )
   if (addVariantQuantity) {
-    addVariantQuantity.dataset.skuId = skuId
-    addVariantQuantity.value = '1'
-    addVariantQuantity.min = '1'
     const customMax = addVariantQuantity.getAttribute('max')
+    const customMin = addVariantQuantity.getAttribute('min')
+    const customVal = addVariantQuantity.getAttribute('value')
+    addVariantQuantity.dataset.skuId = skuId
+    addVariantQuantity.value = customVal || customMin || '1'
+    addVariantQuantity.min = customMin || '1'
     if (skuName) addVariantQuantity.dataset.skuName = skuName
     if (skuCode) addVariantQuantity.dataset.skuCode = skuCode
     if (skuImageUrl) addVariantQuantity.dataset.skuImageUrl = skuImageUrl

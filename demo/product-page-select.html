@@ -46,7 +46,7 @@
           </div>
 
           <!-- Add to bag quantity -->
-          <input id="add-to-bag-quantity" type="number" value="1" max="25" class="input clayer-add-to-bag-quantity">
+          <input id="add-to-bag-quantity" type="number" min="5" max="25" class="input clayer-add-to-bag-quantity">
 
           <!-- Add to bag -->
           <a href="#" class="button is-fullwidth clayer-add-to-bag" id="add-to-bag"
@@ -101,13 +101,13 @@
               </td>
               <td class="clayer-shopping-bag-item-name"></td>
               <td class="clayer-shopping-bag-item-unit-amount"></td>
-              <!-- <td class="clayer-shopping-bag-item-qty-container" data-max-qty="200">
-                <span class="clayer-shopping-bag-item-availability-message-container"></span>
-              </td> -->
-              <td class="clayer-shopping-bag-item-qty-container">
-                <input type="number" max="100" />
+              <td class="clayer-shopping-bag-item-qty-container" data-max-qty="200" data-min-qty="5">
                 <span class="clayer-shopping-bag-item-availability-message-container"></span>
               </td>
+              <!-- <td class="clayer-shopping-bag-item-qty-container">
+                <input type="number" max="100" />
+                <span class="clayer-shopping-bag-item-availability-message-container"></span>
+              </td> -->
               <td class="clayer-shopping-bag-item-total-amount"></td>
               <td>
                 <a href="#" class="clayer-shopping-bag-item-remove">remove</a>
