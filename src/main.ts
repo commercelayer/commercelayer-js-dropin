@@ -11,7 +11,7 @@ const init = async () => {
     auth = await getSalesChannelToken({
       clientId: config.clientId,
       endpoint: config.baseUrl,
-      scope: `market:${config.marketId}`
+      scope: `market:${config.marketId}`,
     })
     setAccessTokenCookie(auth.accessToken, auth.expires)
   } else {
@@ -19,7 +19,8 @@ const init = async () => {
   }
   initCLayer({
     accessToken: auth.accessToken,
-    endpoint: config.baseUrl
+    endpoint: config.baseUrl,
+    cache: config.cache,
   })
   api.getPrices()
   api.getVariants()
@@ -38,14 +39,14 @@ async function initCommercelayer() {
   // const api = require('./api') const listeners = require('./listeners') const
   // config = require('./config') const clsdk = require('@commercelayer/sdk')
   window.commercelayer = {
-    init
+    init,
   }
   await init()
 }
 
-if (document.readyState == 'loading') {
+if (document.readyState === 'loading') {
   document.addEventListener('readystatechange', () => {
-    if (document.readyState == 'interactive') {
+    if (document.readyState === 'interactive') {
       initCommercelayer()
     }
   })

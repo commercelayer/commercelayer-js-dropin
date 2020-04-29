@@ -1,6 +1,7 @@
 const clayerConfig: HTMLElement = document.querySelector('#clayer-config')
 let config = {
   baseUrl: '',
+  cache: false,
   clientId: '',
   marketId: '',
   countryCode: '',
@@ -12,13 +13,14 @@ let config = {
   devSettings: {
     debug: '',
     console: '',
-    trace: ''
-  }
+    trace: '',
+  },
 }
 
 if (clayerConfig) {
   config = {
     baseUrl: clayerConfig.getAttribute('data-base-url'),
+    cache: !!clayerConfig.getAttribute('data-cache'),
     clientId: clayerConfig.getAttribute('data-client-id'),
     marketId: clayerConfig.getAttribute('data-market-id'),
     countryCode: clayerConfig.getAttribute('data-country-code'),
@@ -30,8 +32,8 @@ if (clayerConfig) {
     devSettings: {
       debug: clayerConfig.getAttribute('data-dev-settings-debug'),
       console: clayerConfig.getAttribute('data-dev-settings-console'),
-      trace: clayerConfig.getAttribute('data-dev-settings-trace')
-    }
+      trace: clayerConfig.getAttribute('data-dev-settings-trace'),
+    },
   }
 }
 

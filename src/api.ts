@@ -7,7 +7,7 @@ import {
   setOrderToken,
   getOrderToken,
   deleteOrderToken,
-  getElementFromTemplate
+  getElementFromTemplate,
 } from './utils'
 import {
   updatePrices,
@@ -23,7 +23,7 @@ import {
   disableAddToBag,
   disableAddVariantQuantity,
   displayUnavailableMessage,
-  clearShoppingBag
+  clearShoppingBag,
 } from './ui'
 // const clsdk = require('@commercelayer/sdk')
 
@@ -33,7 +33,7 @@ const getPrices = () => {
   )
   if (prices.length > 0) {
     const skuCodes = []
-    prices.forEach(price => {
+    prices.forEach((price) => {
       if (price.dataset.skuCode) {
         skuCodes.push(price.dataset.skuCode)
       }
@@ -42,7 +42,7 @@ const getPrices = () => {
       .includes('prices')
       .perPage(itemsPerPage)
       .all()
-      .then(async r => {
+      .then(async (r) => {
         updatePrices(r.toArray())
         let nextP = r
         if (nextP.hasNextPage()) {
@@ -68,7 +68,7 @@ const getVariants = () => {
   if (variants.length > 0) {
     const skuCodes = []
 
-    variants.forEach(variant => {
+    variants.forEach((variant) => {
       if (variant.dataset.skuCode) {
         skuCodes.push(variant.dataset.skuCode)
       }
@@ -76,15 +76,15 @@ const getVariants = () => {
     Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
-      .then(r => {
+      .then((r) => {
         updateVariants(r.toArray(), true)
         if (r.hasNextPage()) {
-          r.nextPage().then(n => {
+          r.nextPage().then((n) => {
             updateVariants(n.toArray(), false)
           })
         }
         if (r.hasPrevPage()) {
-          r.prevPage().then(p => {
+          r.prevPage().then((p) => {
             updateVariants(p.toArray(), false)
           })
         }
@@ -100,7 +100,7 @@ const getVariantsQuantity = () => {
   if (variantQuantity.length > 0) {
     const skuCodes = []
 
-    variantQuantity.forEach(variant => {
+    variantQuantity.forEach((variant) => {
       if (variant.dataset.skuCode) {
         skuCodes.push(variant.dataset.skuCode)
       }
@@ -112,10 +112,10 @@ const getVariantsQuantity = () => {
     Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
-      .then(r => {
+      .then((r) => {
         updateVariantsQuantity(r.toArray())
         if (r.hasNextPage()) {
-          r.nextPage().then(n => {
+          r.nextPage().then((n) => {
             updateVariantsQuantity(r.toArray())
           })
         }
@@ -132,7 +132,7 @@ const getAddToBags = () => {
   if (addToBags.length > 0) {
     const skuCodes = []
 
-    addToBags.forEach(addToBag => {
+    addToBags.forEach((addToBag) => {
       if (addToBag.dataset.skuCode) {
         skuCodes.push(addToBag.dataset.skuCode)
       }
@@ -144,15 +144,15 @@ const getAddToBags = () => {
     Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
       .all()
-      .then(r => {
+      .then((r) => {
         updateAddToBags(r.toArray())
         if (r.hasNextPage()) {
-          r.nextPage().then(n => {
+          r.nextPage().then((n) => {
             updateAddToBags(r.toArray())
           })
         }
         if (r.hasPrevPage()) {
-          r.prevPage().then(p => {
+          r.prevPage().then((p) => {
             updateAddToBags(r.toArray())
           })
         }
@@ -174,7 +174,7 @@ const selectSku = (
   Sku.includes('prices')
     .perPage(itemsPerPage)
     .find(skuId)
-    .then(s => {
+    .then((s) => {
       updatePrice(s, priceContainerId)
       updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
       if (s.inventory.available) {
@@ -211,9 +211,9 @@ const createOrder = async () => {
     cartUrl: config.cartUrl,
     returnUrl: config.returnUrl,
     privacyUrl: config.privacyUrl,
-    termsUrl: config.termsUrl
+    termsUrl: config.termsUrl,
   }
-  return Order.create(attrs).then(o => {
+  return Order.create(attrs).then((o) => {
     setOrderToken(o.id)
     return o
   })
@@ -228,9 +228,9 @@ const getOrder = () => {
   const orderId = getOrderToken()
   return Order.includes('line_items')
     .find(orderId)
-    .then(o => {
+    .then((o) => {
       const countItems = o.lineItems().size()
-      if (countItems === 0) {
+      if (!countItems) {
         clearShoppingBag()
       }
       if (o.status === 'placed') {
@@ -243,7 +243,7 @@ const getOrder = () => {
       document.dispatchEvent(new Event('clayer-order-ready'))
       return o
     })
-    .catch(e => {
+    .catch((e) => {
       if (e.code === 'UNAUTHORIZED') {
         cleanOrder()
       }
@@ -252,7 +252,7 @@ const getOrder = () => {
 
 const refreshOrder = () => {
   if (getOrderToken()) {
-    getOrder().then(order => {
+    getOrder().then((order) => {
       if (!order || order.status == 'placed') {
         deleteOrderToken()
         clearShoppingBag()
@@ -272,7 +272,7 @@ const createLineItem = async (
 ) => {
   const order = Order.build({ id: orderId })
   const lineItemData: any = {
-    order
+    order,
   }
   lineItemData.name = skuName ?? ''
   lineItemData.skuCode = skuCode ?? ''
@@ -281,11 +281,11 @@ const createLineItem = async (
   lineItemData._updateQuantity = 1
 
   return LineItem.create(lineItemData)
-    .then(lnIt => {
+    .then((lnIt) => {
       document.dispatchEvent(new Event('clayer-line-item-created'))
       return lnIt
     })
-    .catch(error => error)
+    .catch((error) => error)
 }
 
 const updateLineItem = (lineItemId, attributes) => {
@@ -295,8 +295,8 @@ const updateLineItem = (lineItemId, attributes) => {
   })
 }
 
-const deleteLineItem = lineItemId => {
-  return LineItem.find(lineItemId).then(lnI => {
+const deleteLineItem = (lineItemId) => {
+  return LineItem.find(lineItemId).then((lnI) => {
     document.dispatchEvent(new Event('clayer-line-item-deleted'))
     return lnI.destroy()
   })
@@ -431,7 +431,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
             )
             if (shoppingBagItemRemove) {
               shoppingBagItemRemove.dataset.lineItemId = lineItem.id
-              shoppingBagItemRemove.addEventListener('click', event => {
+              shoppingBagItemRemove.addEventListener('click', (event) => {
                 const target = event.target
                 event.preventDefault()
                 event.stopPropagation()
@@ -453,7 +453,7 @@ const updateLineItemQty = (
   quantity,
   availabilityMessageContainer
 ) => {
-  updateLineItem(lineItemId, { quantity: quantity }).then(res => {
+  updateLineItem(lineItemId, { quantity: quantity }).then((res) => {
     if (!res.errors().empty()) {
       if (availabilityMessageContainer) {
         displayUnavailableMessage(availabilityMessageContainer)
@@ -489,5 +489,5 @@ export default {
 
   updateLineItemQty,
 
-  updateShoppingBagItems
+  updateShoppingBagItems,
 }
