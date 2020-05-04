@@ -3,7 +3,7 @@ import { getOrderToken } from './utils'
 import {
   displayUnavailableMessage,
   toggleShoppingBag,
-  openShoppingBag
+  openShoppingBag,
 } from './ui'
 
 export default {
@@ -11,7 +11,7 @@ export default {
     const variantSelects: NodeListOf<HTMLSelectElement> = document.querySelectorAll(
       '.clayer-variant-select'
     )
-    variantSelects.forEach(variantSelect => {
+    variantSelects.forEach((variantSelect) => {
       variantSelect.addEventListener('change', (event: any) => {
         const target = event.target
         let selectedOption = variantSelect.options[target.selectedIndex]
@@ -47,8 +47,8 @@ export default {
     const addVariantsQuantity: NodeListOf<HTMLInputElement> = document.querySelectorAll(
       '.clayer-add-to-bag-quantity'
     )
-    addVariantsQuantity.forEach(addVariantQuantity => {
-      addVariantQuantity.addEventListener('change', event => {
+    addVariantsQuantity.forEach((addVariantQuantity) => {
+      addVariantQuantity.addEventListener('change', (event) => {
         event.preventDefault()
         const min =
           addVariantQuantity.max !== '' && Number(addVariantQuantity.min)
@@ -67,13 +67,13 @@ export default {
     const addToBags: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
       '.clayer-add-to-bag'
     )
-    addToBags.forEach(addToBag => {
-      addToBag.addEventListener('click', event => {
+    addToBags.forEach((addToBag) => {
+      addToBag.addEventListener('click', (event) => {
         event.preventDefault()
         let quantity = 1
-        const variantQuantity: HTMLInputElement = document.querySelector(
-          `#${addToBag.dataset.addToBagQuantityId}`
-        )
+        const variantQuantity: HTMLInputElement =
+          addToBag.dataset['addToBagQuantityId'] &&
+          document.querySelector(`#${addToBag.dataset.addToBagQuantityId}`)
         if (variantQuantity) {
           const val = Number(variantQuantity.value)
           const quantityMax =
@@ -84,7 +84,7 @@ export default {
           quantity = val
         }
         let orderPromise = getOrderToken() ? api.getOrder() : api.createOrder()
-        orderPromise.then(order => {
+        orderPromise.then((order) => {
           api
             .createLineItem(
               // @ts-ignore
@@ -95,11 +95,11 @@ export default {
               addToBag.dataset.skuImageUrl,
               quantity
             )
-            .then(lineItem => {
+            .then((lineItem) => {
               api.getOrder()
               openShoppingBag()
             })
-            .catch(error => {
+            .catch((error) => {
               if (!error.errors().empty()) {
                 const availabilityMessageContainer = document.querySelector(
                   `#${addToBag.dataset.availabilityMessageContainerId}`
@@ -118,11 +118,11 @@ export default {
     const shoppingBagToggles = document.querySelectorAll(
       '.clayer-shopping-bag-toggle'
     )
-    shoppingBagToggles.forEach(shoppingBagToggle => {
-      shoppingBagToggle.addEventListener('click', event => {
+    shoppingBagToggles.forEach((shoppingBagToggle) => {
+      shoppingBagToggle.addEventListener('click', (event) => {
         event.preventDefault()
         toggleShoppingBag()
       })
     })
-  }
+  },
 }
