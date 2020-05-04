@@ -431,11 +431,13 @@ const updateShoppingBagItems = (order: OrderCollection) => {
             )
             if (shoppingBagItemRemove) {
               shoppingBagItemRemove.dataset.lineItemId = lineItem.id
-              shoppingBagItemRemove.addEventListener('click', (event) => {
+              shoppingBagItemRemove.addEventListener('click', function (event) {
                 const target = event.target
                 event.preventDefault()
                 event.stopPropagation()
-                deleteLineItem(target.dataset.lineItemId).then(() => {
+                const lineItemId =
+                  target.dataset['lineItemId'] || this.dataset['lineItemId']
+                deleteLineItem(lineItemId).then(() => {
                   getOrder()
                 })
               })
