@@ -5,21 +5,22 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/main.ts',
+  devtool: 'source-map',
   output: {
     filename: 'commercelayer.min.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
     // publicPath: 'dist/'
   },
   resolve: {
     extensions: ['.ts', '.js', '.json'],
     modules: ['node_modules', path.resolve(__dirname, 'src')],
-    symlinks: false
+    symlinks: false,
   },
   devServer: {
     https: true,
     // contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 9000
+    port: 9000,
   },
   module: {
     rules: [
@@ -31,26 +32,26 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread']
-            }
+              plugins: ['@babel/plugin-proposal-object-rest-spread'],
+            },
           },
           {
-            loader: 'ts-loader'
-          }
-        ]
-      }
-    ]
+            loader: 'ts-loader',
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.html'
-    })
+      template: 'index.html',
+    }),
     // new WorkboxPlugin.GenerateSW({
     //   // these options encourage the ServiceWorkers to get in there fast
     //   // and not allow any straggling "old" SWs to hang around
     //   clientsClaim: true,
     //   skipWaiting: true
     // })
-  ]
+  ],
 }
