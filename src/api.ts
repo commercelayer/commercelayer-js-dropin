@@ -25,6 +25,7 @@ import {
   displayUnavailableMessage,
   clearShoppingBag,
 } from './ui'
+import * as _ from 'lodash'
 // const clsdk = require('@commercelayer/sdk')
 
 const getPrices = () => {
@@ -46,7 +47,7 @@ const getPrices = () => {
         updatePrices(r.toArray())
         let nextP = r
         if (nextP.hasNextPage()) {
-          for (let index = 0; index < nextP.pageCount(); index++) {
+          for (let index = 1; index < nextP.pageCount(); index++) {
             nextP = await nextP.nextPage()
             updatePrices(nextP.toArray())
           }
