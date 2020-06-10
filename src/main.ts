@@ -20,7 +20,6 @@ const init = async () => {
   initCLayer({
     accessToken: auth.accessToken,
     endpoint: config.baseUrl,
-    cache: config.cache,
   })
   api.getPrices()
   api.getVariants()

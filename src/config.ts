@@ -1,7 +1,6 @@
 const clayerConfig: HTMLElement = document.querySelector('#clayer-config')
 let config = {
   baseUrl: '',
-  cache: false,
   clientId: '',
   marketId: '',
   countryCode: '',
@@ -20,7 +19,6 @@ let config = {
 if (clayerConfig) {
   config = {
     baseUrl: clayerConfig.getAttribute('data-base-url'),
-    cache: !!clayerConfig.getAttribute('data-cache'),
     clientId: clayerConfig.getAttribute('data-client-id'),
     marketId: clayerConfig.getAttribute('data-market-id'),
     countryCode: clayerConfig.getAttribute('data-country-code'),
