@@ -142,7 +142,6 @@ export const updateAvailabilityMessage = (
     `#${availabilityMessageContainerId}`
   )
   if (availabilityMessageContainer) {
-    debugger
     let first_level = getInventoryFirstAvailableLevel(inventory)
     if (first_level.quantity > 0) {
       displayAvailableMessage(availabilityMessageContainer, first_level)
