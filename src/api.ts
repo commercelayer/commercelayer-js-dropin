@@ -262,8 +262,7 @@ const refreshOrder = () => {
   }
 }
 
-// TODO: Refactory
-const createLineItem = async (
+const createLineItem = (
   orderId,
   skuId,
   skuName,
@@ -281,12 +280,10 @@ const createLineItem = async (
   lineItemData.quantity = quantity ?? ''
   lineItemData._updateQuantity = 1
 
-  return LineItem.create(lineItemData)
-    .then((lnIt) => {
-      document.dispatchEvent(new Event('clayer-line-item-created'))
-      return lnIt
-    })
-    .catch((error) => error)
+  return LineItem.create(lineItemData).then((lnIt) => {
+    document.dispatchEvent(new Event('clayer-line-item-created'))
+    return lnIt
+  })
 }
 
 const updateLineItem = (lineItemId, attributes) => {

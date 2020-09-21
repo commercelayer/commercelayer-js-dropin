@@ -95,7 +95,7 @@ export default {
               addToBag.dataset.skuImageUrl,
               quantity
             )
-            .then((lineItem) => {
+            .then(() => {
               api.getOrder()
               openShoppingBag()
             })

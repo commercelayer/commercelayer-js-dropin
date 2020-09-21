@@ -10,7 +10,7 @@ import {
   updateShoppingBagShipping,
   updateShoppingBagPayment,
   updateShoppingBagTaxes,
-  updateShoppingBagDiscount
+  updateShoppingBagDiscount,
 } from './helpers'
 import { getInventoryFirstAvailableLevel, getElementFromTemplate } from 'utils'
 import { hideElement } from './helpers'
@@ -38,18 +38,18 @@ export const updatePrice = (sku: SkuCollection, priceContainerId: string) => {
 }
 
 export const updatePrices = (skus: SkuCollection[]) => {
-  skus.map(sku => {
+  skus.map((sku) => {
     const price = _.first(sku.prices().toArray())
     const priceAmounts = document.querySelectorAll(
       '[data-sku-code="' + sku.code + '"] > .amount'
     )
-    priceAmounts.forEach(priceAmount => {
+    priceAmounts.forEach((priceAmount) => {
       priceAmount.innerHTML = price.formattedAmount
     })
     const priceCompareAmounts = document.querySelectorAll(
       '[data-sku-code="' + sku.code + '"] > .compare-at-amount'
     )
-    priceCompareAmounts.forEach(priceCompareAmount => {
+    priceCompareAmounts.forEach((priceCompareAmount) => {
       if (price.compareAtAmountCents > price.amountCents) {
         priceCompareAmount.innerHTML = price.formattedCompareAtAmount
       }
@@ -60,15 +60,15 @@ export const updatePrices = (skus: SkuCollection[]) => {
 export const updateVariants = (skus: SkuCollection[], clear) => {
   if (clear === true) {
     let allVariants = document.querySelectorAll('.clayer-variant')
-    allVariants.forEach(variant => {
+    allVariants.forEach((variant) => {
       disableElement(variant)
     })
   }
-  skus.map(sku => {
+  skus.map((sku) => {
     let variants: NodeListOf<HTMLSelectElement> = document.querySelectorAll(
       '.clayer-variant[data-sku-code="' + sku.code + '"]'
     )
-    variants.forEach(variant => {
+    variants.forEach((variant) => {
       variant.value = sku.id
       enableElement(variant)
     })
@@ -79,14 +79,14 @@ export const updateVariantsQuantity = (skus: SkuCollection[]) => {
   let allAddVariantQuantity = document.querySelectorAll(
     '.clayer-add-to-bag-quantity'
   )
-  allAddVariantQuantity.forEach(addVariantQuantity => {
+  allAddVariantQuantity.forEach((addVariantQuantity) => {
     disableElement(addVariantQuantity)
   })
-  skus.forEach(sku => {
+  skus.forEach((sku) => {
     let addVariantsQuantity: NodeListOf<HTMLElement> = document.querySelectorAll(
       '.clayer-add-to-bag-quantity[data-sku-code="' + sku.code + '"]'
     )
-    addVariantsQuantity.forEach(addVariantQuantity => {
+    addVariantsQuantity.forEach((addVariantQuantity) => {
       addVariantQuantity.dataset.skuId = sku.id
       enableElement(addVariantQuantity)
     })
@@ -120,14 +120,14 @@ export const updateAddVariantQuantitySKU = (
 
 export const updateAddToBags = (skus: SkuCollection[]) => {
   let allAddToBags = document.querySelectorAll('.clayer-add-to-bag')
-  allAddToBags.forEach(addToBag => {
+  allAddToBags.forEach((addToBag) => {
     disableElement(addToBag)
   })
-  skus.forEach(sku => {
+  skus.forEach((sku) => {
     let addToBags: NodeListOf<HTMLElement> = document.querySelectorAll(
       '.clayer-add-to-bag[data-sku-code="' + sku.code + '"]'
     )
-    addToBags.forEach(addToBag => {
+    addToBags.forEach((addToBag) => {
       addToBag.dataset.skuId = sku.id
       enableElement(addToBag)
     })
@@ -142,6 +142,7 @@ export const updateAvailabilityMessage = (
     `#${availabilityMessageContainerId}`
   )
   if (availabilityMessageContainer) {
+    debugger
     let first_level = getInventoryFirstAvailableLevel(inventory)
     if (first_level.quantity > 0) {
       displayAvailableMessage(availabilityMessageContainer, first_level)
@@ -162,13 +163,12 @@ export const displayAvailableMessage = (container, stockLevel) => {
   const shippingMethodPrice = dlt
     ? dlt.shipping_method.formatted_price_amount
     : ''
-
-  if (container && dlt) {
+  if (container) {
     const template = document.querySelector(
       '#clayer-availability-message-available-template'
     )
 
-    if (template) {
+    if (template && dlt) {
       const element = getElementFromTemplate(template)
 
       setElementHTML(element, '.clayer-availability-message-available-qty', qty)
@@ -206,6 +206,9 @@ export const displayAvailableMessage = (container, stockLevel) => {
       container.innerHTML = ''
       container.appendChild(element)
       displayElement(container)
+    } else {
+      container.innerHTML = ''
+      displayElement(container)
     }
   }
 }
@@ -228,28 +231,28 @@ export const updateAddToBagSKU = (
   }
 }
 
-export const enableAddVariantQuantity = addToBagQuantityId => {
+export const enableAddVariantQuantity = (addToBagQuantityId) => {
   let addVariantQuantity = document.querySelector(`#${addToBagQuantityId}`)
   if (addVariantQuantity) {
     enableElement(addVariantQuantity)
   }
 }
 
-export const disableAddVariantQuantity = addToBagQuantityId => {
+export const disableAddVariantQuantity = (addToBagQuantityId) => {
   let addVariantQuantity = document.querySelector(`#${addToBagQuantityId}`)
   if (addVariantQuantity) {
     disableElement(addVariantQuantity)
   }
 }
 
-export const enableAddToBag = addToBagId => {
+export const enableAddToBag = (addToBagId) => {
   let addToBag = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
     enableElement(addToBag)
   }
 }
 
-export const disableAddToBag = addToBagId => {
+export const disableAddToBag = (addToBagId) => {
   let addToBag = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
     disableElement(addToBag)
@@ -269,7 +272,7 @@ export const toggleShoppingBag = () => {
   }
 }
 
-export const displayUnavailableMessage = container => {
+export const displayUnavailableMessage = (container) => {
   if (container) {
     let template = document.querySelector(
       '#clayer-availability-message-unavailable-template'
@@ -283,7 +286,7 @@ export const displayUnavailableMessage = container => {
   }
 }
 
-export const updateShoppingBagSummary = order => {
+export const updateShoppingBagSummary = (order) => {
   updateShoppingBagItemsCount(order)
   updateShoppingBagTotal(order)
   updateShoppingBagSubtotal(order)
@@ -292,11 +295,11 @@ export const updateShoppingBagSummary = order => {
   updateShoppingBagTaxes(order)
   updateShoppingBagDiscount(order)
 }
-export const updateShoppingBagCheckout = order => {
+export const updateShoppingBagCheckout = (order) => {
   let shoppingBagCheckouts: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(
     '.clayer-shopping-bag-checkout'
   )
-  shoppingBagCheckouts.forEach(shoppingBagCheckout => {
+  shoppingBagCheckouts.forEach((shoppingBagCheckout) => {
     if (order.lineItems) {
       enableElement(shoppingBagCheckout)
       shoppingBagCheckout.href = order.checkoutUrl
@@ -331,7 +334,7 @@ export const hideAvailabilityMessages = () => {
   let allAvailabilityMessageContainers = document.querySelectorAll(
     '.clayer-availability-message-container'
   )
-  allAvailabilityMessageContainers.forEach(container => {
+  allAvailabilityMessageContainers.forEach((container) => {
     hideElement(container)
   })
 }
