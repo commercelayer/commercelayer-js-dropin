@@ -53,7 +53,7 @@ https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.m
 
 Upon successful creation, you'll get a _CREDENTIALS_ section added to the application with `CLIENT ID` and `ENDPOINT` for the _sales_channel_. Below that, you will also find the _ALLOWED SCOPES_ section. Save all the credentials as you will use them to interact with your application.
 
-![Credentials](docs/images/sales_channel.png)
+![Credentials](docs/images/sales_channel.jpg)
 
 ### Configuration
 
@@ -69,7 +69,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
       id="clayer-config"
       data-base-url="https://commercelayer-js-dropin.commercelayer.io"
       data-cache="true"
-      data-client-id="cqPYAj1M5u6o7R9PCQ6njt-KEGyScnB9Lzha8NwGjRQ"
+      data-client-id="1756ba0fa1672ef1445eb2123ac156c91b2551befdde51dcca768a94edc1eae07"
       data-market-id="6371"
       data-country-code="US"
       data-language-code="en"
