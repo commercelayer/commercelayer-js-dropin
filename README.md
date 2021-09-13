@@ -1,44 +1,65 @@
 # Commerce Layer JS Drop-in
 
-> A JavaScript Library that helps you integrate the [Commerce Layer API](https://docs.commercelayer.io/api/) into any HTML page.
+A JavaScript library that helps you integrate the [Commerce Layer API](https://docs.commercelayer.io/api/) into any HTML page.
 
-### What is Commerce Layer?
+![A GIF of the demo project](docs/images/demo.gif)
 
-Commerce Layer is a headless platform that lets you easily build enterprise-grade ecommerce into any website, by using the language, CMS, and tools you already master and love.
+## What is Commerce Layer?
+
+[Commerce Layer](https://commercelayer.io) is a headless commerce platform and order management system that lets you add global shopping capabilities to any website, mobile app, chatbot, or IoT device, with ease. Perfect fit for the best-of-breed CMSs, static site generators, and any other tools you already master and love, our blazing-fast and secure API will help you make your content shoppable on a global scale.
+
+## How it works
+
+Commerce Layer JS Drop-in lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e., class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG, and tools you use to build your site pages.
+
+As a reference, feel free to check the HTML code of the sample [category](/demo/category-page.html), [product (select)](/demo/product-page-select.html), and [product (radio)](/demo/product-page-radio.html) pages in the `demo` folder of this repository or preview the demos [here](https://commercelayer-js-dropin-demos.vercel.app/).
 
 ---
 
-# How it works
+## Table of contents
 
-Commerce Layer JS Drop-in lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e. class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG and tools you use to build your site pages.
+1. [Getting Started](#getting-started)
+2. [API credentials](#api-credentials)
+3. [Configuration](#configuration)
+4. [Static content](#static-content)
+5. [Prices](#prices)
+6. [Availability messages](#availability-messages)
+7. [Add to bag buttons](#add-to-bag-buttons)
+8. [Variant options](#variant-options)
+9. [Shopping bag](#shopping-bag)
+10. [Checkout button](#checkout-button)
+11. [Document events](#document-events)
+12. [Custom checkout, customer accounts, and more](#custom-checkout-customer-accounts-and-more)
+13. [Contributors Guide](#contributors-guide)
+14. [Help and Support](#need-help?)
+15. [License](#license)
 
-> As a reference, feel free to check the HTML code of the sample [category](/demo/category-page.html) and [product](/demo/product-page-radio.html) pages in the `demo` folder of this repository.
+---
 
-### Table of contents
+## Getting started
 
-1. [API credentials](#1-api-credentials)
-2. [Configuration](#2-configuration)
-3. [Static content](#3-static-content)
-4. [Prices](#4-prices)
-5. [Availability messages](#5-availability-messages)
-6. [Add to bag buttons](#6-add-to-bag-buttons)
-7. [Variant options](#7-variant-options)
-8. [Shopping bag](#8-shopping-bag)
-9. [Checkout button](#9-checkout-button)
-10. [Document events](#10-document-events)
-11. [Custom checkout, customer accounts, and more](#11-custom-checkout-customer-accounts-and-more)
+Download and include the [JavaScript file](./dist/commercelayer.min.js) in your project or use the CDN below:
 
-## 1. API Credentials
+```
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.min.js
+```
 
-Create a [free developer account](https://core.commercelayer.io/users/sign_up) on Commerce Layer and &mdash; when prompted &mdash; seed it with test data. Navigate to _Settings_ → _Applications_ and take note of the API credentials for your _sales channel_ application (client ID, base endpoint, allowed scopes).
+### API Credentials
 
-![Credentials](docs/images/sales_channel.jpg?raw=true 'Credentials')
+1. Head to [https://core.commercelayer.io/users/sign_up](https://core.commercelayer.io/users/sign_up) to create a free developer account.
+2. Create a new [organization](https://commercelayer.io/docs/data-model/users-and-organizations/) for your business.
+3. You will be prompted to seed with test data. You can decide to use that method or seed with the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
+4. In your Commerce Layer dashboard, head to **Settings > Applications** and create an application with `name`: Website and `kind`: sales_chanel.
 
-## 2. Configuration
+Upon successful creation, you'll get a _CREDENTIALS_ section added to the application with `CLIENT ID` and `ENDPOINT` for the _sales_channel_. Below that, you will also find the _ALLOWED SCOPES_ section. Save all the credentials as you will use them to interact with your application.
+
+![Credentials](docs/images/sales_channel.jpg)
+
+### Configuration
 
 Add an element with `clayer-config` ID and populate its data attributes with your credentials and page preferences. Then add a script link to import the library right before the closing body tag:
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head></head>
@@ -46,9 +67,10 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- Config -->
     <div
       id="clayer-config"
-      data-base-url="https://static-commerce.commercelayer.io"
-      data-client-id="377bc0fa1672ef1395fb2113ec187091b2251eefede49ddca761a94adc4ede06"
-      data-market-id="418"
+      data-base-url="https://commercelayer-js-dropin.commercelayer.io"
+      data-cache="true"
+      data-client-id="1756ba0fa1672ef1445eb2123ac156c91b2551befdde51dcca768a94edc1eae07"
+      data-market-id="6371"
       data-country-code="US"
       data-language-code="en"
       data-cart-url="https://example.com/cart"
@@ -63,17 +85,17 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.1/dist/commercelayer.min.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.min.js"
     ></script>
   </body>
 </html>
 ```
 
-## 3. Static Content
+### Static Content
 
 Add any content to the page, like product names, descriptions, and images.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -95,7 +117,7 @@ Add any content to the page, like product names, descriptions, and images.
     </p>
 
     <img
-      src="https://img.commercelayer.io/skus/BABYONBU000000E63E74NBXX.png?fm=jpg&q=90"
+      src="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
     />
 
     <!-- Config [...] -->
@@ -105,11 +127,11 @@ Add any content to the page, like product names, descriptions, and images.
 </html>
 ```
 
-## 4. Prices
+### Prices
 
-Add an element with `clayer-price` class and `data-sku-code` data attribute wherever you want to show a product price. The child element with class `amount` gets populated with the price that has been defined in Commerce Layer for that SKU code, in the current page market ID (see configuration). The child element with class `compare-at-amount` gets populated only if greater than the price amount.
+Add an element with `clayer-price` class and `data-sku-code` data attribute wherever you want to show a product price. The child element with class `amount` gets populated with the price that has been defined in Commerce Layer for that SKU code (in the current page market ID). The child element with class `compare-at-amount` gets populated only if compare at amount is defined.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -119,7 +141,11 @@ Add an element with `clayer-price` class and `data-sku-code` data attribute wher
     <!-- Static content [...] -->
 
     <!-- Price tag -->
-    <div class="clayer-price" data-sku-code="BABYONBU000000E63E74NBXX">
+    <div
+      class="clayer-price"
+      id="price"
+      data-sku-code="BABYONBU000000E63E74NBXX"
+    >
       <span class="amount"></span>
       <span class="compare-at-amount"></span>
     </div>
@@ -131,15 +157,15 @@ Add an element with `clayer-price` class and `data-sku-code` data attribute wher
 </html>
 ```
 
-## 5. Availability messages
+### Availability messages
 
 Add an element with `clayer-availability-message-available-template` ID as the template tag to be displayed when the selected SKU is available. All the child elements will be automatically populated with the delivery lead time and shipping method information related to the selected variant.
 
 Add an element with `clayer-availability-message-unavailable-template` ID as the template tag to be displayed when the selected SKU is not available. This element will be appended to a specific container when customers will try to add to bag an SKU that is not available (more on this later).
 
-> Note that `template` tags are not supported by _IE_ and _Opera Mini_. Use `div` or `span` elements and hide them through CSS if you want to keep legacy browser support.
+> Kindly note that `template` tags are not supported by _IE_ and _Opera Mini_. Use `div` or `span` elements and hide them through CSS if you want to keep legacy browser support.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -149,8 +175,6 @@ Add an element with `clayer-availability-message-unavailable-template` ID as the
     <!-- Static content [...] -->
 
     <!-- Price tag  [...] -->
-
-    <!-- Variants [...] -->
 
     <!-- Availability message templates-->
     <template id="clayer-availability-message-available-template">
@@ -180,11 +204,11 @@ Add an element with `clayer-availability-message-unavailable-template` ID as the
 </html>
 ```
 
-## 6. Add to bag buttons
+### Add to bag buttons
 
 Add a link with `clayer-add-to-bag` class and a list of data attributes as follows:
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -195,8 +219,6 @@ Add a link with `clayer-add-to-bag` class and a list of data attributes as follo
 
     <!-- Price tag  [...] -->
 
-    <!-- Variants [...] -->
-
     <!-- Availability message templates [...] -->
 
     <!-- Add to bag button -->
@@ -204,6 +226,7 @@ Add a link with `clayer-add-to-bag` class and a list of data attributes as follo
     <a
       href="#"
       class="clayer-add-to-bag"
+      id="add-to-bag"
       data-sku-code="BABYONBU000000E63E74NBXX"
       data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (6 Months)"
       data-sku-reference="Any reference"
@@ -220,9 +243,11 @@ Add a link with `clayer-add-to-bag` class and a list of data attributes as follo
 </html>
 ```
 
-The SKU `data-sku-name`, `data-sku-reference`, and `data-sku-image-url` (if present) are used as the line item attributes. The `data-availability-message-container-id` identifies the ID of the element that you want the unavailable message to be appended when the SKU is out of stock. Put the container anywhere in the page:
+The SKU `data-sku-name`, `data-sku-reference`, and `data-sku-image-url` (if present) are used as the line item attributes. The `data-availability-message-container-id` identifies the ID of the element that you want the unavailable message to be appended when the SKU is out of stock.
 
-```
+Put the container anywhere in the page:
+
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -233,8 +258,6 @@ The SKU `data-sku-name`, `data-sku-reference`, and `data-sku-image-url` (if pres
 
     <!-- Price tag  [...] -->
 
-    <!-- Variants [...] -->
-
     <!-- Availability message templates [...] -->
 
     <!-- Add to bag button [...] -->
@@ -242,7 +265,7 @@ The SKU `data-sku-name`, `data-sku-reference`, and `data-sku-image-url` (if pres
     <!-- Availability message container -->
     <div
       class="clayer-availability-message-container"
-      id="availability-message-BABYONBU000000E63E74NBXX"
+      id="availability-message"
     ></div>
 
     <!-- Config [...] -->
@@ -254,7 +277,7 @@ The SKU `data-sku-name`, `data-sku-reference`, and `data-sku-image-url` (if pres
 
 Sometimes you may want to let the customer add more than one item to the shopping bag. To do that, add an input field with `clayer-add-to-bag-quantity` class and a `data-add-to-bag-quantity-id` data attribute to the add to bag button as follows:
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -265,13 +288,11 @@ Sometimes you may want to let the customer add more than one item to the shoppin
 
     <!-- Price tag  [...] -->
 
-    <!-- Variants [...] -->
-
     <!-- Availability message templates [...] -->
 
     <!-- Add to bag quantity (optional) -->
     <input
-      id="add-to-bag-quantity-BABYONBU000000E63E74NBXX"
+      id="add-to-bag-quantity"
       type="number"
       value="1"
       class="clayer-add-to-bag-quantity"
@@ -282,12 +303,13 @@ Sometimes you may want to let the customer add more than one item to the shoppin
     <a
       href="#"
       class="clayer-add-to-bag"
+      id="add-to-bag"
       data-sku-code="BABYONBU000000E63E74NBXX"
       data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (6 Months)"
       data-sku-reference="Any reference"
       data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74NBXX.png?fm=jpg&q=90&w=400"
-      data-availability-message-container-id="availability-message-BABYONBU000000E63E74NBXX"
-      data-add-to-bag-quantity-id="add-to-bag-quantity-BABYONBU000000E63E74NBXX"
+      data-availability-message-container-id="availability-message"
+      data-add-to-bag-quantity-id="add-to-bag-quantity"
     >
       Add to bag
     </a>
@@ -299,13 +321,13 @@ Sometimes you may want to let the customer add more than one item to the shoppin
 </html>
 ```
 
-## 7. Variant Options
+### Variant Options
 
-If your product has many variants, add an element with `clayer-variant` class and `data-sku-code` for each variant option. You can use either a `select` tag or a list of `radio` buttons. The list of data attributes that you can add to each option are the same of the shopping bag example above.
+If your product has many variants, add an element with `clayer-variant` class and `data-sku-code` for each variant option. You can use either a `select` tag or a list of `radio` buttons. The list of data attributes that you can add to each option are the same as the shopping bag example above.
 
-The add to bag button is not referred to a specific SKU and its data attributes get updated when an option is selected. You can optionally add a quantity field to let the customer add more than one item to the shopping bag.
+The add to bag button is not referred to a specific SKU, and its data attributes get updated when an option is selected. You can optionally add a quantity field to let the customer add more than one item to the shopping bag.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -315,8 +337,6 @@ The add to bag button is not referred to a specific SKU and its data attributes 
     <!-- Static content [...] -->
 
     <!-- Price tag  [...] -->
-
-    <!-- Variants [...] -->
 
     <!-- Availability message templates [...] -->
 
@@ -333,77 +353,30 @@ The add to bag button is not referred to a specific SKU and its data attributes 
         class="clayer-variant"
         data-sku-code="BABYONBU000000E63E74NBXX"
         data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (New born)"
-        >New born</option
       >
+        New born
+      </option>
       <option
         class="clayer-variant"
         data-sku-code="BABYONBU000000E63E746MXX"
         data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (6 Months)"
-        >6 months</option
       >
+        6 months
+      </option>
       <option
         class="clayer-variant"
         data-sku-code="BABYONBU000000E63E7412MX"
         data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (12 Months)"
-        >12 Months</option
       >
+        12 Months
+      </option>
     </select>
 
     <!-- Add to bag quantity (optional) -->
-    <input
-      id="add-to-bag-quantity"
-      type="number"
-      value="1"
-      class="clayer-add-to-bag-quantity"
-    />
-
-    <!-- Add to bag -->
-
-    <!-- Variants (radio, with optional quantity identifier) -->
-    <!-- <input class="clayer-variant clayer-variant-radio" name="variant" type="radio"
-           data-sku-code="BABYONBU000000E63E74NBXX"
-           data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (New born)"
-           data-sku-reference="Commerce Layer 01"
-           data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
-           data-price-container-id="price"
-           data-availability-message-container-id="availability-message"
-           data-add-to-bag-id="add-to-bag"
-           data-add-to-bag-quantity-id="add-to-bag-quantity" /> New born
-
-    <input class="clayer-variant clayer-variant-radio" name="variant" type="radio"
-           data-sku-code="BABYONBU000000E63E746MXXFAKE"
-           data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (6 Months)"
-           data-sku-reference="Commerce Layer 01"
-           data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
-           data-price-container-id="price"
-           data-availability-message-container-id="availability-message"
-           data-add-to-bag-id="add-to-bag"
-           data-add-to-bag-quantity-id="add-to-bag-quantity" /> 6 months
-
-    <input class="clayer-variant clayer-variant-radio" name="variant" type="radio"
-           data-sku-code="BABYONBU000000E63E7412MX"
-           data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (12 Months)"
-           data-sku-reference="Commerce Layer 01"
-           data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
-           data-price-container-id="price"
-           data-availability-message-container-id="availability-message"
-           data-add-to-bag-id="add-to-bag"
-           data-add-to-bag-quantity-id="add-to-bag-quantity" /> 12 Months -->
 
     <!-- Add to bag button -->
-    <a
-      href="#"
-      class="clayer-add-to-bag"
-      id="add-to-bag"
-      data-availability-message-container-id="availability-message"
-      >Add to bag</a
-    >
 
     <!-- Availability message container -->
-    <div
-      class="clayer-availability-message-container"
-      id="availability-message"
-    ></div>
 
     <!-- Config [...] -->
 
@@ -412,15 +385,7 @@ The add to bag button is not referred to a specific SKU and its data attributes 
 </html>
 ```
 
-## 8. Shopping Bag
-
-Add an element with `clayer-shopping-bag-container` ID wherever you want to show the shopping bag.
-
-The `clayer-shopping-bag-items-container` is used as the parent element of the shopping bag line items, built from the `clayer-shopping-bag-item-template` template tag.
-
-Add the summary elements wherever you want to show the current shopping bag details. The `clayer-shopping-bag-toggle` element toggles an `open` class on the shopping bag container.
-
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -431,7 +396,85 @@ Add the summary elements wherever you want to show the current shopping bag deta
 
     <!-- Price tag  [...] -->
 
-    <!-- Variants [...] -->
+    <!-- Availability message templates [...] -->
+
+    <!-- Variants (radio, with optional quantity identifier) -->
+    <input
+      class="clayer-variant clayer-variant-radio"
+      name="variant"
+      type="radio"
+      data-sku-code="BABYONBU000000E63E74NBXX"
+      data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (New born)"
+      data-sku-reference="Commerce Layer 01"
+      data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
+      data-price-container-id="price"
+      data-availability-message-container-id="availability-message"
+      data-add-to-bag-id="add-to-bag"
+      data-add-to-bag-quantity-id="add-to-bag-quantity"
+    />
+    New born
+
+    <input
+      class="clayer-variant clayer-variant-radio"
+      name="variant"
+      type="radio"
+      data-sku-code="BABYONBU000000E63E746MXXFAKE"
+      data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (6 Months)"
+      data-sku-reference="Commerce Layer 01"
+      data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
+      data-price-container-id="price"
+      data-availability-message-container-id="availability-message"
+      data-add-to-bag-id="add-to-bag"
+      data-add-to-bag-quantity-id="add-to-bag-quantity"
+    />
+    6 months
+
+    <input
+      class="clayer-variant clayer-variant-radio"
+      name="variant"
+      type="radio"
+      data-sku-code="BABYONBU000000E63E7412MX"
+      data-sku-name="Black Baby Onesie Short Sleeve with Pink Logo (12 Months)"
+      data-sku-reference="Commerce Layer 01"
+      data-sku-image-url="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90"
+      data-price-container-id="price"
+      data-availability-message-container-id="availability-message"
+      data-add-to-bag-id="add-to-bag"
+      data-add-to-bag-quantity-id="add-to-bag-quantity"
+    />
+    12 Months
+
+    <!-- Add to bag quantity (optional) -->
+
+    <!-- Add to bag button -->
+
+    <!-- Availability message container -->
+
+    <!-- Config [...] -->
+
+    <!-- JS Library [...] -->
+  </body>
+</html>
+```
+
+### Shopping Bag
+
+Add an element with `clayer-shopping-bag-container` ID wherever you want to show the shopping bag.
+
+The `clayer-shopping-bag-items-container` is used as the parent element of the shopping bag line items, built from the `clayer-shopping-bag-item-template` template tag.
+
+Add the summary elements wherever you want to show the current shopping bag details. The `clayer-shopping-bag-toggle` element toggles an `open` class on the shopping bag container.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Static content [...] -->
+  </head>
+  <body>
+    <!-- Static content [...] -->
+
+    <!-- Price tag  [...] -->
 
     <!-- Availability message templates [...] -->
 
@@ -514,11 +557,11 @@ Add the summary elements wherever you want to show the current shopping bag deta
 </html>
 ```
 
-## 9. Checkout Button
+### Checkout Button
 
-Add an element with `clayer-shopping-bag-checkout` class wherever you want to show the checkout button, so that the customer can complete the purchase and place the order.
+Add an element with `clayer-shopping-bag-checkout` class wherever you want to show the checkout button so that the customer can complete the purchase and place the order.
 
-```
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -528,8 +571,6 @@ Add an element with `clayer-shopping-bag-checkout` class wherever you want to sh
     <!-- Static content [...] -->
 
     <!-- Price tag  [...] -->
-
-    <!-- Variants [...] -->
 
     <!-- Availability message templates [...] -->
 
@@ -551,37 +592,59 @@ Add an element with `clayer-shopping-bag-checkout` class wherever you want to sh
 </html>
 ```
 
-## 10. Document events
+### Document events
 
 Commerce Layer JS Drop-in dispatches the following document events:
 
-| Event name               | Description                          |
-| ------------------------ | ------------------------------------ |
-| clayer-prices-ready      | Prices have been updated             |
-| clayer-variants-ready    | Variants have been updated           |
-| clayer-add-to-bags-ready | Add to bag buttons have been updated |
-| clayer-variant-selected  | SKU has been selected                |
-| clayer-line-item-created | SKU has been added to bag            |
-| clayer-line-item-updated | Line item quantity has been changed  |
-| clayer-line-item-deleted | Line item has been removed from cart |
-| clayer-order-ready       | Order (cart) has been fetched        |
-| clayer-skus-empty        | The list of SKUs is empty            |
+| Event name               | Description                           |
+| ------------------------ | ------------------------------------- |
+| clayer-prices-ready      | Prices have been updated.             |
+| clayer-variants-ready    | Variants have been updated.           |
+| clayer-add-to-bags-ready | Add to bag buttons have been updated. |
+| clayer-variant-selected  | SKU has been selected.                |
+| clayer-line-item-created | SKU has been added to bag.            |
+| clayer-line-item-updated | Line item quantity has been changed.  |
+| clayer-line-item-deleted | Line item has been removed from cart. |
+| clayer-order-ready       | Order (cart) has been fetched.        |
+| clayer-skus-empty        | The list of SKUs is empty.            |
 
-Note the the list of SKUs for a given market can be empty for one of the following reasons:
+Note that the list of SKUs for a given market can be empty for one of the following reasons:
 
-- The SKUs don't exist in Commerce Layer
-- The SKUs don't have a price in the market price list
-- The SKUs don't have any stock item in any of the market stock locations (inventory model)
+- The SKUs don't exist in Commerce Layer.
+- The SKUs don't have a price in the market price list.
+- The SKUs don't have any stock item in any of the market stock locations (inventory model).
 
-## 11. Custom checkout, customer accounts, and more
+### Custom checkout, customer accounts, and more
 
-We developed an open source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as is or as a reference in case you need to develop a custom checkout experience through the API, to fully match your branding requirements or your clients' ones.
+We developed an open-source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as-is or as a reference, if you need to develop a custom checkout experience through the API to match your branding requirements or your clients' ones fully.
 
-Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e. saved payment methods), address book and returns.
+Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e., saved payment methods), address book, and returns.
 
 The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
 ---
+
+## Contributors Guide
+
+1. Fork [this repository](https://github.com/commercelayer/commercelayer-js-dropin) (learn how to do this [here](https://help.github.com/articles/fork-a-repo)).
+
+2. Clone the forked repository like so:
+
+```bash
+git clone https://github.com/<your username>/commercelayer-js-dropin.git && cd commercelayer-js-dropin
+```
+
+3. Make your changes and create a pull request ([learn how to do this](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)).
+
+4. Someone will attend to your pull request and provide some feedback.
+
+## Need help?
+
+1. Request an invite to join [Commerce Layer's Slack community](https://commercelayer.io/developers).
+
+2. Create an [issue](https://github.com/commercelayer/commercelayer-cli/issues) in this repository.
+
+3. Ping us [on Twitter](https://twitter.com/commercelayer).
 
 ## License
 

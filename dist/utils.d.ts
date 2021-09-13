@@ -1,0 +1,12 @@
+export declare const getInventoryFirstAvailableLevel: (inventory: any) => any;
+export declare const getElementFromTemplate: (template: any) => any;
+export declare const setOrderToken: (token: any) => any;
+export declare const getOrderToken: () => any;
+export declare const getOrderCookieName: () => string;
+export declare const getAccessTokenCookieName: () => string;
+export declare const getAccessTokenRetryLockCookieName: () => string;
+export declare const deleteOrderToken: () => any;
+export declare const getAccessTokenCookie: () => any;
+export declare const setAccessTokenCookie: (access_token: any, expires: any) => void;
+export declare const getAccessTokenRetryLockCookie: () => any;
+export declare const setAccessTokenRetryLockCookie: () => void;
