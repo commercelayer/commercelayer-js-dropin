@@ -1,6 +1,6 @@
 # Commerce Layer JS Drop-in
 
-A JavaScript Library that helps you integrate the [Commerce Layer API](https://docs.commercelayer.io/api/) into any HTML page.
+A JavaScript library that helps you integrate the [Commerce Layer API](https://docs.commercelayer.io/api/) into any HTML page.
 
 ![A GIF of the demo project](docs/images/demo.gif)
 
@@ -10,7 +10,7 @@ A JavaScript Library that helps you integrate the [Commerce Layer API](https://d
 
 ## How it works
 
-Commerce Layer JS Drop-in lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e. class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG and tools you use to build your site pages.
+Commerce Layer JS Drop-in lets you transform any plain HTML page into an enterprise-grade static commerce website, with almost **no coding required**. All you need to do is embed the library and tag the HTML page following some conventions (i.e., class names and SKU codes). Prices, availability messages, shopping bag, and any other commerce functionality are automatically mixed into your own content and styling, whatever the CMS, SSG, and tools you use to build your site pages.
 
 As a reference, feel free to check the HTML code of the sample [category](/demo/category-page.html), [product (select)](/demo/product-page-select.html), and [product (radio)](/demo/product-page-radio.html) pages in the `demo` folder of this repository or preview the demos [here](https://commercelayer-js-dropin-demos.vercel.app/).
 
@@ -48,10 +48,10 @@ https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.m
 
 1. Head to [https://core.commercelayer.io/users/sign_up](https://core.commercelayer.io/users/sign_up) to create a free developer account.
 2. Create a new [organization](https://commercelayer.io/docs/data-model/users-and-organizations/) for your business.
-3. You will prompted to seed with test data. You can decide to use that method or seed with the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
+3. You will be prompted to seed with test data. You can decide to use that method or seed with the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
 4. In your Commerce Layer dashboard, head to **Settings > Applications** and create an application with `name`: Website and `kind`: sales_chanel.
 
-Upon successful creation, you'll get a _CREDENTIALS_ section added to the application with `CLIENT ID` and `ENDPOINT` for the _sales_channel_. Below that you will also find the _ALLOWED SCOPES_ section. Save all the creadentials as you will use them to interact with your application.
+Upon successful creation, you'll get a _CREDENTIALS_ section added to the application with `CLIENT ID` and `ENDPOINT` for the _sales_channel_. Below that, you will also find the _ALLOWED SCOPES_ section. Save all the credentials as you will use them to interact with your application.
 
 ![Credentials](docs/images/sales_channel.png)
 
@@ -323,9 +323,9 @@ Sometimes you may want to let the customer add more than one item to the shoppin
 
 ### Variant Options
 
-If your product has many variants, add an element with `clayer-variant` class and `data-sku-code` for each variant option. You can use either a `select` tag or a list of `radio` buttons. The list of data attributes that you can add to each option are the same of the shopping bag example above.
+If your product has many variants, add an element with `clayer-variant` class and `data-sku-code` for each variant option. You can use either a `select` tag or a list of `radio` buttons. The list of data attributes that you can add to each option are the same as the shopping bag example above.
 
-The add to bag button is not referred to a specific SKU and its data attributes get updated when an option is selected. You can optionally add a quantity field to let the customer add more than one item to the shopping bag.
+The add to bag button is not referred to a specific SKU, and its data attributes get updated when an option is selected. You can optionally add a quantity field to let the customer add more than one item to the shopping bag.
 
 ```html
 <!DOCTYPE html>
@@ -559,7 +559,7 @@ Add the summary elements wherever you want to show the current shopping bag deta
 
 ### Checkout Button
 
-Add an element with `clayer-shopping-bag-checkout` class wherever you want to show the checkout button, so that the customer can complete the purchase and place the order.
+Add an element with `clayer-shopping-bag-checkout` class wherever you want to show the checkout button so that the customer can complete the purchase and place the order.
 
 ```html
 <!DOCTYPE html>
@@ -608,7 +608,7 @@ Commerce Layer JS Drop-in dispatches the following document events:
 | clayer-order-ready       | Order (cart) has been fetched.        |
 | clayer-skus-empty        | The list of SKUs is empty.            |
 
-Note the the list of SKUs for a given market can be empty for one of the following reasons:
+Note that the list of SKUs for a given market can be empty for one of the following reasons:
 
 - The SKUs don't exist in Commerce Layer.
 - The SKUs don't have a price in the market price list.
@@ -616,9 +616,9 @@ Note the the list of SKUs for a given market can be empty for one of the followi
 
 ### Custom checkout, customer accounts, and more
 
-We developed an open source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as is or as a reference in case you need to develop a custom checkout experience through the API, to fully match your branding requirements or your clients' ones.
+We developed an open-source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as-is or as a reference, if you need to develop a custom checkout experience through the API to match your branding requirements or your clients' ones fully.
 
-Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e. saved payment methods), address book and returns.
+Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e., saved payment methods), address book, and returns.
 
 The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
