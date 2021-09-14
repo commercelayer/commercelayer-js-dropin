@@ -30,8 +30,8 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 10. [Checkout button](#checkout-button)
 11. [Document events](#document-events)
 12. [Custom checkout, customer accounts, and more](#custom-checkout-customer-accounts-and-more)
-13. [Contributors Guide](#contributors-guide)
-14. [Help and Support](#need-help?)
+13. [Contributors guide](#contributors-guide)
+14. [Help and support](#need-help?)
 15. [License](#license)
 
 ---
@@ -624,7 +624,7 @@ The next versions of Commerce Layer JS Drop-in will be enhanced to provide all t
 
 ---
 
-## Contributors Guide
+## Contributors guide
 
 1. Fork [this repository](https://github.com/commercelayer/commercelayer-js-dropin) (learn how to do this [here](https://help.github.com/articles/fork-a-repo)).
 
