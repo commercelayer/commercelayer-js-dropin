@@ -6,7 +6,7 @@ A JavaScript library that helps you integrate the [Commerce Layer API](https://d
 
 ## What is Commerce Layer?
 
-[Commerce Layer](https://commercelayer.io) is a headless commerce platform and order management system that lets you add global shopping capabilities to any website, mobile app, chatbot, or IoT device, with ease. Perfect fit for the best-of-breed CMSs, static site generators, and any other tools you already master and love, our blazing-fast and secure API will help you make your content shoppable on a global scale.
+[Commerce Layer](https://commercelayer.io) is a multi-market commerce API and order management system that lets you add global shopping capabilities to any website, mobile app, chatbot, wearable, voice, or IoT device, with ease. Compose your stack with the best-of-breed tools you already mastered and love. Make any experience shoppable, anywhere, through a blazing-fast, enterprise-grade, and secure API.
 
 ## How it works
 
@@ -616,11 +616,9 @@ Note that the list of SKUs for a given market can be empty for one of the follow
 
 ### Custom checkout, customer accounts, and more
 
-We developed an open-source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as-is or as a reference, if you need to develop a custom checkout experience through the API to match your branding requirements or your clients' ones fully.
+To checkout your customer's order(s), you can use the Commerce Layer checkout application which provides you with a PCI-compliant, PSD2-compliant, and production-ready checkout flow powered by Commerce Layer APIs. With this, you can checkout a created order using the URL format:`<your organization slug>.checkout.commercelayer.app/:order_id?accessToken=<token>`. This is already supported in the latest version of the dropin library. All you need do is add the checkout template URL in the Commerce Layer dashboard by heading to **Settings > Markets** (then select a market e.g USA). When you scroll down, you will find the CHECKOUT section with an input field where you will add the template URL using this format: `https://<your organization slug>.checkout.commercelayer.app/:order_id`.
 
-Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e., saved payment methods), address book, and returns.
-
-The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
+Another common feature that you may want to build is a customer account dashboard, where customers can manage their order history, wallet (i.e., saved payment methods), address book, and returns. The next versions of Commerce Layer JS Drop-in will be enhanced to provide more features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
 ---
 

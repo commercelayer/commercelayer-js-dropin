@@ -12,7 +12,7 @@ import {
   updateShoppingBagTaxes,
   updateShoppingBagDiscount,
 } from './helpers'
-import { getInventoryFirstAvailableLevel, getElementFromTemplate } from 'utils'
+import { getAccessTokenCookie, getInventoryFirstAvailableLevel, getElementFromTemplate } from 'utils'
 import { hideElement } from './helpers'
 import { SkuCollection } from '@commercelayer/js-sdk'
 // const utils = require('./utils')
@@ -301,7 +301,8 @@ export const updateShoppingBagCheckout = (order) => {
   shoppingBagCheckouts.forEach((shoppingBagCheckout) => {
     if (order.lineItems) {
       enableElement(shoppingBagCheckout)
-      shoppingBagCheckout.href = order.checkoutUrl
+      let SalesChannelToken = getAccessTokenCookie()
+      shoppingBagCheckout.href = order.checkoutUrl + `?accessToken=${SalesChannelToken}`
     } else {
       shoppingBagCheckout.href = ''
       disableElement(shoppingBagCheckout)
