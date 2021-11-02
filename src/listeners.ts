@@ -15,7 +15,6 @@ export default {
         const target = event.target
         let selectedOption = variantSelect.options[target.selectedIndex]
         if (selectedOption) {
-          console.log(`target.dataset`, selectedOption.dataset)
           api.selectSku(
             selectedOption.value,
             selectedOption.dataset['skuName'] as string,

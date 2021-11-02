@@ -38,10 +38,10 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 
 ## Getting started
 
-Download and include the [JavaScript file](./dist/commercelayer.min.js) in your project or use the CDN below:
+Download and include the [JavaScript file](./lib/index.js) in your project or use the CDN below:
 
 ```
-https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.min.js
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.9/lib/index.js
 ```
 
 ### API Credentials
@@ -85,7 +85,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.6/dist/commercelayer.min.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.9/lib/index.js"
     ></script>
   </body>
 </html>

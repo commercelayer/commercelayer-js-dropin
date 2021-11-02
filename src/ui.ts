@@ -24,7 +24,6 @@ import { OrderCollection, SkuCollection } from '@commercelayer/js-sdk'
 export const updatePrice = (sku: SkuCollection, priceContainerId: string) => {
   const [price] = sku.prices().toArray()
   const priceContainer = document.querySelector(`#${priceContainerId}`)
-  console.log(`price`, price, priceContainer)
   if (priceContainer) {
     const priceAmount = priceContainer.querySelector('.amount')
     if (priceAmount && price) {
