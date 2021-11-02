@@ -1,4 +1,5 @@
-const clayerConfig: HTMLElement = document.querySelector('#clayer-config')
+const clayerConfig: HTMLElement | null =
+  document.querySelector('#clayer-config')
 let config = {
   baseUrl: '',
   clientId: '',
@@ -18,19 +19,20 @@ let config = {
 
 if (clayerConfig) {
   config = {
-    baseUrl: clayerConfig.getAttribute('data-base-url'),
-    clientId: clayerConfig.getAttribute('data-client-id'),
-    marketId: clayerConfig.getAttribute('data-market-id'),
-    countryCode: clayerConfig.getAttribute('data-country-code'),
-    languageCode: clayerConfig.getAttribute('data-language-code').split('-')[0],
-    cartUrl: clayerConfig.getAttribute('data-cart-url'),
-    returnUrl: clayerConfig.getAttribute('data-return-url'),
-    privacyUrl: clayerConfig.getAttribute('data-privacy-url'),
-    termsUrl: clayerConfig.getAttribute('data-terms-url'),
+    baseUrl: clayerConfig.getAttribute('data-base-url') || '',
+    clientId: clayerConfig.getAttribute('data-client-id') || '',
+    marketId: clayerConfig.getAttribute('data-market-id') || '',
+    countryCode: clayerConfig.getAttribute('data-country-code') || '',
+    languageCode:
+      clayerConfig.getAttribute('data-language-code')?.split('-')[0] || '',
+    cartUrl: clayerConfig.getAttribute('data-cart-url') || '',
+    returnUrl: clayerConfig.getAttribute('data-return-url') || '',
+    privacyUrl: clayerConfig.getAttribute('data-privacy-url') || '',
+    termsUrl: clayerConfig.getAttribute('data-terms-url') || '',
     devSettings: {
-      debug: clayerConfig.getAttribute('data-dev-settings-debug'),
-      console: clayerConfig.getAttribute('data-dev-settings-console'),
-      trace: clayerConfig.getAttribute('data-dev-settings-trace'),
+      debug: clayerConfig.getAttribute('data-dev-settings-debug') || '',
+      console: clayerConfig.getAttribute('data-dev-settings-console') || '',
+      trace: clayerConfig.getAttribute('data-dev-settings-trace') || '',
     },
   }
 }

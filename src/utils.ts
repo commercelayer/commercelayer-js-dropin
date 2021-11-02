@@ -1,9 +1,8 @@
-import * as _ from 'lodash'
-import * as cookies from 'js-cookie'
+import cookies from 'js-cookie'
 import config from './config'
 
-export const getInventoryFirstAvailableLevel = inventory => {
-  let first_level = _.first<any>(inventory.levels)
+export const getInventoryFirstAvailableLevel = (inventory: any) => {
+  let [first_level] = inventory.levels
   if (first_level.quantity == 0) {
     for (let k = 1; k < inventory.levels.length; k++) {
       const level = inventory.levels[k]
@@ -16,7 +15,7 @@ export const getInventoryFirstAvailableLevel = inventory => {
   return first_level
 }
 
-export const getElementFromTemplate = template => {
+export const getElementFromTemplate = (template: any) => {
   if (template.tagName === 'TEMPLATE') {
     return document.importNode(template.content.firstElementChild, true)
   } else {
@@ -24,7 +23,7 @@ export const getElementFromTemplate = template => {
   }
 }
 
-export const setOrderToken = token => {
+export const setOrderToken = (token: string) => {
   return cookies.set(getOrderCookieName(), token, { expires: 30 })
 }
 
@@ -49,7 +48,7 @@ export const deleteOrderToken = () => {
 export const getAccessTokenCookie = () => {
   return cookies.get(getAccessTokenCookieName())
 }
-export const setAccessTokenCookie = (access_token, expires) => {
+export const setAccessTokenCookie = (access_token: string, expires: any) => {
   cookies.set(getAccessTokenCookieName(), access_token, { expires })
 }
 export const getAccessTokenRetryLockCookie = () => {

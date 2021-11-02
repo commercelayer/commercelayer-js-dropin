@@ -1,33 +1,37 @@
 import { OrderCollection } from '@commercelayer/js-sdk'
 
 export const itemsPerPage: number = 25
-export const enableElement = (element) => {
+export const enableElement = (element: HTMLElement) => {
   if (element) {
     element.removeAttribute('disabled')
     element.classList.remove('disabled')
   }
 }
 
-export const disableElement = (element) => {
+export const disableElement = (element: HTMLElement) => {
   if (element) {
     element.setAttribute('disabled', 'disabled')
     element.classList.add('disabled')
   }
 }
 
-export const displayElement = (element) => {
+export const displayElement = (element: HTMLElement) => {
   if (element) {
     element.style.display = 'block'
   }
 }
 
-export const hideElement = (element) => {
+export const hideElement = (element: HTMLElement) => {
   if (element) {
     element.style.display = 'none'
   }
 }
 
-export const setElementHTML = (parent, selector, html) => {
+export const setElementHTML = (
+  parent: HTMLElement,
+  selector: string,
+  html: string
+) => {
   const element = parent.querySelector(selector)
   if (element) {
     element.innerHTML = html
@@ -36,8 +40,10 @@ export const setElementHTML = (parent, selector, html) => {
 
 export const shoppingBagItemsQuantity = (order: OrderCollection): string => {
   let count = 0
+  // @ts-ignore
   const countItems = Number(order.lineItems().size())
-  if (countItems > 0) {
+  if (countItems > 0 && order.lineItems) {
+    // @ts-ignore
     order
       .lineItems()
       .toArray()
@@ -48,7 +54,7 @@ export const shoppingBagItemsQuantity = (order: OrderCollection): string => {
   return `${count}`
 }
 
-export const updateShoppingBagItemsCount = (order) => {
+export const updateShoppingBagItemsCount = (order: OrderCollection) => {
   let shoppingBagItemsCounts = document.querySelectorAll(
     '.clayer-shopping-bag-items-count'
   )
@@ -57,7 +63,7 @@ export const updateShoppingBagItemsCount = (order) => {
   })
 }
 
-export const updateShoppingBagTotal = (order) => {
+export const updateShoppingBagTotal = (order: OrderCollection) => {
   let shoppingBagTotals = document.querySelectorAll(
     '.clayer-shopping-bag-total'
   )
@@ -66,7 +72,7 @@ export const updateShoppingBagTotal = (order) => {
   })
 }
 
-export const updateShoppingBagSubtotal = (order) => {
+export const updateShoppingBagSubtotal = (order: OrderCollection) => {
   let shoppingBagSubtotals = document.querySelectorAll(
     '.clayer-shopping-bag-subtotal'
   )
@@ -75,7 +81,7 @@ export const updateShoppingBagSubtotal = (order) => {
   })
 }
 
-export const updateShoppingBagShipping = (order) => {
+export const updateShoppingBagShipping = (order: OrderCollection) => {
   let shoppingBagShippings = document.querySelectorAll(
     '.clayer-shopping-bag-shipping'
   )
@@ -84,7 +90,7 @@ export const updateShoppingBagShipping = (order) => {
   })
 }
 
-export const updateShoppingBagPayment = (order) => {
+export const updateShoppingBagPayment = (order: OrderCollection) => {
   let shoppingBagPayments = document.querySelectorAll(
     '.clayer-shopping-bag-payment'
   )
@@ -93,14 +99,14 @@ export const updateShoppingBagPayment = (order) => {
   })
 }
 
-export const updateShoppingBagTaxes = (order) => {
+export const updateShoppingBagTaxes = (order: OrderCollection) => {
   let shoppingBagTaxes = document.querySelectorAll('.clayer-shopping-bag-taxes')
   shoppingBagTaxes.forEach((shoppingBagTax) => {
     shoppingBagTax.innerHTML = order.formattedTotalTaxAmount
   })
 }
 
-export const updateShoppingBagDiscount = (order) => {
+export const updateShoppingBagDiscount = (order: OrderCollection) => {
   let shoppingBagDiscounts = document.querySelectorAll(
     '.clayer-shopping-bag-discount'
   )

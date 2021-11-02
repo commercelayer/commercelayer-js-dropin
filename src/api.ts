@@ -1,6 +1,12 @@
 // import api from './api' import listeners from './listeners'
 import config from './config'
-import { Sku, Order, LineItem, OrderCollection } from '@commercelayer/js-sdk'
+import {
+  Sku,
+  Order,
+  LineItem,
+  OrderCollection,
+  SkuCollection,
+} from '@commercelayer/js-sdk'
 import { itemsPerPage } from './helpers'
 import { updateShoppingBagSummary, updateShoppingBagCheckout } from './ui'
 import {
@@ -29,14 +35,13 @@ import * as _ from 'lodash'
 // const clsdk = require('@commercelayer/sdk')
 
 const getPrices = () => {
-  const prices: NodeListOf<HTMLElement> = document.querySelectorAll(
-    '.clayer-price'
-  )
+  const prices: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-price')
   if (prices.length > 0) {
-    const skuCodes = []
+    const skuCodes: SkuCollection[] = []
     prices.forEach((price) => {
-      if (price.dataset.skuCode) {
-        skuCodes.push(price.dataset.skuCode)
+      if (price.dataset['skuCode']) {
+        skuCodes.push(price.dataset['skuCode'] as any)
       }
     })
     Sku.where({ codeIn: skuCodes.join(',') })
@@ -45,7 +50,7 @@ const getPrices = () => {
       .all()
       .then(async (r) => {
         updatePrices(r.toArray())
-        let nextP = r
+        let nextP: any = r
         if (nextP.hasNextPage()) {
           for (let index = 1; index < nextP.pageCount(); index++) {
             nextP = await nextP.nextPage()
@@ -62,16 +67,15 @@ const getPrices = () => {
 }
 
 const getVariants = () => {
-  const variants: NodeListOf<HTMLElement> = document.querySelectorAll(
-    '.clayer-variant'
-  )
+  const variants: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-variant')
 
   if (variants.length > 0) {
-    const skuCodes = []
+    const skuCodes: SkuCollection[] = []
 
     variants.forEach((variant) => {
-      if (variant.dataset.skuCode) {
-        skuCodes.push(variant.dataset.skuCode)
+      if (variant.dataset['skuCode']) {
+        skuCodes.push(variant.dataset['skuCode'] as any)
       }
     })
     Sku.where({ codeIn: skuCodes.join(',') })
@@ -99,16 +103,16 @@ const getVariantsQuantity = () => {
     '.clayer-add-to-bag-quantity'
   )
   if (variantQuantity.length > 0) {
-    const skuCodes = []
+    const skuCodes: SkuCollection[] = []
 
     variantQuantity.forEach((variant) => {
-      if (variant.dataset.skuCode) {
-        skuCodes.push(variant.dataset.skuCode)
+      if (variant.dataset['skuCode']) {
+        skuCodes.push(variant.dataset['skuCode'] as any)
       }
     })
     if (skuCodes.length === 0) {
       updateVariantsQuantity(skuCodes)
-      return null
+      return
     }
     Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
@@ -116,7 +120,7 @@ const getVariantsQuantity = () => {
       .then((r) => {
         updateVariantsQuantity(r.toArray())
         if (r.hasNextPage()) {
-          r.nextPage().then((n) => {
+          r.nextPage().then(() => {
             updateVariantsQuantity(r.toArray())
           })
         }
@@ -126,21 +130,20 @@ const getVariantsQuantity = () => {
 }
 
 const getAddToBags = () => {
-  const addToBags: NodeListOf<HTMLElement> = document.querySelectorAll(
-    '.clayer-add-to-bag'
-  )
+  const addToBags: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-add-to-bag')
 
   if (addToBags.length > 0) {
-    const skuCodes = []
+    const skuCodes: SkuCollection[] = []
 
     addToBags.forEach((addToBag) => {
-      if (addToBag.dataset.skuCode) {
-        skuCodes.push(addToBag.dataset.skuCode)
+      if (addToBag.dataset['skuCode']) {
+        skuCodes.push(addToBag.dataset['skuCode'] as any)
       }
     })
     if (skuCodes.length === 0) {
       updateAddToBags(skuCodes)
-      return null
+      return
     }
     Sku.where({ codeIn: skuCodes.join(',') })
       .perPage(itemsPerPage)
@@ -148,12 +151,12 @@ const getAddToBags = () => {
       .then((r) => {
         updateAddToBags(r.toArray())
         if (r.hasNextPage()) {
-          r.nextPage().then((n) => {
+          r.nextPage().then(() => {
             updateAddToBags(r.toArray())
           })
         }
         if (r.hasPrevPage()) {
-          r.prevPage().then((p) => {
+          r.prevPage().then(() => {
             updateAddToBags(r.toArray())
           })
         }
@@ -163,14 +166,14 @@ const getAddToBags = () => {
 }
 
 const selectSku = (
-  skuId,
-  skuName,
-  skuCode,
-  skuImageUrl,
-  priceContainerId,
-  availabilityMessageContainerId,
-  addToBagId,
-  addToBagQuantityId
+  skuId: string,
+  skuName: string,
+  skuCode: string,
+  skuImageUrl: string,
+  priceContainerId: string = 'clayer-price',
+  availabilityMessageContainerId: string,
+  addToBagId: string,
+  addToBagQuantityId: string
 ) => {
   Sku.includes('prices')
     .perPage(itemsPerPage)
@@ -192,7 +195,7 @@ const selectSku = (
           skuName,
           skuCode,
           skuImageUrl,
-          s.inventory.quantity,
+          `${s.inventory.quantity}`,
           addToBagQuantityId
         )
         enableAddToBag(addToBagId)
@@ -226,10 +229,11 @@ const cleanOrder = () => {
 }
 
 const getOrder = () => {
-  const orderId = getOrderToken()
+  const orderId = getOrderToken() || ''
   return Order.includes('line_items')
     .find(orderId)
     .then((o) => {
+      // @ts-ignore
       const countItems = o.lineItems().size()
       if (!countItems) {
         clearShoppingBag()
@@ -263,11 +267,11 @@ const refreshOrder = () => {
 }
 
 const createLineItem = (
-  orderId,
-  skuId,
-  skuName,
-  skuCode,
-  skuImageUrl,
+  orderId: string,
+  _skuId: string,
+  skuName: string,
+  skuCode: string,
+  skuImageUrl: string,
   quantity = 1
 ) => {
   const order = Order.build({ id: orderId })
@@ -286,14 +290,14 @@ const createLineItem = (
   })
 }
 
-const updateLineItem = (lineItemId, attributes) => {
+const updateLineItem = (lineItemId: string, attributes: any) => {
   document.dispatchEvent(new Event('clayer-line-item-updated'))
   return LineItem.find(lineItemId).then((lnIt: any) => {
     return lnIt.update(attributes)
   })
 }
 
-const deleteLineItem = (lineItemId) => {
+const deleteLineItem = (lineItemId: string) => {
   return LineItem.find(lineItemId).then((lnI) => {
     document.dispatchEvent(new Event('clayer-line-item-deleted'))
     return lnI.destroy()
@@ -305,6 +309,7 @@ const updateShoppingBagItems = (order: OrderCollection) => {
     '#clayer-shopping-bag-items-container'
   )
   if (shoppingBagItemsContainer) {
+    // @ts-ignore
     const lineItems = order.lineItems().toArray()
     if (lineItems) {
       shoppingBagItemsContainer.innerHTML = ''
@@ -312,8 +317,8 @@ const updateShoppingBagItems = (order: OrderCollection) => {
       for (let i = 0; i < lineItems.length; i++) {
         const lineItem = lineItems[i]
         if (
-          lineItem.itemType === 'skus' ||
-          lineItem.itemType === 'gift_cards'
+          lineItem &&
+          (lineItem.itemType === 'skus' || lineItem.itemType === 'gift_cards')
         ) {
           const shoppingBagItemTemplate = document.querySelector(
             '#clayer-shopping-bag-item-template'
@@ -358,20 +363,20 @@ const updateShoppingBagItems = (order: OrderCollection) => {
               )
               const maxQty = shoppingBagItemQtyContainer.dataset['maxQty'] || 50
               const minQty = shoppingBagItemQtyContainer.dataset['minQty'] || 1
-              const availabilityMessageContainer = shoppingBagItemQtyContainer.querySelector(
-                '.clayer-shopping-bag-item-availability-message-container'
-              )
+              const availabilityMessageContainer =
+                shoppingBagItemQtyContainer.querySelector(
+                  '.clayer-shopping-bag-item-availability-message-container'
+                )
               if (!inputNumber) {
                 const qtySelect = document.createElement('select')
                 if (lineItem.itemType === 'gift_cards') {
                   qtySelect.disabled = true
                 }
-                qtySelect.dataset.lineItemId = lineItem.id
+                qtySelect.dataset['lineItemId'] = lineItem.id
 
                 for (let qty = Number(minQty); qty <= Number(maxQty); qty++) {
-                  const option: HTMLOptionElement = document.createElement(
-                    'option'
-                  )
+                  const option: HTMLOptionElement =
+                    document.createElement('option')
                   option.value = `${qty}`
                   option.text = `${qty}`
                   if (qty == lineItem.quantity) {
@@ -429,16 +434,20 @@ const updateShoppingBagItems = (order: OrderCollection) => {
             )
             if (shoppingBagItemRemove) {
               shoppingBagItemRemove.dataset.lineItemId = lineItem.id
-              shoppingBagItemRemove.addEventListener('click', function (event) {
-                const target = event.target
-                event.preventDefault()
-                event.stopPropagation()
-                const lineItemId =
-                  target.dataset['lineItemId'] || this.dataset['lineItemId']
-                deleteLineItem(lineItemId).then(() => {
-                  getOrder()
-                })
-              })
+              shoppingBagItemRemove.addEventListener(
+                'click',
+                function (event: any) {
+                  const target = event.target
+                  event.preventDefault()
+                  event.stopPropagation()
+                  const lineItemId =
+                    // @ts-ignore
+                    target.dataset['lineItemId'] || this.dataset['lineItemId']
+                  deleteLineItem(lineItemId).then(() => {
+                    getOrder()
+                  })
+                }
+              )
             }
             shoppingBagItemsContainer.appendChild(shoppingBagItem)
           }
@@ -449,9 +458,9 @@ const updateShoppingBagItems = (order: OrderCollection) => {
 }
 
 const updateLineItemQty = (
-  lineItemId,
-  quantity,
-  availabilityMessageContainer
+  lineItemId: string,
+  quantity: number,
+  availabilityMessageContainer: HTMLElement
 ) => {
   updateLineItem(lineItemId, { quantity: quantity }).then((res) => {
     if (!res.errors().empty()) {

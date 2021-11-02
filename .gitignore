@@ -9,7 +9,9 @@
 /coverage
 
 # production
-/build
+build
+lib
+dist
 
 # misc
 .vscode
@@ -31,3 +33,6 @@ yarn-error.log*
 cypress/fixtures/!routes.json
 cypress/fixtures/!fixture.json
 cypress/fixtures/*.json
+
+# Typescript
+tsconfig.tsbuildinfo

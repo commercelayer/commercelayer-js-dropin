@@ -12,26 +12,31 @@ import {
   updateShoppingBagTaxes,
   updateShoppingBagDiscount,
 } from './helpers'
-import { getInventoryFirstAvailableLevel, getElementFromTemplate } from 'utils'
+import {
+  getInventoryFirstAvailableLevel,
+  getElementFromTemplate,
+} from './utils'
 import { hideElement } from './helpers'
-import { SkuCollection } from '@commercelayer/js-sdk'
+import { OrderCollection, SkuCollection } from '@commercelayer/js-sdk'
 // const utils = require('./utils')
 // const normalize = require('json-api-normalize')
 
 export const updatePrice = (sku: SkuCollection, priceContainerId: string) => {
-  const price = _.first(sku.prices().toArray())
+  const [price] = sku.prices().toArray()
   const priceContainer = document.querySelector(`#${priceContainerId}`)
+  console.log(`price`, price, priceContainer)
   if (priceContainer) {
     const priceAmount = priceContainer.querySelector('.amount')
-    if (priceAmount) {
+    if (priceAmount && price) {
       priceAmount.innerHTML = price.formattedAmount
     }
-    const priceCompareAmount = priceContainer.querySelector(
-      '.compare-at-amount'
-    )
-    if (priceCompareAmount) {
+    const priceCompareAmount =
+      priceContainer.querySelector('.compare-at-amount')
+    if (priceCompareAmount && price) {
       if (price.compareAtAmountCents > price.amountCents) {
         priceCompareAmount.innerHTML = price.formattedCompareAtAmount
+      } else {
+        priceCompareAmount.innerHTML = ''
       }
     }
   }
@@ -44,22 +49,25 @@ export const updatePrices = (skus: SkuCollection[]) => {
       '[data-sku-code="' + sku.code + '"] > .amount'
     )
     priceAmounts.forEach((priceAmount) => {
-      priceAmount.innerHTML = price.formattedAmount
+      priceAmount.innerHTML = price?.formattedAmount || ''
     })
     const priceCompareAmounts = document.querySelectorAll(
       '[data-sku-code="' + sku.code + '"] > .compare-at-amount'
     )
     priceCompareAmounts.forEach((priceCompareAmount) => {
-      if (price.compareAtAmountCents > price.amountCents) {
+      if (price && price.compareAtAmountCents > price.amountCents) {
         priceCompareAmount.innerHTML = price.formattedCompareAtAmount
+      } else {
+        priceCompareAmount.innerHTML = ''
       }
     })
   })
 }
 
-export const updateVariants = (skus: SkuCollection[], clear) => {
+export const updateVariants = (skus: SkuCollection[], clear: boolean) => {
   if (clear === true) {
-    let allVariants = document.querySelectorAll('.clayer-variant')
+    let allVariants: NodeListOf<HTMLElement> =
+      document.querySelectorAll('.clayer-variant')
     allVariants.forEach((variant) => {
       disableElement(variant)
     })
@@ -76,50 +84,51 @@ export const updateVariants = (skus: SkuCollection[], clear) => {
 }
 
 export const updateVariantsQuantity = (skus: SkuCollection[]) => {
-  let allAddVariantQuantity = document.querySelectorAll(
-    '.clayer-add-to-bag-quantity'
-  )
+  let allAddVariantQuantity: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-add-to-bag-quantity')
   allAddVariantQuantity.forEach((addVariantQuantity) => {
     disableElement(addVariantQuantity)
   })
   skus.forEach((sku) => {
-    let addVariantsQuantity: NodeListOf<HTMLElement> = document.querySelectorAll(
-      '.clayer-add-to-bag-quantity[data-sku-code="' + sku.code + '"]'
-    )
+    let addVariantsQuantity: NodeListOf<HTMLElement> =
+      document.querySelectorAll(
+        '.clayer-add-to-bag-quantity[data-sku-code="' + sku.code + '"]'
+      )
     addVariantsQuantity.forEach((addVariantQuantity) => {
-      addVariantQuantity.dataset.skuId = sku.id
+      addVariantQuantity.dataset['skuId'] = sku.id
       enableElement(addVariantQuantity)
     })
   })
 }
 
 export const updateAddVariantQuantitySKU = (
-  skuId,
-  skuName,
-  skuCode,
-  skuImageUrl,
-  skuMaxQuantity,
-  addToBagQuantityId
+  skuId: string,
+  skuName: string,
+  skuCode: string,
+  skuImageUrl: string,
+  skuMaxQuantity: string,
+  addToBagQuantityId: string
 ) => {
-  let addVariantQuantity: HTMLInputElement = document.querySelector(
+  let addVariantQuantity: HTMLInputElement | null = document.querySelector(
     `#${addToBagQuantityId}`
   )
   if (addVariantQuantity) {
     const customMax = addVariantQuantity.getAttribute('max')
     const customMin = addVariantQuantity.getAttribute('min')
     const customVal = addVariantQuantity.getAttribute('value')
-    addVariantQuantity.dataset.skuId = skuId
+    addVariantQuantity.dataset['skuId'] = skuId
     addVariantQuantity.value = customVal || customMin || '1'
     addVariantQuantity.min = customMin || '1'
-    if (skuName) addVariantQuantity.dataset.skuName = skuName
-    if (skuCode) addVariantQuantity.dataset.skuCode = skuCode
-    if (skuImageUrl) addVariantQuantity.dataset.skuImageUrl = skuImageUrl
+    if (skuName) addVariantQuantity.dataset['skuName'] = skuName
+    if (skuCode) addVariantQuantity.dataset['skuCode'] = skuCode
+    if (skuImageUrl) addVariantQuantity.dataset['skuImageUrl'] = skuImageUrl
     if (skuMaxQuantity) addVariantQuantity.max = customMax || skuMaxQuantity
   }
 }
 
 export const updateAddToBags = (skus: SkuCollection[]) => {
-  let allAddToBags = document.querySelectorAll('.clayer-add-to-bag')
+  let allAddToBags: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-add-to-bag')
   allAddToBags.forEach((addToBag) => {
     disableElement(addToBag)
   })
@@ -128,17 +137,17 @@ export const updateAddToBags = (skus: SkuCollection[]) => {
       '.clayer-add-to-bag[data-sku-code="' + sku.code + '"]'
     )
     addToBags.forEach((addToBag) => {
-      addToBag.dataset.skuId = sku.id
+      addToBag.dataset['skuId'] = sku.id
       enableElement(addToBag)
     })
   })
 }
 
 export const updateAvailabilityMessage = (
-  inventory,
-  availabilityMessageContainerId
+  inventory: any,
+  availabilityMessageContainerId: string
 ) => {
-  let availabilityMessageContainer = document.querySelector(
+  let availabilityMessageContainer: HTMLElement | null = document.querySelector(
     `#${availabilityMessageContainerId}`
   )
   if (availabilityMessageContainer) {
@@ -151,7 +160,10 @@ export const updateAvailabilityMessage = (
   }
 }
 
-export const displayAvailableMessage = (container, stockLevel) => {
+export const displayAvailableMessage = (
+  container: HTMLElement,
+  stockLevel: any
+) => {
   const dlt: any = _.first(stockLevel.delivery_lead_times)
   const qty = stockLevel.quantity
   const minDays = dlt ? dlt.min.days : ''
@@ -213,46 +225,50 @@ export const displayAvailableMessage = (container, stockLevel) => {
 }
 
 export const updateAddToBagSKU = (
-  skuId,
-  skuName,
-  skuCode,
-  skuImageUrl,
-  addToBagId,
-  addToBagQuantityId
+  skuId: string,
+  skuName: string,
+  skuCode: string,
+  skuImageUrl: string,
+  addToBagId: string,
+  addToBagQuantityId: string
 ) => {
-  let addToBag: HTMLElement = document.querySelector(`#${addToBagId}`)
+  let addToBag: HTMLElement | null = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
-    addToBag.dataset.skuId = skuId
-    addToBag.dataset.skuName = skuName ?? ''
-    addToBag.dataset.skuCode = skuCode ?? ''
-    addToBag.dataset.skuImageUrl = skuImageUrl ?? ''
-    addToBag.dataset.addToBagQuantityId = addToBagQuantityId ?? ''
+    addToBag.dataset['skuId'] = skuId
+    addToBag.dataset['skuName'] = skuName ?? ''
+    addToBag.dataset['skuCode'] = skuCode ?? ''
+    addToBag.dataset['skuImageUrl'] = skuImageUrl ?? ''
+    addToBag.dataset['addToBagQuantityId'] = addToBagQuantityId ?? ''
   }
 }
 
-export const enableAddVariantQuantity = (addToBagQuantityId) => {
-  let addVariantQuantity = document.querySelector(`#${addToBagQuantityId}`)
+export const enableAddVariantQuantity = (addToBagQuantityId: string) => {
+  let addVariantQuantity: HTMLElement | null = document.querySelector(
+    `#${addToBagQuantityId}`
+  )
   if (addVariantQuantity) {
     enableElement(addVariantQuantity)
   }
 }
 
-export const disableAddVariantQuantity = (addToBagQuantityId) => {
-  let addVariantQuantity = document.querySelector(`#${addToBagQuantityId}`)
+export const disableAddVariantQuantity = (addToBagQuantityId: string) => {
+  let addVariantQuantity: HTMLElement | null = document.querySelector(
+    `#${addToBagQuantityId}`
+  )
   if (addVariantQuantity) {
     disableElement(addVariantQuantity)
   }
 }
 
-export const enableAddToBag = (addToBagId) => {
-  let addToBag = document.querySelector(`#${addToBagId}`)
+export const enableAddToBag = (addToBagId: string) => {
+  let addToBag: HTMLElement | null = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
     enableElement(addToBag)
   }
 }
 
-export const disableAddToBag = (addToBagId) => {
-  let addToBag = document.querySelector(`#${addToBagId}`)
+export const disableAddToBag = (addToBagId: string) => {
+  let addToBag: HTMLElement | null = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
     disableElement(addToBag)
   }
@@ -271,7 +287,7 @@ export const toggleShoppingBag = () => {
   }
 }
 
-export const displayUnavailableMessage = (container) => {
+export const displayUnavailableMessage = (container: HTMLElement) => {
   if (container) {
     let template = document.querySelector(
       '#clayer-availability-message-unavailable-template'
@@ -285,7 +301,7 @@ export const displayUnavailableMessage = (container) => {
   }
 }
 
-export const updateShoppingBagSummary = (order) => {
+export const updateShoppingBagSummary = (order: OrderCollection) => {
   updateShoppingBagItemsCount(order)
   updateShoppingBagTotal(order)
   updateShoppingBagSubtotal(order)
@@ -294,12 +310,11 @@ export const updateShoppingBagSummary = (order) => {
   updateShoppingBagTaxes(order)
   updateShoppingBagDiscount(order)
 }
-export const updateShoppingBagCheckout = (order) => {
-  let shoppingBagCheckouts: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(
-    '.clayer-shopping-bag-checkout'
-  )
+export const updateShoppingBagCheckout = (order: OrderCollection) => {
+  let shoppingBagCheckouts: NodeListOf<HTMLAnchorElement> =
+    document.querySelectorAll('.clayer-shopping-bag-checkout')
   shoppingBagCheckouts.forEach((shoppingBagCheckout) => {
-    if (order.lineItems) {
+    if (!order.lineItems()?.empty()) {
       enableElement(shoppingBagCheckout)
       shoppingBagCheckout.href = order.checkoutUrl
     } else {
@@ -310,9 +325,9 @@ export const updateShoppingBagCheckout = (order) => {
 }
 
 export const clearShoppingBag = () => {
-  if (document.querySelector('#clayer-shopping-bag-items-container')) {
-    document.querySelector('#clayer-shopping-bag-items-container').innerHTML =
-      ''
+  const element = document.querySelector('#clayer-shopping-bag-items-container')
+  if (element) {
+    element.innerHTML = ''
   }
 }
 
@@ -330,9 +345,8 @@ export const openShoppingBag = () => {
 }
 
 export const hideAvailabilityMessages = () => {
-  let allAvailabilityMessageContainers = document.querySelectorAll(
-    '.clayer-availability-message-container'
-  )
+  let allAvailabilityMessageContainers: NodeListOf<HTMLElement> =
+    document.querySelectorAll('.clayer-availability-message-container')
   allAvailabilityMessageContainers.forEach((container) => {
     hideElement(container)
   })

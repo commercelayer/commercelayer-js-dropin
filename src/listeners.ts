@@ -8,45 +8,47 @@ import {
 
 export default {
   setupVariants: () => {
-    const variantSelects: NodeListOf<HTMLSelectElement> = document.querySelectorAll(
-      '.clayer-variant-select'
-    )
-    variantSelects.forEach((variantSelect) => {
+    const variantSelects: NodeListOf<HTMLSelectElement> =
+      document.querySelectorAll('.clayer-variant-select')
+    variantSelects.forEach((variantSelect: HTMLSelectElement) => {
       variantSelect.addEventListener('change', (event: any) => {
         const target = event.target
         let selectedOption = variantSelect.options[target.selectedIndex]
-        api.selectSku(
-          selectedOption.value,
-          selectedOption.dataset.skuName,
-          selectedOption.dataset.skuCode,
-          selectedOption.dataset.skuImageUrl,
-          target.dataset.priceContainerId,
-          target.dataset.availabilityMessageContainerId,
-          target.dataset.addToBagId,
-          target.dataset.addToBagQuantityId
-        )
+        if (selectedOption) {
+          console.log(`target.dataset`, selectedOption.dataset)
+          api.selectSku(
+            selectedOption.value,
+            selectedOption.dataset['skuName'] as string,
+            selectedOption.dataset['skuCode'] as string,
+            selectedOption.dataset['skuImageUrl'] as string,
+            target.dataset.priceContainerId,
+            target.dataset.availabilityMessageContainerId,
+            target.dataset.addToBagId,
+            target.dataset.addToBagQuantityId
+          )
+        }
       })
     })
-    const variantRadios = document.querySelectorAll('.clayer-variant-radio')
+    const variantRadios: NodeListOf<HTMLInputElement> | null =
+      document.querySelectorAll('.clayer-variant-radio')
     variantRadios.forEach((variantRadio: HTMLInputElement) => {
       variantRadio.addEventListener('click', () => {
         api.selectSku(
           variantRadio.value,
-          variantRadio.dataset.skuName,
-          variantRadio.dataset.skuCode,
-          variantRadio.dataset.skuImageUrl,
-          variantRadio.dataset.priceContainerId,
-          variantRadio.dataset.availabilityMessageContainerId,
-          variantRadio.dataset.addToBagId,
-          variantRadio.dataset.addToBagQuantityId
+          variantRadio.dataset['skuName'] as string,
+          variantRadio.dataset['skuCode'] as string,
+          variantRadio.dataset['skuImageUrl'] as string,
+          variantRadio.dataset['priceContainerId'] as string,
+          variantRadio.dataset['availabilityMessageContainerId'] as string,
+          variantRadio.dataset['addToBagId'] as string,
+          variantRadio.dataset['addToBagQuantityId'] as string
         )
       })
     })
   },
   setupAddVariantQuantity: () => {
-    const addVariantsQuantity: NodeListOf<HTMLInputElement> = document.querySelectorAll(
-      '.clayer-add-to-bag-quantity'
-    )
+    const addVariantsQuantity: NodeListOf<HTMLInputElement> =
+      document.querySelectorAll('.clayer-add-to-bag-quantity')
     addVariantsQuantity.forEach((addVariantQuantity) => {
       addVariantQuantity.addEventListener('change', (event) => {
         event.preventDefault()
@@ -64,22 +66,21 @@ export default {
     })
   },
   setupAddToBags: () => {
-    const addToBags: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
-      '.clayer-add-to-bag'
-    )
+    const addToBags: NodeListOf<HTMLButtonElement> =
+      document.querySelectorAll('.clayer-add-to-bag')
     addToBags.forEach((addToBag) => {
       addToBag.addEventListener('click', (event) => {
         event.preventDefault()
         let quantity = 1
-        const variantQuantity: HTMLInputElement =
+        const variantQuantity: any =
           addToBag.dataset['addToBagQuantityId'] &&
-          document.querySelector(`#${addToBag.dataset.addToBagQuantityId}`)
+          document.querySelector(`#${addToBag.dataset['addToBagQuantityId']}`)
         if (variantQuantity) {
           const val = Number(variantQuantity.value)
           const quantityMax =
             variantQuantity.max !== '' && Number(variantQuantity.max)
           if (quantityMax && val > quantityMax) {
-            return false
+            return
           }
           quantity = val
         }
@@ -89,10 +90,10 @@ export default {
             .createLineItem(
               // @ts-ignore
               order.id,
-              addToBag.dataset.skuId,
-              addToBag.dataset.skuName,
-              addToBag.dataset.skuCode,
-              addToBag.dataset.skuImageUrl,
+              addToBag.dataset['skuId'] as string,
+              addToBag.dataset['skuName'] as string,
+              addToBag.dataset['skuCode'] as string,
+              addToBag.dataset['skuImageUrl'] as string,
               quantity
             )
             .then(() => {
@@ -101,9 +102,10 @@ export default {
             })
             .catch((error) => {
               if (!error.errors().empty()) {
-                const availabilityMessageContainer = document.querySelector(
-                  `#${addToBag.dataset.availabilityMessageContainerId}`
-                )
+                const availabilityMessageContainer: HTMLElement | null =
+                  document.querySelector(
+                    `#${addToBag.dataset['availabilityMessageContainerId']}`
+                  )
                 if (availabilityMessageContainer) {
                   displayUnavailableMessage(availabilityMessageContainer)
                 }

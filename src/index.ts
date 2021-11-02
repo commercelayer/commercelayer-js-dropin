@@ -1,8 +1,8 @@
 import { getSalesChannelToken } from '@commercelayer/js-auth'
 import { initCLayer } from '@commercelayer/js-sdk'
-import api from './api'
-import config from './config'
-import listeners from './listeners'
+import api from './api.js'
+import config from './config.js'
+import listeners from './listeners.js'
 import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 
 const init = async () => {
