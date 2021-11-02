@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/js-dropin",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "The Official Commerce Layer JS library",
   "main": "./lib/index.js",
   "publishConfig": {
