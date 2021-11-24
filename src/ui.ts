@@ -15,9 +15,12 @@ import {
 import {
   getInventoryFirstAvailableLevel,
   getElementFromTemplate,
+  getOrderToken,
 } from './utils'
 import { hideElement } from './helpers'
 import { OrderCollection, SkuCollection } from '@commercelayer/js-sdk'
+import config from './config'
+import { getAccessTokenCookie } from './utils'
 // const utils = require('./utils')
 // const normalize = require('json-api-normalize')
 
@@ -163,21 +166,18 @@ export const displayAvailableMessage = (
   container: HTMLElement,
   stockLevel: any
 ) => {
-  const dlt: any = _.first(stockLevel.delivery_lead_times)
+  const [dlt]: any = stockLevel?.deliveryLeadTimes || []
   const qty = stockLevel.quantity
   const minDays = dlt ? dlt.min.days : ''
   const maxDays = dlt ? dlt.max.days : ''
   const minHours = dlt ? dlt.min.hours : ''
   const maxHours = dlt ? dlt.max.hours : ''
-  const shippingMethodName = dlt ? dlt.shipping_method.name : ''
-  const shippingMethodPrice = dlt
-    ? dlt.shipping_method.formatted_price_amount
-    : ''
+  const shippingMethodName = dlt ? dlt.shippingMethod.name : ''
+  const shippingMethodPrice = dlt ? dlt.shippingMethod.formattedPriceAmount : ''
   if (container) {
     const template = document.querySelector(
       '#clayer-availability-message-available-template'
     )
-
     if (template && dlt) {
       const element = getElementFromTemplate(template)
 
@@ -215,6 +215,7 @@ export const displayAvailableMessage = (
 
       container.innerHTML = ''
       container.appendChild(element)
+
       displayElement(container)
     } else {
       container.innerHTML = ''
@@ -315,7 +316,12 @@ export const updateShoppingBagCheckout = (order: OrderCollection) => {
   shoppingBagCheckouts.forEach((shoppingBagCheckout) => {
     if (!order.lineItems()?.empty()) {
       enableElement(shoppingBagCheckout)
-      shoppingBagCheckout.href = order.checkoutUrl
+      const orderId = getOrderToken()
+      const accessToken = getAccessTokenCookie()
+      shoppingBagCheckout.href =
+        order.checkoutUrl ||
+        `https://${config.organizationSlug}.checkout.commercelayer.app/${orderId}?accessToken=${accessToken}`
+      console.log(`object`, shoppingBagCheckout.href, orderId, accessToken)
     } else {
       shoppingBagCheckout.href = ''
       disableElement(shoppingBagCheckout)

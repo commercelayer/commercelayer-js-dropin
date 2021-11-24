@@ -6,6 +6,7 @@ let config = {
   marketId: '',
   countryCode: '',
   languageCode: '',
+  organizationSlug: '',
   cartUrl: '',
   returnUrl: '',
   privacyUrl: '',
@@ -25,6 +26,7 @@ if (clayerConfig) {
     countryCode: clayerConfig.getAttribute('data-country-code') || '',
     languageCode:
       clayerConfig.getAttribute('data-language-code')?.split('-')[0] || '',
+    organizationSlug: clayerConfig.getAttribute('data-organization-slug') || '',
     cartUrl: clayerConfig.getAttribute('data-cart-url') || '',
     returnUrl: clayerConfig.getAttribute('data-return-url') || '',
     privacyUrl: clayerConfig.getAttribute('data-privacy-url') || '',
