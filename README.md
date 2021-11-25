@@ -41,7 +41,7 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 Download and include the [JavaScript file](./lib/index.js) in your project or use the CDN below:
 
 ```
-https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.9/lib/index.js
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.10/lib/index.js
 ```
 
 ### API Credentials
@@ -68,6 +68,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <div
       id="clayer-config"
       data-base-url="https://commercelayer-js-dropin.commercelayer.io"
+      data-organization-slug="commercelayer-js-dropin"
       data-cache="true"
       data-client-id="1756ba0fa1672ef1445eb2123ac156c91b2551befdde51dcca768a94edc1eae07"
       data-market-id="6371"
@@ -85,7 +86,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.9/lib/index.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.10/lib/index.js"
     ></script>
   </body>
 </html>
@@ -616,11 +617,9 @@ Note that the list of SKUs for a given market can be empty for one of the follow
 
 ### Custom checkout, customer accounts, and more
 
-We developed an open-source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as-is or as a reference, if you need to develop a custom checkout experience through the API to match your branding requirements or your clients' ones fully.
+To checkout your customer's order(s), you can use the Commerce Layer checkout application which provides you with a PCI-compliant, PSD2-compliant, and production-ready checkout flow powered by Commerce Layer APIs. With this, you can checkout a created order using the URL format:`<your organization slug>.checkout.commercelayer.app/:order_id?accessToken=<token>`. This is already supported in the latest version of the dropin library, and you don't need to do anything else to configure it. Once the "Proceed to checkout" button is clicked on, you will be redirected to the checkout page.
 
-Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e., saved payment methods), address book, and returns.
-
-The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
+Another common feature that you may want to build is a customer account dashboard, where customers can manage their order history, wallet (i.e., saved payment methods), address book, and returns. The next versions of Commerce Layer JS Drop-in will be enhanced to provide more features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
 ---
 
