@@ -616,11 +616,9 @@ Note that the list of SKUs for a given market can be empty for one of the follow
 
 ### Custom checkout, customer accounts, and more
 
-We developed an open-source [checkout application](https://github.com/commercelayer/commercelayer-checkout). It can be used as-is or as a reference, if you need to develop a custom checkout experience through the API to match your branding requirements or your clients' ones fully.
+To checkout your customer's order(s), you can use the Commerce Layer checkout application which provides you with a PCI-compliant, PSD2-compliant, and production-ready checkout flow powered by Commerce Layer APIs. With this, you can checkout a created order using the URL format:`<your organization slug>.checkout.commercelayer.app/:order_id?accessToken=<token>`. This is already supported in the latest version of the dropin library, and you don't need to do anything else to configure it. Once the "Proceed to checkout" button is clicked on, you will be redirected to the checkout page.
 
-Another common feature that you may want to build is a customer account area, where they can manage their order history, wallet (i.e., saved payment methods), address book, and returns.
-
-The next versions of Commerce Layer JS Drop-in will be enhanced to provide all those features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
+Another common feature that you may want to build is a customer account dashboard, where customers can manage their order history, wallet (i.e., saved payment methods), address book, and returns. The next versions of Commerce Layer JS Drop-in will be enhanced to provide more features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
 
 ---
 
