@@ -318,10 +318,12 @@ export const updateShoppingBagCheckout = (order: OrderCollection) => {
       enableElement(shoppingBagCheckout)
       const orderId = getOrderToken()
       const accessToken = getAccessTokenCookie()
+      const [_protocol, slug] = config.baseUrl.match(
+        /[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?/g
+      ) as string[]
       shoppingBagCheckout.href =
         order.checkoutUrl ||
-        `https://${config.organizationSlug}.checkout.commercelayer.app/${orderId}?accessToken=${accessToken}`
-      console.log(`object`, shoppingBagCheckout.href, orderId, accessToken)
+        `https://${slug}.checkout.commercelayer.app/${orderId}?accessToken=${accessToken}`
     } else {
       shoppingBagCheckout.href = ''
       disableElement(shoppingBagCheckout)

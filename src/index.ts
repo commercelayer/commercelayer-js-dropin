@@ -6,7 +6,6 @@ import listeners from './listeners.js'
 import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 
 const init = async () => {
-  console.log(`init`)
   let auth: any = {}
   if (!getAccessTokenCookie()) {
     auth = await getSalesChannelToken({
