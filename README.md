@@ -68,7 +68,6 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <div
       id="clayer-config"
       data-base-url="https://commercelayer-js-dropin.commercelayer.io"
-      data-organization-slug="commercelayer-js-dropin"
       data-cache="true"
       data-client-id="1756ba0fa1672ef1445eb2123ac156c91b2551befdde51dcca768a94edc1eae07"
       data-market-id="6371"
@@ -86,7 +85,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.10/lib/index.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.11/lib/index.js"
     ></script>
   </body>
 </html>
