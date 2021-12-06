@@ -87,7 +87,7 @@ export default {
           quantity = val
         }
         let orderPromise = getOrderToken() ? api.getOrder() : api.createOrder()
-        orderPromise.then((order) => {
+        return orderPromise.then((order) => {
           api
             .createLineItem(
               // @ts-ignore
