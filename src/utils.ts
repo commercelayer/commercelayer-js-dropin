@@ -3,7 +3,7 @@ import config from './config'
 
 export const getInventoryFirstAvailableLevel = (inventory: any) => {
   let [first_level] = inventory.levels
-  if (first_level.quantity == 0) {
+  if (first_level?.quantity === 0) {
     for (let k = 1; k < inventory.levels.length; k++) {
       const level = inventory.levels[k]
       if (level.quantity > 0) {

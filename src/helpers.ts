@@ -40,16 +40,19 @@ export const setElementHTML = (
 
 export const shoppingBagItemsQuantity = (order: OrderCollection): string => {
   let count = 0
+  const lineItems = order
+    ?.lineItems()
+    ?.toArray()
+    .filter((i) =>
+      ['skus', 'giftCards', 'adjustments', 'bundles'].includes(i.itemType)
+    )
   // @ts-ignore
-  const countItems = Number(order.lineItems().size())
-  if (countItems > 0 && order.lineItems) {
+  const countItems = Number(lineItems?.length)
+  if (countItems > 0 && lineItems) {
     // @ts-ignore
-    order
-      .lineItems()
-      .toArray()
-      .map((l) => {
-        count = count + l.quantity
-      })
+    lineItems.map((l) => {
+      count = count + l.quantity
+    })
   }
   return `${count}`
 }

@@ -154,7 +154,7 @@ export const updateAvailabilityMessage = (
   )
   if (availabilityMessageContainer) {
     let first_level = getInventoryFirstAvailableLevel(inventory)
-    if (first_level.quantity > 0) {
+    if (first_level?.quantity > 0) {
       displayAvailableMessage(availabilityMessageContainer, first_level)
     } else {
       displayUnavailableMessage(availabilityMessageContainer)

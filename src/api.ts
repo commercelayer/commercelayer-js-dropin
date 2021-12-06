@@ -181,23 +181,23 @@ const selectSku = (
     .then((s) => {
       updatePrice(s, priceContainerId)
       updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
+      updateAddToBagSKU(
+        skuId,
+        skuName,
+        skuCode,
+        skuImageUrl,
+        addToBagId,
+        addToBagQuantityId
+      )
+      updateAddVariantQuantitySKU(
+        skuId,
+        skuName,
+        skuCode,
+        skuImageUrl,
+        `${s.inventory.quantity}`,
+        addToBagQuantityId
+      )
       if (s.inventory.available) {
-        updateAddToBagSKU(
-          skuId,
-          skuName,
-          skuCode,
-          skuImageUrl,
-          addToBagId,
-          addToBagQuantityId
-        )
-        updateAddVariantQuantitySKU(
-          skuId,
-          skuName,
-          skuCode,
-          skuImageUrl,
-          `${s.inventory.quantity}`,
-          addToBagQuantityId
-        )
         enableAddToBag(addToBagId)
         enableAddVariantQuantity(addToBagQuantityId)
       } else {

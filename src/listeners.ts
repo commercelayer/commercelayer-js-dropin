@@ -68,8 +68,11 @@ export default {
     const addToBags: NodeListOf<HTMLButtonElement> =
       document.querySelectorAll('.clayer-add-to-bag')
     addToBags.forEach((addToBag) => {
-      addToBag.addEventListener('click', (event) => {
+      addToBag.addEventListener('click', (event: any) => {
         event.preventDefault()
+        const disabled =
+          event?.target?.attributes?.disabled?.value === 'disabled'
+        if (disabled) return false
         let quantity = 1
         const variantQuantity: any =
           addToBag.dataset['addToBagQuantityId'] &&
