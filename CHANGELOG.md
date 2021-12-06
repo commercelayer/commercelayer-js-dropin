@@ -1,3 +1,10 @@
+## [1.5.12](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.11...v1.5.12) (2021-12-06)
+
+
+### Bug Fixes
+
+* Disable button when the inventory is not available ([7a8e835](https://github.com/commercelayer/commercelayer-js-dropin/commit/7a8e835b59f0d3f67580060eee869764b3d013aa))
+
 ## [1.5.11](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.10...v1.5.11) (2021-11-25)
 
 
