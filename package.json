@@ -18,7 +18,7 @@
     "cypress:run:record": "cypress run -b chrome --env RECORD=1",
     "cypress:run": "cypress run -b chrome",
     "build": "rm -rf ./dist && tsc -b --force",
-    "postbuild": "esbuild ./dist/index.js --bundle --minify --outdir=lib --sourcemap",
+    "postbuild": "esbuild ./dist/index.js --bundle --minify --outdir=lib",
     "patch": "npm version patch",
     "minor": "npm version minor",
     "publish:patch": "npm run build && npm run patch && git push --follow-tags && npm publish",
