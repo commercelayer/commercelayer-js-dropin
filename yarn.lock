@@ -920,12 +920,13 @@
   dependencies:
     "lodash" "^4.17.20"
 
-"@commercelayer/js-auth@^2.2.4":
-  "integrity" "sha512-Fc9fOvMv404AMTBy+kaK8qcBnAHSrksaQ3ZyoVUZkHyBcDkPK5t1EJ/ggZXbc2VTco+CVoMdoCUetozeRYZ9EQ=="
-  "resolved" "https://registry.npmjs.org/@commercelayer/js-auth/-/js-auth-2.2.4.tgz"
-  "version" "2.2.4"
+"@commercelayer/js-auth@^2.2.6":
+  "integrity" "sha512-vYwXRyfa+X3QHdCn/HidDzJi2NImxsQOrUSPZPqSBowK13E++kNrQo0fOvqE2uDiNXznRdAle45nItg6HJuHug=="
+  "resolved" "https://registry.npmjs.org/@commercelayer/js-auth/-/js-auth-2.2.6.tgz"
+  "version" "2.2.6"
   dependencies:
     "client-oauth2" "^4.3.3"
+    "tslib" "^2.3.1"
 
 "@commercelayer/js-sdk@^2.14.3":
   "integrity" "sha512-Mr5L5j78fqbm+30dZWlWw5ngwWvJ/uUu0zCA0NjmwApBlMw3xxvFARwI+UGjT3eEyrVpsiTFWtvVnk8RzSZ5Bw=="
@@ -1315,15 +1316,15 @@
     "semver" "^7.1.2"
     "tempy" "^1.0.0"
 
-"@semantic-release/release-notes-generator@^10.0.0", "@semantic-release/release-notes-generator@^10.0.2":
-  "integrity" "sha512-I4eavIcDan8fNQHskZ2cbWkFMimvgxNkqR2UfuYNwYBgswEl3SJsN8XMf9gZWObt6nXDc2QfDwhjy8DjTZqS3w=="
-  "resolved" "https://registry.npmjs.org/@semantic-release/release-notes-generator/-/release-notes-generator-10.0.2.tgz"
-  "version" "10.0.2"
+"@semantic-release/release-notes-generator@^10.0.0", "@semantic-release/release-notes-generator@^10.0.3":
+  "integrity" "sha512-k4x4VhIKneOWoBGHkx0qZogNjCldLPRiAjnIpMnlUh6PtaWXp/T+C9U7/TaNDDtgDa5HMbHl4WlREdxHio6/3w=="
+  "resolved" "https://registry.npmjs.org/@semantic-release/release-notes-generator/-/release-notes-generator-10.0.3.tgz"
+  "version" "10.0.3"
   dependencies:
     "conventional-changelog-angular" "^5.0.0"
     "conventional-changelog-writer" "^5.0.0"
     "conventional-commits-filter" "^2.0.0"
-    "conventional-commits-parser" "^3.0.0"
+    "conventional-commits-parser" "^3.2.3"
     "debug" "^4.0.0"
     "get-stream" "^6.0.0"
     "import-from" "^4.0.0"
@@ -1416,10 +1417,10 @@
   "resolved" "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.2.tgz"
   "version" "1.2.2"
 
-"@types/node@*", "@types/node@^16.11.10":
-  "integrity" "sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.11.10.tgz"
-  "version" "16.11.10"
+"@types/node@*", "@types/node@^16.11.11":
+  "integrity" "sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-16.11.11.tgz"
+  "version" "16.11.11"
 
 "@types/node@^14.14.31":
   "integrity" "sha512-JcII3D5/OapPGx+eJ+Ik1SQGyt6WvuqdRfh9jUwL6/iHGjmyOriBDciBUu7lEIBTL2ijxwrR70WUnw5AEDmFvQ=="
@@ -2285,7 +2286,7 @@
     "lodash.ismatch" "^4.4.0"
     "modify-values" "^1.0.0"
 
-"conventional-commits-parser@^3.0.0", "conventional-commits-parser@^3.2.3":
+"conventional-commits-parser@^3.2.3":
   "integrity" "sha512-YyRDR7On9H07ICFpRm/igcdjIqebXbvf4Cff+Pf0BrBys1i1EOzx9iFXNlAbdrLAR8jf7bkUYkDAr8pEy0q4Pw=="
   "resolved" "https://registry.npmjs.org/conventional-commits-parser/-/conventional-commits-parser-3.2.3.tgz"
   "version" "3.2.3"
@@ -2644,33 +2645,33 @@
   "resolved" "https://registry.npmjs.org/es6-promise/-/es6-promise-4.2.8.tgz"
   "version" "4.2.8"
 
-"esbuild-darwin-64@0.13.15":
-  "integrity" "sha512-ihOQRGs2yyp7t5bArCwnvn2Atr6X4axqPpEdCFPVp7iUj4cVSdisgvEKdNR7yH3JDjW6aQDw40iQFoTqejqxvQ=="
-  "resolved" "https://registry.npmjs.org/esbuild-darwin-64/-/esbuild-darwin-64-0.13.15.tgz"
-  "version" "0.13.15"
+"esbuild-darwin-64@0.14.2":
+  "integrity" "sha512-Uq8t0cbJQkxkQdbUfOl2wZqZ/AtLZjvJulR1HHnc96UgyzG9YlCLSDMiqjM+NANEy7/zzvwKJsy3iNC9wwqLJA=="
+  "resolved" "https://registry.npmjs.org/esbuild-darwin-64/-/esbuild-darwin-64-0.14.2.tgz"
+  "version" "0.14.2"
 
-"esbuild@^0.13.15":
-  "integrity" "sha512-raCxt02HBKv8RJxE8vkTSCXGIyKHdEdGfUmiYb8wnabnaEmHzyW7DCHb5tEN0xU8ryqg5xw54mcwnYkC4x3AIw=="
-  "resolved" "https://registry.npmjs.org/esbuild/-/esbuild-0.13.15.tgz"
-  "version" "0.13.15"
+"esbuild@^0.14.2":
+  "integrity" "sha512-l076A6o/PIgcyM24s0dWmDI/b8RQf41uWoJu9I0M71CtW/YSw5T5NUeXxs5lo2tFQD+O4CW4nBHJXx3OY5NpXg=="
+  "resolved" "https://registry.npmjs.org/esbuild/-/esbuild-0.14.2.tgz"
+  "version" "0.14.2"
   optionalDependencies:
-    "esbuild-android-arm64" "0.13.15"
-    "esbuild-darwin-64" "0.13.15"
-    "esbuild-darwin-arm64" "0.13.15"
-    "esbuild-freebsd-64" "0.13.15"
-    "esbuild-freebsd-arm64" "0.13.15"
-    "esbuild-linux-32" "0.13.15"
-    "esbuild-linux-64" "0.13.15"
-    "esbuild-linux-arm" "0.13.15"
-    "esbuild-linux-arm64" "0.13.15"
-    "esbuild-linux-mips64le" "0.13.15"
-    "esbuild-linux-ppc64le" "0.13.15"
-    "esbuild-netbsd-64" "0.13.15"
-    "esbuild-openbsd-64" "0.13.15"
-    "esbuild-sunos-64" "0.13.15"
-    "esbuild-windows-32" "0.13.15"
-    "esbuild-windows-64" "0.13.15"
-    "esbuild-windows-arm64" "0.13.15"
+    "esbuild-android-arm64" "0.14.2"
+    "esbuild-darwin-64" "0.14.2"
+    "esbuild-darwin-arm64" "0.14.2"
+    "esbuild-freebsd-64" "0.14.2"
+    "esbuild-freebsd-arm64" "0.14.2"
+    "esbuild-linux-32" "0.14.2"
+    "esbuild-linux-64" "0.14.2"
+    "esbuild-linux-arm" "0.14.2"
+    "esbuild-linux-arm64" "0.14.2"
+    "esbuild-linux-mips64le" "0.14.2"
+    "esbuild-linux-ppc64le" "0.14.2"
+    "esbuild-netbsd-64" "0.14.2"
+    "esbuild-openbsd-64" "0.14.2"
+    "esbuild-sunos-64" "0.14.2"
+    "esbuild-windows-32" "0.14.2"
+    "esbuild-windows-64" "0.14.2"
+    "esbuild-windows-arm64" "0.14.2"
 
 "escalade@^3.1.1":
   "integrity" "sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw=="
@@ -5587,6 +5588,11 @@
   "integrity" "sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.13.0.tgz"
   "version" "1.13.0"
+
+"tslib@^2.3.1":
+  "integrity" "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
+  "version" "2.3.1"
 
 "tunnel-agent@^0.6.0":
   "integrity" "sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0="
