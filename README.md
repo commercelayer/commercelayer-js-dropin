@@ -41,7 +41,7 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 Download and include the [JavaScript file](./lib/index.js) in your project or use the CDN below:
 
 ```
-https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.10/lib/index.js
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.12/lib/index.js
 ```
 
 ### API Credentials
