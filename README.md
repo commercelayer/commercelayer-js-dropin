@@ -46,14 +46,12 @@ https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.10/lib/index.js
 
 ### API Credentials
 
-1. Head to [https://core.commercelayer.io/users/sign_up](https://core.commercelayer.io/users/sign_up) to create a free developer account.
+1. Head to [https://dashboard.commercelayer.io/sign_up](https://dashboard.commercelayer.io/sign_up) to create a free developer account. 
 2. Create a new [organization](https://commercelayer.io/docs/data-model/users-and-organizations/) for your business.
-3. You will be prompted to seed with test data. You can decide to use that method or seed with the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
-4. In your Commerce Layer dashboard, head to **Settings > Applications** and create an application with `name`: Website and `kind`: sales_chanel.
+3. Upon creating your organization, you can opt to seed your organization with test data through the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
+4. In your Commerce Layer dashboard, click on the **Sales channels** tab and create an application, with the name: `Website`. Upon successful creation, you'll get a `CLIENT ID` and `ENDPOINT`. Kindly remember to save that as you will need them to interact with your application. Below that, you will also find the *ALLOWED SCOPES* section
 
-Upon successful creation, you'll get a _CREDENTIALS_ section added to the application with `CLIENT ID` and `ENDPOINT` for the _sales_channel_. Below that, you will also find the _ALLOWED SCOPES_ section. Save all the credentials as you will use them to interact with your application.
-
-![Credentials](docs/images/sales_channel.jpg)
+![Credentials](docs/images/sales_channel.png)
 
 ### Configuration
 
@@ -85,7 +83,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.11/lib/index.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.12/lib/index.js"
     ></script>
   </body>
 </html>
@@ -344,6 +342,7 @@ The add to bag button is not referred to a specific SKU, and its data attributes
     <select
       class="clayer-variant-select"
       name="variant"
+      data-price-container-id="price"
       data-availability-message-container-id="availability-message"
       data-add-to-bag-id="add-to-bag"
       data-add-to-bag-quantity-id="add-to-bag-quantity"
