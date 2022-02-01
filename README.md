@@ -38,7 +38,7 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 
 ## Getting started
 
-Download and include the [JavaScript file](./lib/index.js) in your project or use the CDN below:
+Include the library in your project using the CDN below:
 
 ```
 https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.12/lib/index.js
@@ -487,7 +487,7 @@ Add the summary elements wherever you want to show the current shopping bag deta
     Your shopping bag contains <span class="clayer-shopping-bag-items-count">0</span> items (<span class="clayer-shopping-bag-total"></span>) <a href="#" class="clayer-shopping-bag-toggle">toggle</a>
 
     <div id="clayer-shopping-bag-container">
-      <table class="table is-fullwidth">
+      <table>
         <thead>
           <tr>
             <th colspan="2">SKU</th>
@@ -521,7 +521,7 @@ Add the summary elements wherever you want to show the current shopping bag deta
         </template>
       </table>
 
-      <table class="table is-fullwidth">
+      <table>
         <tr>
           <td>Subtotal</td>
           <td class="clayer-shopping-bag-subtotal"></td>
@@ -617,7 +617,7 @@ Note that the list of SKUs for a given market can be empty for one of the follow
 
 To checkout your customer's order(s), you can use the Commerce Layer checkout application which provides you with a PCI-compliant, PSD2-compliant, and production-ready checkout flow powered by Commerce Layer APIs. With this, you can checkout a created order using the URL format:`<your organization slug>.checkout.commercelayer.app/:order_id?accessToken=<token>`. This is already supported in the latest version of the dropin library, and you don't need to do anything else to configure it. Once the "Proceed to checkout" button is clicked on, you will be redirected to the checkout page.
 
-Another common feature that you may want to build is a customer account dashboard, where customers can manage their order history, wallet (i.e., saved payment methods), address book, and returns. The next versions of Commerce Layer JS Drop-in will be enhanced to provide more features with equal ease. In the meantime, please explore the official [API reference](https://docs.commercelayer.io/api/) for all the available endpoints and resources.
+Another common feature that you may want to build is a customer account dashboard, where customers can manage their order history, wallet (i.e., saved payment methods), address book, and returns. The next versions of Commerce Layer JS Drop-in will be enhanced to provide more features with equal ease. In the meantime, please explore the [API reference](https://docs.commercelayer.io/developers/v/api-reference/) for all the available endpoints and resources.
 
 ---
 
@@ -637,7 +637,7 @@ git clone https://github.com/<your username>/commercelayer-js-dropin.git && cd c
 
 ## Need help?
 
-1. Request an invite to join [Commerce Layer's Slack community](https://commercelayer.io/developers).
+1. Join [Commerce Layer's Slack community](https://slack.commercelayer.app/).
 
 2. Create an [issue](https://github.com/commercelayer/commercelayer-cli/issues) in this repository.
 
