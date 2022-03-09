@@ -23,7 +23,8 @@ export default {
             target.dataset.priceContainerId,
             target.dataset.availabilityMessageContainerId,
             target.dataset.addToBagId,
-            target.dataset.addToBagQuantityId
+            target.dataset.addToBagQuantityId,
+            selectedOption.dataset['skuReference'] as string
           )
         }
       })
@@ -40,7 +41,8 @@ export default {
           variantRadio.dataset['priceContainerId'] as string,
           variantRadio.dataset['availabilityMessageContainerId'] as string,
           variantRadio.dataset['addToBagId'] as string,
-          variantRadio.dataset['addToBagQuantityId'] as string
+          variantRadio.dataset['addToBagQuantityId'] as string,
+          variantRadio.dataset['skuReference'] as string
         )
       })
     })
@@ -96,6 +98,7 @@ export default {
               addToBag.dataset['skuName'] as string,
               addToBag.dataset['skuCode'] as string,
               addToBag.dataset['skuImageUrl'] as string,
+              addToBag.dataset['skuReference'] as string,
               quantity
             )
             .then(() => {

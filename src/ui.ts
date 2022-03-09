@@ -230,7 +230,8 @@ export const updateAddToBagSKU = (
   skuCode: string,
   skuImageUrl: string,
   addToBagId: string,
-  addToBagQuantityId: string
+  addToBagQuantityId: string,
+  skuReference: string
 ) => {
   let addToBag: HTMLElement | null = document.querySelector(`#${addToBagId}`)
   if (addToBag) {
@@ -239,6 +240,7 @@ export const updateAddToBagSKU = (
     addToBag.dataset['skuCode'] = skuCode ?? ''
     addToBag.dataset['skuImageUrl'] = skuImageUrl ?? ''
     addToBag.dataset['addToBagQuantityId'] = addToBagQuantityId ?? ''
+    addToBag.dataset['skuReference'] = skuReference ?? ''
   }
 }
 
