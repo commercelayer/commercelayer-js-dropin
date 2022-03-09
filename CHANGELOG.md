@@ -1,3 +1,10 @@
+## [1.5.13](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.12...v1.5.13) (2022-03-09)
+
+
+### Bug Fixes
+
+* Add sku reference to line item ([5ed3e3b](https://github.com/commercelayer/commercelayer-js-dropin/commit/5ed3e3b3c52fa3bdc42d35ae56e3c4ac89c29f7a))
+
 ## [1.5.12](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.11...v1.5.12) (2021-12-06)
 
 
