@@ -41,15 +41,15 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 Include the library in your project using the CDN below:
 
 ```
-https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.12/lib/index.js
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.13/lib/index.js
 ```
 
 ### API Credentials
 
-1. Head to [https://dashboard.commercelayer.io/sign_up](https://dashboard.commercelayer.io/sign_up) to create a free developer account. 
+1. Head to [https://dashboard.commercelayer.io/sign_up](https://dashboard.commercelayer.io/sign_up) to create a free developer account.
 2. Create a new [organization](https://commercelayer.io/docs/data-model/users-and-organizations/) for your business.
 3. Upon creating your organization, you can opt to seed your organization with test data through the [Commerce Layer CLI](https://github.com/commercelayer/commercelayer-cli).
-4. In your Commerce Layer dashboard, click on the **Sales channels** tab and create an application, with the name: `Website`. Upon successful creation, you'll get a `CLIENT ID` and `ENDPOINT`. Kindly remember to save that as you will need them to interact with your application. Below that, you will also find the *ALLOWED SCOPES* section
+4. In your Commerce Layer dashboard, click on the **Sales channels** tab and create an application, with the name: `Website`. Upon successful creation, you'll get a `CLIENT ID` and `ENDPOINT`. Kindly remember to save that as you will need them to interact with your application. Below that, you will also find the _ALLOWED SCOPES_ section
 
 ![Credentials](docs/images/sales_channel.png)
 
@@ -83,7 +83,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.12/lib/index.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.13/lib/index.js"
     ></script>
   </body>
 </html>
