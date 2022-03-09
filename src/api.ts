@@ -173,7 +173,8 @@ const selectSku = (
   priceContainerId: string = 'clayer-price',
   availabilityMessageContainerId: string,
   addToBagId: string,
-  addToBagQuantityId: string
+  addToBagQuantityId: string,
+  skuReference: string
 ) => {
   Sku.includes('prices')
     .perPage(itemsPerPage)
@@ -187,7 +188,8 @@ const selectSku = (
         skuCode,
         skuImageUrl,
         addToBagId,
-        addToBagQuantityId
+        addToBagQuantityId,
+        skuReference
       )
       updateAddVariantQuantitySKU(
         skuId,
@@ -272,6 +274,7 @@ const createLineItem = (
   skuName: string,
   skuCode: string,
   skuImageUrl: string,
+  reference: string,
   quantity = 1
 ) => {
   const order = Order.build({ id: orderId })
@@ -281,6 +284,7 @@ const createLineItem = (
   lineItemData.name = skuName ?? ''
   lineItemData.skuCode = skuCode ?? ''
   lineItemData.image_url = skuImageUrl ?? ''
+  lineItemData.reference = reference ?? ''
   lineItemData.quantity = quantity ?? ''
   lineItemData._updateQuantity = 1
 
