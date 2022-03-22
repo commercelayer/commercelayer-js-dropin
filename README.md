@@ -41,7 +41,7 @@ As a reference, feel free to check the HTML code of the sample [category](/demo/
 Include the library in your project using the CDN below:
 
 ```
-https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.13/lib/index.js
+https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.14/lib/index.js
 ```
 
 ### API Credentials
@@ -83,7 +83,7 @@ Add an element with `clayer-config` ID and populate its data attributes with you
     <!-- JS Library -->
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.13/lib/index.js"
+      src="https://cdn.jsdelivr.net/npm/@commercelayer/js-dropin@1.5.14/lib/index.js"
     ></script>
   </body>
 </html>
