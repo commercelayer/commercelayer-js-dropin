@@ -15,8 +15,9 @@ export default {
         const target = event.target
         let selectedOption = variantSelect.options[target.selectedIndex]
         if (selectedOption) {
+          const id = selectedOption.dataset['skuId'] || selectedOption.value
           api.selectSku(
-            selectedOption.value,
+            id,
             selectedOption.dataset['skuName'] as string,
             selectedOption.dataset['skuCode'] as string,
             selectedOption.dataset['skuImageUrl'] as string,
@@ -33,8 +34,9 @@ export default {
       document.querySelectorAll('.clayer-variant-radio')
     variantRadios.forEach((variantRadio: HTMLInputElement) => {
       variantRadio.addEventListener('click', () => {
+        const id = variantRadio.dataset['skuId'] || variantRadio.value
         api.selectSku(
-          variantRadio.value,
+          id,
           variantRadio.dataset['skuName'] as string,
           variantRadio.dataset['skuCode'] as string,
           variantRadio.dataset['skuImageUrl'] as string,

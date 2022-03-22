@@ -80,6 +80,7 @@ export const updateVariants = (skus: SkuCollection[], clear: boolean) => {
     )
     variants.forEach((variant) => {
       variant.value = sku.id
+      variant.setAttribute('data-sku-id', sku.id)
       enableElement(variant)
     })
   })
