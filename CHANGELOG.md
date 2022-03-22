@@ -1,3 +1,10 @@
+## [1.5.14](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.13...v1.5.14) (2022-03-22)
+
+
+### Performance Improvements
+
+* Add data-sku-id to variant elements ([78c0929](https://github.com/commercelayer/commercelayer-js-dropin/commit/78c0929640d7978d5bda7fe8ebe2a5b91167a4e5))
+
 ## [1.5.13](https://github.com/commercelayer/commercelayer-js-dropin/compare/v1.5.12...v1.5.13) (2022-03-09)
 
 
