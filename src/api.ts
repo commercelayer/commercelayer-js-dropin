@@ -1,13 +1,12 @@
 // import api from './api' import listeners from './listeners'
 import config from './config'
 import {
-  Sku,
   Order,
   LineItem,
   OrderCollection,
   SkuCollection,
 } from '@commercelayer/js-sdk'
-import { itemsPerPage } from './helpers'
+// import { itemsPerPage } from './helpers'
 import { updateShoppingBagSummary, updateShoppingBagCheckout } from './ui'
 import {
   setOrderToken,
@@ -20,87 +19,106 @@ import {
   updateVariants,
   updateVariantsQuantity,
   updateAddToBags,
-  updatePrice,
-  updateAvailabilityMessage,
-  updateAddToBagSKU,
-  updateAddVariantQuantitySKU,
-  enableAddVariantQuantity,
-  enableAddToBag,
-  disableAddToBag,
-  disableAddVariantQuantity,
+  // updatePrice,
+  // updateAvailabilityMessage,
+  // updateAddToBagSKU,
+  // updateAddVariantQuantitySKU,
+  // enableAddVariantQuantity,
+  // enableAddToBag,
+  // disableAddToBag,
+  // disableAddVariantQuantity,
   displayUnavailableMessage,
   clearShoppingBag,
 } from './ui'
-import * as _ from 'lodash'
-// const clsdk = require('@commercelayer/sdk')
+import { CLSdk } from './utils/get-sdk'
+import { Price, Sku } from '@commercelayer/sdk'
 
-const getPrices = () => {
-  const prices: NodeListOf<HTMLElement> =
-    document.querySelectorAll('.clayer-price')
+const getPrices = (sdk: CLSdk) => {
+  const prices: NodeListOf<HTMLElement> = document.querySelectorAll(
+    '[data-element-type=price], .clayer-price'
+  )
   if (prices.length > 0) {
-    const skuCodes: SkuCollection[] = []
+    let allPrices: Price[] = []
+    const skuCodes: string[] = []
     prices.forEach((price) => {
       if (price.dataset['skuCode']) {
         skuCodes.push(price.dataset['skuCode'] as any)
       }
     })
-    Sku.where({ codeIn: skuCodes.join(',') })
-      .includes('prices')
-      .perPage(itemsPerPage)
-      .all()
-      .then(async (r) => {
-        updatePrices(r.toArray())
-        let nextP: any = r
-        if (nextP.hasNextPage()) {
-          for (let index = 1; index < nextP.pageCount(); index++) {
-            nextP = await nextP.nextPage()
-            updatePrices(nextP.toArray())
+    sdk.prices
+      .list({
+        filters: { sku_code_in: skuCodes.join(',') },
+      })
+      .then(async (prices) => {
+        updatePrices(prices)
+        allPrices = [...allPrices, ...prices]
+        const meta = prices.meta
+        if (meta.pageCount > 1) {
+          for (
+            let pageNumber = meta.currentPage + 1;
+            pageNumber <= meta.pageCount;
+            pageNumber++
+          ) {
+            const pageResponse = await sdk.prices.list({
+              filters: { sku_code_in: skuCodes.join(',') },
+              pageNumber,
+            })
+            allPrices = [...allPrices, ...pageResponse]
           }
+          updatePrices(allPrices)
         }
-        document.dispatchEvent(new Event('clayer-prices-ready'))
-
-        if (r.empty()) {
-          document.dispatchEvent(new Event('clayer-skus-empty'))
-        }
+      })
+      .catch((error) => {
+        console.log('error', error)
       })
   }
 }
 
-const getVariants = () => {
-  const variants: NodeListOf<HTMLElement> =
-    document.querySelectorAll('.clayer-variant')
+const getVariants = (sdk: CLSdk) => {
+  const variants: NodeListOf<HTMLElement> = document.querySelectorAll(
+    '[data-element-type=variant], .clayer-variant'
+  )
 
   if (variants.length > 0) {
-    const skuCodes: SkuCollection[] = []
-
+    const skuCodes: string[] = []
+    let allSkus: Sku[] = []
     variants.forEach((variant) => {
       if (variant.dataset['skuCode']) {
         skuCodes.push(variant.dataset['skuCode'] as any)
       }
     })
-    Sku.where({ codeIn: skuCodes.join(',') })
-      .perPage(itemsPerPage)
-      .all()
-      .then((r) => {
-        updateVariants(r.toArray(), true)
-        if (r.hasNextPage()) {
-          r.nextPage().then((n) => {
-            updateVariants(n.toArray(), false)
-          })
+    sdk.skus
+      .list({
+        filters: { code_in: skuCodes.join(',') },
+      })
+      .then(async (skus) => {
+        updateVariants(skus)
+        allSkus = [...allSkus, ...skus]
+        const meta = skus.meta
+        if (meta.pageCount > 1) {
+          for (
+            let pageNumber = meta.currentPage + 1;
+            pageNumber <= meta.pageCount;
+            pageNumber++
+          ) {
+            const pageResponse = await sdk.skus.list({
+              filters: { code_in: skuCodes.join(',') },
+              pageNumber,
+            })
+            allSkus = [...allSkus, ...pageResponse]
+          }
+          updateVariants(allSkus)
         }
-        if (r.hasPrevPage()) {
-          r.prevPage().then((p) => {
-            updateVariants(p.toArray(), false)
-          })
-        }
-        document.dispatchEvent(new Event('clayer-variants-ready'))
+      })
+      .catch((error) => {
+        console.log('error', error)
       })
   }
 }
 
 const getVariantsQuantity = () => {
   const variantQuantity: NodeListOf<HTMLElement> = document.querySelectorAll(
-    '.clayer-add-to-bag-quantity'
+    '.clayer-add-to-bag-quantity, [data-element-type=quantity]'
   )
   if (variantQuantity.length > 0) {
     const skuCodes: SkuCollection[] = []
@@ -114,18 +132,18 @@ const getVariantsQuantity = () => {
       updateVariantsQuantity(skuCodes)
       return
     }
-    Sku.where({ codeIn: skuCodes.join(',') })
-      .perPage(itemsPerPage)
-      .all()
-      .then((r) => {
-        updateVariantsQuantity(r.toArray())
-        if (r.hasNextPage()) {
-          r.nextPage().then(() => {
-            updateVariantsQuantity(r.toArray())
-          })
-        }
-        document.dispatchEvent(new Event('clayer-variants-quantity-ready'))
-      })
+    //   Sku.where({ codeIn: skuCodes.join(',') })
+    //     .perPage(itemsPerPage)
+    //     .all()
+    //     .then((r) => {
+    //       updateVariantsQuantity(r.toArray())
+    //       if (r.hasNextPage()) {
+    //         r.nextPage().then(() => {
+    //           updateVariantsQuantity(r.toArray())
+    //         })
+    //       }
+    //       document.dispatchEvent(new Event('clayer-variants-quantity-ready'))
+    //     })
   }
 }
 
@@ -145,69 +163,69 @@ const getAddToBags = () => {
       updateAddToBags(skuCodes)
       return
     }
-    Sku.where({ codeIn: skuCodes.join(',') })
-      .perPage(itemsPerPage)
-      .all()
-      .then((r) => {
-        updateAddToBags(r.toArray())
-        if (r.hasNextPage()) {
-          r.nextPage().then(() => {
-            updateAddToBags(r.toArray())
-          })
-        }
-        if (r.hasPrevPage()) {
-          r.prevPage().then(() => {
-            updateAddToBags(r.toArray())
-          })
-        }
-        document.dispatchEvent(new Event('clayer-add-to-bags-ready'))
-      })
+    // Sku.where({ codeIn: skuCodes.join(',') })
+    //   .perPage(itemsPerPage)
+    //   .all()
+    //   .then((r) => {
+    //     updateAddToBags(r.toArray())
+    //     if (r.hasNextPage()) {
+    //       r.nextPage().then(() => {
+    //         updateAddToBags(r.toArray())
+    //       })
+    //     }
+    //     if (r.hasPrevPage()) {
+    //       r.prevPage().then(() => {
+    //         updateAddToBags(r.toArray())
+    //       })
+    //     }
+    //     document.dispatchEvent(new Event('clayer-add-to-bags-ready'))
+    //   })
   }
 }
 
 const selectSku = (
-  skuId: string,
-  skuName: string,
-  skuCode: string,
-  skuImageUrl: string,
-  priceContainerId: string = 'clayer-price',
-  availabilityMessageContainerId: string,
-  addToBagId: string,
-  addToBagQuantityId: string,
-  skuReference: string
+  _skuId: string,
+  _skuName: string,
+  _skuCode: string,
+  _skuImageUrl: string,
+  _priceContainerId: string = 'clayer-price',
+  _availabilityMessageContainerId: string,
+  _addToBagId: string,
+  _addToBagQuantityId: string,
+  _skuReference: string
 ) => {
-  Sku.includes('prices')
-    .perPage(itemsPerPage)
-    .find(skuId)
-    .then((s) => {
-      updatePrice(s, priceContainerId)
-      updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
-      updateAddToBagSKU(
-        skuId,
-        skuName,
-        skuCode,
-        skuImageUrl,
-        addToBagId,
-        addToBagQuantityId,
-        skuReference
-      )
-      updateAddVariantQuantitySKU(
-        skuId,
-        skuName,
-        skuCode,
-        skuImageUrl,
-        `${s.inventory.quantity}`,
-        addToBagQuantityId
-      )
-      if (s.inventory.available) {
-        enableAddToBag(addToBagId)
-        enableAddVariantQuantity(addToBagQuantityId)
-      } else {
-        disableAddToBag(addToBagId)
-        disableAddVariantQuantity(addToBagQuantityId)
-      }
-      document.dispatchEvent(new Event('clayer-variant-selected'))
-    })
+  // Sku.includes('prices')
+  //   .perPage(itemsPerPage)
+  //   .find(skuId)
+  //   .then((s) => {
+  //     updatePrice(s, priceContainerId)
+  //     updateAvailabilityMessage(s.inventory, availabilityMessageContainerId)
+  //     updateAddToBagSKU(
+  //       skuId,
+  //       skuName,
+  //       skuCode,
+  //       skuImageUrl,
+  //       addToBagId,
+  //       addToBagQuantityId,
+  //       skuReference
+  //     )
+  //     updateAddVariantQuantitySKU(
+  //       skuId,
+  //       skuName,
+  //       skuCode,
+  //       skuImageUrl,
+  //       `${s.inventory.quantity}`,
+  //       addToBagQuantityId
+  //     )
+  //     if (s.inventory.available) {
+  //       enableAddToBag(addToBagId)
+  //       enableAddVariantQuantity(addToBagQuantityId)
+  //     } else {
+  //       disableAddToBag(addToBagId)
+  //       disableAddVariantQuantity(addToBagQuantityId)
+  //     }
+  //     document.dispatchEvent(new Event('clayer-variant-selected'))
+  //   })
 }
 
 const createOrder = async () => {
@@ -479,28 +497,16 @@ const updateLineItemQty = (
 
 export default {
   getPrices,
-
   getVariants,
-
   getVariantsQuantity,
-
   getAddToBags,
-
   selectSku,
-
   createOrder,
-
   getOrder,
-
   refreshOrder,
-
   createLineItem,
-
   deleteLineItem,
-
   updateLineItem,
-
   updateLineItemQty,
-
   updateShoppingBagItems,
 }

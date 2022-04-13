@@ -21,6 +21,7 @@ import { hideElement } from './helpers'
 import { OrderCollection, SkuCollection } from '@commercelayer/js-sdk'
 import config from './config'
 import { getAccessTokenCookie } from './utils'
+import { Sku, Price } from '@commercelayer/sdk'
 // const utils = require('./utils')
 // const normalize = require('json-api-normalize')
 
@@ -44,21 +45,26 @@ export const updatePrice = (sku: SkuCollection, priceContainerId: string) => {
   }
 }
 
-export const updatePrices = (skus: SkuCollection[]) => {
-  skus.map((sku) => {
-    const price = _.first(sku.prices().toArray())
+export const updatePrices = (prices: Price[]) => {
+  prices.forEach((price) => {
+    const code = price.sku_code
     const priceAmounts = document.querySelectorAll(
-      '[data-sku-code="' + sku.code + '"] > .amount'
+      `[data-sku-code="${code}"] > .amount, [data-sku-code="${code}"] > [data-element-type="amount"]`
     )
     priceAmounts.forEach((priceAmount) => {
-      priceAmount.innerHTML = price?.formattedAmount || ''
+      priceAmount.innerHTML = price?.formatted_amount || ''
     })
     const priceCompareAmounts = document.querySelectorAll(
-      '[data-sku-code="' + sku.code + '"] > .compare-at-amount'
+      `[data-sku-code="${code}"] > .compare-at-amount, [data-sku-code="${code}"] > [data-element-type="compare-at-amount"]`
     )
     priceCompareAmounts.forEach((priceCompareAmount) => {
-      if (price && price.compareAtAmountCents > price.amountCents) {
-        priceCompareAmount.innerHTML = price.formattedCompareAtAmount
+      if (
+        price?.formatted_compare_at_amount &&
+        price?.compare_at_amount_cents &&
+        price?.amount_cents &&
+        price?.compare_at_amount_cents > price?.amount_cents
+      ) {
+        priceCompareAmount.innerHTML = price.formatted_compare_at_amount
       } else {
         priceCompareAmount.innerHTML = ''
       }
@@ -66,17 +72,18 @@ export const updatePrices = (skus: SkuCollection[]) => {
   })
 }
 
-export const updateVariants = (skus: SkuCollection[], clear: boolean) => {
+export const updateVariants = (skus: Sku[], clear?: boolean) => {
   if (clear === true) {
-    let allVariants: NodeListOf<HTMLElement> =
-      document.querySelectorAll('.clayer-variant')
+    let allVariants: NodeListOf<HTMLElement> = document.querySelectorAll(
+      '[data-element-type=variant], .clayer-variant'
+    )
     allVariants.forEach((variant) => {
       disableElement(variant)
     })
   }
   skus.map((sku) => {
     let variants: NodeListOf<HTMLSelectElement> = document.querySelectorAll(
-      '.clayer-variant[data-sku-code="' + sku.code + '"]'
+      `.clayer-variant[data-sku-code="${sku.code}"], [data-element-type=variant][data-sku-code="${sku.code}"]`
     )
     variants.forEach((variant) => {
       variant.value = sku.id
