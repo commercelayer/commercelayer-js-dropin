@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Install dependencies and run specs
+      - name: Install dependencies and run CI specs
         env:
-          CI: true
-        run: pnpm it
+          CI: ${{ matrix.CI }}
+        run: pnpm ci
       - name: Upload spec results
         if: always()
         uses: actions/upload-artifact@v2

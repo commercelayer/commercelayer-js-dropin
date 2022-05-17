@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "test": "playwright test",
+    "ci": "CI=true pnpm it",
     "build": "rm -rf ./dist && tsc -b --force",
     "postbuild": "esbuild ./dist/index.js --bundle --minify --outdir=lib",
     "start": "tsc --watch",

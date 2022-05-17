@@ -1,5 +1,7 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test'
 
+console.log('process.env.CI', process.env.CI)
+
 const config: PlaywrightTestConfig = {
   webServer: {
     command: 'pnpm start:server',
@@ -9,7 +11,7 @@ const config: PlaywrightTestConfig = {
   use: {
     trace: 'on-first-retry',
     // Browser options
-    headless: false,
+    headless: !!process.env.CI,
     // slowMo: 50,
     // Context options
     viewport: { width: 1280, height: 720 },
@@ -35,4 +37,5 @@ const config: PlaywrightTestConfig = {
     // },
   ],
 }
+console.log('config', config)
 export default config
