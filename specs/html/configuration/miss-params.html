@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
     <link rel="stylesheet" href="../../../demo/css/custom.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="../../../lib/index.js"></script>
+    <script defer src="../../../lib/index.js"></script>
     <script type="text/javascript">
-      commercelayer.init({
-        // clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
-        // endpoint: 'https://the-blue-brand-3.commercelayer.co',
-        // scope: 'market:58',
-        returnUrl: 'https://example.com/return'
+      document.addEventListener('DOMContentLoaded', () => {
+        commercelayer.init({
+          // clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
+          // endpoint: 'https://the-blue-brand-3.commercelayer.co',
+          // scope: 'market:58',
+          returnUrl: 'https://example.com/return'
+        })
       })
     </script>
   </head>

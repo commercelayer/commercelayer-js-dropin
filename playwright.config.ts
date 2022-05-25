@@ -1,7 +1,5 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test'
 
-console.log('process.env.CI', process.env.CI)
-
 const config: PlaywrightTestConfig = {
   webServer: {
     command: 'pnpm start:server',
@@ -25,7 +23,12 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          devtools: true,
+        },
+      },
     },
     // {
     //   name: 'firefox',
@@ -36,6 +39,7 @@ const config: PlaywrightTestConfig = {
     //   use: { ...devices['Desktop Safari'] },
     // },
   ],
+  // reporter: [['html']],
 }
-console.log('config', config)
+
 export default config
