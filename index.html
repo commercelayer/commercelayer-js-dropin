@@ -29,10 +29,15 @@
           <div class="content">
             <h4 class="title">Black Baby Onesie Short Sleeve with Pink Logo (New born)</h4>
             <p class="help">BABYONBU000000E63E74NBXX</p>
-            <div id="price-container" class="clayer-price" data-element-type="price" data-sku-code="BABYONBU000000E63E74NBXX">
+            <cl-price code="BABYONBU000000E63E74NBXX">
+              <cl-price-amount></cl-price-amount>
+              <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
+            </cl-price>
+            <!-- <cl-price code="test2"></cl-price> -->
+            <!-- <div id="price-container" class="clayer-price" data-element-type="price" data-sku-code="BABYONBU000000E63E74NBXX">
               <span class="amount" data-element-type="amount"></span>
               <span class="compare-at-amount" data-element-type="compare-at-amount"></span>
-            </div>
+            </div> -->
           </div>
 
           <!-- Variants (select) -->
@@ -59,16 +64,16 @@
 
       <!-- Availability message templates -->
 
-      <template id="clayer-availability-message-available-template">
+      <template id="clayer-availability-message-available-template" data-element-type="availability-template">
         <p>
           Available in
-          <span class="clayer-availability-message-available-min-days"></span>-
-          <span class="clayer-availability-message-available-max-days"></span> days with
-          <span class="clayer-availability-message-available-shipping-method-name"></span>
-          (<span class="clayer-availability-message-available-shipping-method-price"></span>)
+          <span class="clayer-availability-message-available-min-days" data-element-type="availability-min-days"></span>-
+          <span class="clayer-availability-message-available-max-days" data-element-type="availability-max-days"></span> days with
+          <span class="clayer-availability-message-available-shipping-method-name" data-element-type="availability-shipping-method-name"></span>
+          (<span class="clayer-availability-message-available-shipping-method-price" data-element-type="availability-shipping-method-price"></span>)
         </p>
       </template>
-      <template id="clayer-availability-message-unavailable-template">
+      <template id="clayer-availability-message-unavailable-template" data-element-type="unavailability-template">
         <p class="has-text-danger">The selected SKU is not available.</p>
       </template>
       <!-- Shopping bag -->
@@ -166,7 +171,15 @@
     data-dev-settings-trace="true">
   </div>
 
+  <!-- <script src="./lib/index.js"></script> -->
   <script src="./lib/index.js"></script>
-
+  <script type="text/javascript">
+    commercelayer.init({
+      clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
+      endpoint: 'https://the-blue-brand-3.commercelayer.co',
+      scope: 'market:58',
+      returnUrl: 'https://example.com/return'
+    })
+  </script>
   </body>
 </html>
