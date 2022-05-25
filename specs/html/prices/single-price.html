@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product page example (select)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="../../../demo/css/custom.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script defer src="../../../lib/index.js"></script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        commercelayer.init({
+          clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
+          endpoint: 'https://the-blue-brand-3.commercelayer.co',
+          scope: 'market:58',
+        })
+      })
+    </script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Product page
+      </h1>
+      <p class="subtitle">
+        Variant selection (select)
+      </p>
+
+      <div class="columns">
+        <div class="column">
+          <div class="box">
+            <img src="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90" />
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="content">
+            <h4 class="title">Black Baby Onesie Short Sleeve with Pink Logo (New born)</h4>
+            <p class="help">BABYONBU000000E63E74NBXX</p>
+            <cl-price code="BABYONBU000000E63E74NBXX">
+              <cl-price-amount></cl-price-amount>
+              <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
+            </cl-price>
+            <!-- <cl-price code="test2"></cl-price> -->
+            <!-- <div id="price-container" class="clayer-price" data-element-type="price" data-sku-code="BABYONBU000000E63E74NBXX">
+              <span class="amount" data-element-type="amount"></span>
+              <span class="compare-at-amount" data-element-type="compare-at-amount"></span>
+            </div> -->
+          </div>
+          </div>
+    </div>
+  </section>
+  </body>
+</html>
