@@ -1,55 +1,60 @@
 import { getSalesChannelToken } from '@commercelayer/js-auth'
-import api from './api'
-import config from './config'
-import listeners from './listeners'
+import { getPrices } from '#api/prices'
 import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 import getSdk from './utils/get-sdk.js'
+import './components'
 
-const init = async () => {
+type Args = {
+  clientId: string
+  endpoint: string
+  scope: string
+  returnUrl?: string
+  privacyUrl?: string
+  termsUrl?: string
+  cartUrl?: string
+}
+
+async function init({ clientId, endpoint, scope, ...options }: Args) {
+  if (![clientId, endpoint, scope].every(Boolean)) {
+    const msg = `clientId, endpoint, and scope are required to init Commerce Layer.`
+    window.alert(msg)
+    throw new Error(msg)
+  }
+  console.log('options', options)
   let auth: any = {}
   if (!getAccessTokenCookie()) {
-    auth = await getSalesChannelToken({
-      clientId: config.clientId,
-      endpoint: config.baseUrl,
-      scope: `market:${config.marketId}`,
-    })
-    setAccessTokenCookie(auth.accessToken, auth.expires)
+    try {
+      auth = await getSalesChannelToken({
+        clientId,
+        endpoint,
+        scope,
+      })
+      setAccessTokenCookie(auth.accessToken, auth.expires)
+    } catch (error: any) {
+      window.alert(error.message)
+      throw new Error(error.message)
+    }
   } else {
     auth.accessToken = getAccessTokenCookie()
   }
   const sdk = getSdk({
     accessToken: auth.accessToken,
-    endpoint: config.baseUrl,
+    endpoint,
   })
-  api.getPrices(sdk)
-  api.getVariants(sdk)
-  api.getVariantsQuantity()
-  api.getAddToBags()
+  getPrices(sdk)
+  // getVariants(sdk, 'variant')
+  // getVariants(sdk, 'add-to-bag-quantity')
+  // api.getAddToBags()
 
-  listeners.setupVariants()
-  listeners.setupAddVariantQuantity()
-  listeners.setupAddToBags()
-  listeners.setupShoppingBagToggles()
+  // handleSelectors(sdk, 'variant')
+  // // listeners.setupVariants()
+  // listeners.setupAddVariantQuantity()
+  // listeners.setupAddToBags()
+  // listeners.setupShoppingBagToggles()
 
-  api.refreshOrder()
+  // api.refreshOrder()
 }
 
-async function initCommercelayer() {
-  // const api = require('./api') const listeners = require('./listeners') const
-  // config = require('./config') const clsdk = require('@commercelayer/sdk')
-  window.commercelayer = {
-    init,
-  }
-  await init()
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('readystatechange', () => {
-    if (document.readyState === 'interactive') {
-      initCommercelayer()
-    }
-  })
-} else {
-  // interactive or complete
-  initCommercelayer()
-}
+window.commercelayer = {
+  init,
+} as any

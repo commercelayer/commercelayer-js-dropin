@@ -1,12 +1,13 @@
 import cookies from 'js-cookie'
+import { SkuInventory } from './@types/ui'
 import config from './config'
 
-export const getInventoryFirstAvailableLevel = (inventory: any) => {
-  let [first_level] = inventory.levels
+export const getInventoryFirstAvailableLevel = (inventory: SkuInventory) => {
+  let [first_level] = inventory?.levels
   if (first_level?.quantity === 0) {
     for (let k = 1; k < inventory.levels.length; k++) {
       const level = inventory.levels[k]
-      if (level.quantity > 0) {
+      if (level?.quantity && level.quantity > 0) {
         first_level = level
         break
       }
