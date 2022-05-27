@@ -12,10 +12,11 @@
     "README.md"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "test": "playwright test",
     "test:coverage": "npx nyc playwright test && pnpm coverage:report",
     "coverage:report": "npx nyc report --reporter=html",
-    "ci": "CI=true pnpm it",
+    "ci": "pnpm i && playwright install && CI=1 pnpm t",
     "build": "rm -rf ./dist && tsc -b --force && tsc-alias && pnpm postbuild",
     "postbuild": "esbuild ./dist/index.js --bundle --minify --outdir=lib",
     "start": "tsc --watch",
