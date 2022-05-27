@@ -16,12 +16,12 @@
     "test": "playwright test",
     "test:coverage": "npx nyc playwright test && pnpm coverage:report",
     "coverage:report": "npx nyc report --reporter=html",
-    "ci": "pnpm i && playwright install && CI=1 pnpm t",
+    "ci": "pnpm i && playwright install --with-deps && CI=1 pnpm t",
     "build": "rm -rf ./dist && tsc -b --force && tsc-alias && pnpm postbuild",
     "postbuild": "esbuild ./dist/index.js --bundle --minify --outdir=lib",
     "start": "tsc --watch",
     "start:bundle": "esbuild ./dist/index.js --bundle --outdir=lib --watch",
-    "start:server": "npx http-server -c-1"
+    "start:server": "http-server -c-1"
   },
   "release": {
     "branches": [
@@ -99,6 +99,7 @@
     "@types/lodash": "^4.14.182",
     "@types/node": "^16.11.36",
     "esbuild": "^0.14.39",
+    "http-server": "^14.1.0",
     "playwright": "^1.22.2",
     "querystring": "^0.2.1",
     "semantic-release": "^19.0.2",

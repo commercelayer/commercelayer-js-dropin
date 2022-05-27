@@ -21,7 +21,6 @@ test.describe('Prices', () => {
   ]
   test('Show single price', async ({ page }) => {
     const dropin = new DropinPage(page)
-    await dropin.startCoverage()
     await dropin.navigate('prices/single-price', {
       waitUntil: 'domcontentloaded',
     })
@@ -32,7 +31,6 @@ test.describe('Prices', () => {
     await expect(amount).toContainText(sku.amount)
     const compareAmount = dropin.locator('cl-price-compare-amount')
     await expect(compareAmount).toContainText(sku.compareAmount)
-    dropin.stopCoverage()
   })
   test('Show prices', async ({ page }) => {
     await page.goto('/specs/html/prices/prices.html', {
