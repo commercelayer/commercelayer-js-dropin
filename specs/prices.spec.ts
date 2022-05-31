@@ -24,6 +24,7 @@ test.describe('Prices', () => {
     await dropin.navigate('prices/single-price', {
       waitUntil: 'domcontentloaded',
     })
+    await page.waitForResponse('**/prices?**')
     const price = dropin.locator('cl-price')
     const [sku] = prices
     await expect(price).toHaveAttribute('code', sku.code)
@@ -33,17 +34,19 @@ test.describe('Prices', () => {
     await expect(compareAmount).toContainText(sku.compareAmount)
   })
   test('Show prices', async ({ page }) => {
-    await page.goto('/specs/html/prices/prices.html', {
+    const dropin = new DropinPage(page)
+    await dropin.navigate('prices/prices', {
       waitUntil: 'domcontentloaded',
     })
+    await page.waitForResponse('**/prices?**')
     for (const sku of prices) {
-      const price = page.locator(`cl-price[code=${sku.code}]`)
+      const price = dropin.locator(`cl-price[code=${sku.code}]`)
       await expect(price).toHaveAttribute('code', sku.code)
-      const amount = page.locator(
+      const amount = dropin.locator(
         `cl-price[code=${sku.code}] > cl-price-amount`
       )
       await expect(amount).toContainText(sku.amount)
-      const compareAmount = page.locator(
+      const compareAmount = dropin.locator(
         `cl-price[code=${sku.code}] > cl-price-compare-amount`
       )
       await expect(compareAmount).toContainText(sku.compareAmount)
