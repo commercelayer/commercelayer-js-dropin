@@ -24,7 +24,6 @@ test.describe('Prices', () => {
     await dropin.navigate('prices/single-price', {
       waitUntil: 'domcontentloaded',
     })
-    await page.waitForResponse('**/prices?**')
     const price = dropin.locator('cl-price')
     const [sku] = prices
     await expect(price).toHaveAttribute('code', sku.code)
@@ -38,7 +37,6 @@ test.describe('Prices', () => {
     await dropin.navigate('prices/prices', {
       waitUntil: 'domcontentloaded',
     })
-    await page.waitForResponse('**/prices?**')
     for (const sku of prices) {
       const price = dropin.locator(`cl-price[code=${sku.code}]`)
       await expect(price).toHaveAttribute('code', sku.code)
