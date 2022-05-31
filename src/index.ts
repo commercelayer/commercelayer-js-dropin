@@ -14,7 +14,7 @@ type Args = {
   cartUrl?: string
 }
 
-async function init({ clientId, endpoint, scope, ...options }: Args) {
+export async function init({ clientId, endpoint, scope, ...options }: Args) {
   if (![clientId, endpoint, scope].every(Boolean)) {
     const msg = `clientId, endpoint, and scope are required to init Commerce Layer.`
     window.alert(msg)
@@ -55,6 +55,6 @@ async function init({ clientId, endpoint, scope, ...options }: Args) {
   // api.refreshOrder()
 }
 
-window.commercelayer = {
-  init,
-} as any
+// window.commercelayer = {
+//   init,
+// } as any

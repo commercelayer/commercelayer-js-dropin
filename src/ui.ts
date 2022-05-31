@@ -19,7 +19,7 @@ import {
 import { hideElement } from './helpers'
 import config from './config'
 import { getAccessTokenCookie } from './utils'
-import type { Sku, Price, Order } from '@commercelayer/sdk'
+import type { Sku, Order } from '@commercelayer/sdk'
 import { ElementType, SkuInventory, Level } from './@types/ui'
 
 type UpdatePriceArgs = {
