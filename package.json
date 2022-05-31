@@ -16,7 +16,7 @@
     "test": "playwright test",
     "test:coverage": "npx nyc playwright test && pnpm coverage:report",
     "coverage:report": "npx nyc report --reporter=html",
-    "ci": "pnpm i && playwright install --with-deps && CI=1 pnpm t",
+    "ci": "pnpm i && npx playwright install --with-deps chromium && CI=1 pnpm t",
     "build": "rm -rf ./dist && tsc -b --force && tsc-alias && pnpm postbuild",
     "postbuild": "esbuild ./dist/index.js --bundle --minify --format=esm --outdir=lib",
     "start": "tsc -w & tsc-alias -w",
