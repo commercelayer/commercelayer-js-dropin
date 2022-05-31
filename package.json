@@ -21,7 +21,7 @@
     "postbuild": "esbuild ./dist/index.js --bundle --minify --format=esm --outdir=lib",
     "start": "tsc -w & tsc-alias -w",
     "start:bundle": "esbuild ./dist/index.js --bundle --outdir=lib --format=esm --watch",
-    "start:server": "http-server -c-1"
+    "start:server": "npx http-server -c-1"
   },
   "release": {
     "branches": [
@@ -77,8 +77,8 @@
   "dependencies": {
     "@commercelayer/js-auth": "^2.3.0",
     "@commercelayer/sdk": "^4.13.2",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
     "eslint": "^8.16.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21"
@@ -98,8 +98,7 @@
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.182",
     "@types/node": "^16.11.36",
-    "esbuild": "^0.14.39",
-    "http-server": "^14.1.0",
+    "esbuild": "^0.14.42",
     "playwright": "^1.22.2",
     "querystring": "^0.2.1",
     "semantic-release": "^19.0.2",
