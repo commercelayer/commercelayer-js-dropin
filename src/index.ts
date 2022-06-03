@@ -1,5 +1,5 @@
 import { getSalesChannelToken } from '@commercelayer/js-auth'
-import { getPrices } from '#api/prices'
+import { getPrices, getSkus } from '#api'
 import { getAccessTokenCookie, setAccessTokenCookie } from './utils'
 import getSdk from './utils/get-sdk.js'
 import './components'
@@ -41,7 +41,12 @@ export async function init({ clientId, endpoint, scope, ...options }: Args) {
     accessToken: auth.accessToken,
     endpoint,
   })
-  getPrices(sdk)
+  customElements.whenDefined('cl-sku').then(() => {
+    getSkus(sdk)
+  })
+  customElements.whenDefined('cl-price').then(() => {
+    getPrices(sdk)
+  })
   // getVariants(sdk, 'variant')
   // getVariants(sdk, 'add-to-bag-quantity')
   // api.getAddToBags()
