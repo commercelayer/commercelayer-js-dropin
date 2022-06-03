@@ -19,9 +19,9 @@
     "ci": "pnpm i && npx playwright install --with-deps chromium && CI=1 pnpm t",
     "build": "rm -rf ./dist && tsc -b --force && tsc-alias && pnpm postbuild",
     "postbuild": "esbuild ./dist/index.js --bundle --minify --format=esm --outdir=lib",
-    "start": "tsc -w & tsc-alias -w",
+    "start": "tsc -w & tsc-alias -w & pnpm start:bundle & pnpm start:server",
     "start:bundle": "esbuild ./dist/index.js --bundle --outdir=lib --format=esm --watch",
-    "start:server": "npx http-server -c-1"
+    "start:server": "http-server -c-1"
   },
   "release": {
     "branches": [
@@ -97,12 +97,13 @@
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^16.11.36",
+    "@types/node": "^16.11.38",
     "esbuild": "^0.14.42",
+    "http-server": "^14.1.1",
     "playwright": "^1.22.2",
     "querystring": "^0.2.1",
     "semantic-release": "^19.0.2",
-    "tsc-alias": "^1.6.7",
+    "tsc-alias": "^1.6.8",
     "typescript": "^4.7.2"
   }
 }
