@@ -4,4 +4,4 @@ class PriceCompareAmount extends HTMLElement {
   }
 }
 
-window.customElements.define('cl-price-compare-amount', PriceCompareAmount)
+customElements.define('cl-price-compare-amount', PriceCompareAmount)
