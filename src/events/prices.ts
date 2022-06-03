@@ -1,6 +1,6 @@
 import type { Price } from '@commercelayer/sdk'
 
-export const updatePrices = (prices: Price[]) => {
+export function updatePrices(prices: Price[]) {
   prices.forEach((price) => {
     const code = price?.sku_code
     if (code) {

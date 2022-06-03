@@ -51,4 +51,4 @@ class Price extends HTMLElement {
   }
 }
 
-window.customElements.define('cl-price', Price)
+customElements.define('cl-price', Price)

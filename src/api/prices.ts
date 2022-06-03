@@ -9,7 +9,7 @@ export function getPrices(sdk: CLSdk) {
     const skuCodes: string[] = []
     prices.forEach((price) => {
       const code = price.getAttribute('code')
-      if (code) {
+      if (code && !skuCodes.includes(code)) {
         skuCodes.push(code)
       }
     })
