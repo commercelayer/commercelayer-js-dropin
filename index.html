@@ -16,14 +16,6 @@
         returnUrl: 'https://example.com/return'
       })
     </script>
-  <!-- <script type="text/javascript">
-    commercelayer.init({
-      clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
-      endpoint: 'https://the-blue-brand-3.commercelayer.co',
-      scope: 'market:58',
-      returnUrl: 'https://example.com/return'
-    })
-  </script> -->
   </head>
   <body>
   <section class="section">
@@ -38,16 +30,24 @@
       <div class="columns">
         <div class="column">
           <div class="box">
-            <img src="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90" />
+            <cl-sku code="BABYONBU000000E63E74NBXX">
+              <cl-sku-field as="img" attribute="image_url"></cl-sku-field>
+            </cl-sku>
+            <!-- <img src="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90" /> -->
           </div>
         </div>
 
         <div class="column">
           <div class="content">
-            <h4 class="title">Black Baby Onesie Short Sleeve with Pink Logo (New born)</h4>
-            <p class="help">BABYONBU000000E63E74NBXX</p>
+            <cl-sku code="BABYONBU000000E63E74NBXX">
+              <cl-sku-field as="h4" attribute="name" class="title"></cl-sku-field>
+              <cl-sku-field as="p" attribute="description" class="help has-text-grey"></cl-sku-field>
+              <cl-sku-field as="p" attribute="code" class="help"></cl-sku-field>
+            </cl-sku>
+            <!-- <h4 class="title">Black Baby Onesie Short Sleeve with Pink Logo (New born)</h4> -->
+            <!-- <p class="help">BABYONBU000000E63E74NBXX</p> -->
             <cl-price code="BABYONBU000000E63E74NBXX">
-              <cl-price-amount></cl-price-amount>
+              <cl-price-amount class="amount"></cl-price-amount>
               <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
             </cl-price>
             <!-- <cl-price code="test2"></cl-price> -->
