@@ -7,6 +7,9 @@ type PathRefence = {
   prices: {
     page: ['single-price', 'prices']
   }
+  skus: {
+    page: ['single-sku', 'skus']
+  }
 }
 
 type PathPages = {
