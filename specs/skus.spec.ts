@@ -12,16 +12,6 @@ test.describe('Skus', () => {
       img: 'https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90',
     },
   ]
-  test.beforeEach(async ({ page }) => {
-    page.on('requestfailed', (request) => {
-      console.log('request ---- ', request)
-      console.log(request.url() + ' ' + request.failure().errorText)
-    })
-    page.route('**', (route, request) => {
-      console.log(request.url())
-      route.continue()
-    })
-  })
   test('Show single sku', async ({ page }) => {
     const dropin = new DropinPage(page)
     await dropin.navigate('skus/single-sku', {
