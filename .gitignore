@@ -36,3 +36,6 @@ cypress/fixtures/*.json
 
 # Typescript
 tsconfig.tsbuildinfo
+
+# logs
+.*.log

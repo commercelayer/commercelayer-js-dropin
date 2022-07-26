@@ -1,9 +1,6 @@
-name: Release
+name: Playwright specs
 on:
   push:
-    branches: [master, beta, alpha]
-  pull_request:
-    branches: [master, beta, alpha]
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -20,12 +17,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm i
-      - name: Run package
-        run: pnpm build
-      - name: Release
+      - name: Install dependencies and run CI specs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          CI: ${{ matrix.CI }}
+        run: pnpm ci
+      - name: Upload spec results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: playwright-report
+          path: playwright-report

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product page example (select)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="../../../demo/css/custom.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script type="module" async>
+      import { init } from '../../../lib/index.js'
+      init({
+        clientId: '48ee4802f8227b04951645a9b7c8af1e3943efec7edd1dcfd04b5661bf1da5db',
+        endpoint: 'https://the-blue-brand-3.commercelayer.co',
+        scope: 'market:58',
+        returnUrl: 'https://example.com/return'
+      })
+    </script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Product page
+      </h1>
+      <p class="subtitle">
+        Multi Price
+      </p>
+      <div class="columns">
+        <div class="column">
+          <div class="box">
+            <img src="https://img.commercelayer.io/skus/BABYONBU000000E63E74.png?fm=jpg&q=90" />
+          </div>
+        </div>
+        <div class="column">
+          <div class="content">
+            <h4 class="title">Black Baby Onesie Short Sleeve with Pink Logo (New born)</h4>
+            <p class="help">BABYONBU000000E63E74NBXX</p>
+            <cl-price code="BABYONBU000000E63E74NBXX">
+              <cl-price-amount></cl-price-amount>
+              <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
+            </cl-price>
+            <p class="help">BABYONBU000000E63E746MXX</p>
+            <cl-price code="BABYONBU000000E63E746MXX">
+              <cl-price-amount></cl-price-amount>
+              <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
+            </cl-price>
+            <p class="help">BABYONBU000000E63E7412MX</p>
+            <cl-price code="BABYONBU000000E63E7412MX">
+              <cl-price-amount></cl-price-amount>
+              <cl-price-compare-amount class="compare-at-amount"></cl-price-compare-amount>
+            </cl-price>
+          </div>
+        </div>
+    </div>
+  </section>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-import { OrderCollection } from '@commercelayer/js-sdk'
+import { Order } from '@commercelayer/sdk'
 
 export const itemsPerPage: number = 25
 export const enableElement = (element: HTMLElement) => {
@@ -30,90 +30,90 @@ export const hideElement = (element: HTMLElement) => {
 export const setElementHTML = (
   parent: HTMLElement,
   selector: string,
-  html: string
+  html: string | number | undefined
 ) => {
   const element = parent.querySelector(selector)
   if (element) {
-    element.innerHTML = html
+    element.innerHTML = `${html || ''}`
   }
 }
 
-export const shoppingBagItemsQuantity = (order: OrderCollection): string => {
-  let count = 0
-  const lineItems = order
-    ?.lineItems()
-    ?.toArray()
-    .filter((i) =>
-      ['skus', 'giftCards', 'adjustments', 'bundles'].includes(i.itemType)
-    )
-  // @ts-ignore
-  const countItems = Number(lineItems?.length)
-  if (countItems > 0 && lineItems) {
-    // @ts-ignore
-    lineItems.map((l) => {
-      count = count + l.quantity
-    })
-  }
-  return `${count}`
+export const shoppingBagItemsQuantity = (_order: Order) => {
+  // let count = 0
+  // const lineItems = order
+  //   ?.lineItems()
+  //   ?.toArray()
+  //   .filter((i) =>
+  //     ['skus', 'giftCards', 'adjustments', 'bundles'].includes(i.itemType)
+  //   )
+  // // @ts-ignore
+  // const countItems = Number(lineItems?.length)
+  // if (countItems > 0 && lineItems) {
+  //   // @ts-ignore
+  //   lineItems.map((l) => {
+  //     count = count + l.quantity
+  //   })
+  // }
+  // return `${count}`
 }
 
-export const updateShoppingBagItemsCount = (order: OrderCollection) => {
+export const updateShoppingBagItemsCount = (_order: Order) => {
   let shoppingBagItemsCounts = document.querySelectorAll(
     '.clayer-shopping-bag-items-count'
   )
-  shoppingBagItemsCounts.forEach((shoppingBagItemsCount) => {
-    shoppingBagItemsCount.innerHTML = shoppingBagItemsQuantity(order)
+  shoppingBagItemsCounts.forEach((_shoppingBagItemsCount) => {
+    // shoppingBagItemsCount.innerHTML = shoppingBagItemsQuantity(order)
   })
 }
 
-export const updateShoppingBagTotal = (order: OrderCollection) => {
+export const updateShoppingBagTotal = (_order: Order) => {
   let shoppingBagTotals = document.querySelectorAll(
     '.clayer-shopping-bag-total'
   )
-  shoppingBagTotals.forEach((shoppingBagTotal) => {
-    shoppingBagTotal.innerHTML = order.formattedTotalAmountWithTaxes
+  shoppingBagTotals.forEach((_shoppingBagTotal) => {
+    // shoppingBagTotal.innerHTML = order.formattedTotalAmountWithTaxes
   })
 }
 
-export const updateShoppingBagSubtotal = (order: OrderCollection) => {
+export const updateShoppingBagSubtotal = (_order: Order) => {
   let shoppingBagSubtotals = document.querySelectorAll(
     '.clayer-shopping-bag-subtotal'
   )
-  shoppingBagSubtotals.forEach((shoppingBagSubtotal) => {
-    shoppingBagSubtotal.innerHTML = order.formattedSubtotalAmount
+  shoppingBagSubtotals.forEach((_shoppingBagSubtotal) => {
+    // shoppingBagSubtotal.innerHTML = order.formattedSubtotalAmount
   })
 }
 
-export const updateShoppingBagShipping = (order: OrderCollection) => {
+export const updateShoppingBagShipping = (_order: Order) => {
   let shoppingBagShippings = document.querySelectorAll(
     '.clayer-shopping-bag-shipping'
   )
-  shoppingBagShippings.forEach((shoppingBagShipping) => {
-    shoppingBagShipping.innerHTML = order.formattedShippingAmount
+  shoppingBagShippings.forEach((_shoppingBagShipping) => {
+    // shoppingBagShipping.innerHTML = order.formattedShippingAmount
   })
 }
 
-export const updateShoppingBagPayment = (order: OrderCollection) => {
+export const updateShoppingBagPayment = (_order: Order) => {
   let shoppingBagPayments = document.querySelectorAll(
     '.clayer-shopping-bag-payment'
   )
-  shoppingBagPayments.forEach((shoppingBagPayment) => {
-    shoppingBagPayment.innerHTML = order.formattedPaymentMethodAmount
+  shoppingBagPayments.forEach((_shoppingBagPayment) => {
+    // shoppingBagPayment.innerHTML = order.formattedPaymentMethodAmount
   })
 }
 
-export const updateShoppingBagTaxes = (order: OrderCollection) => {
+export const updateShoppingBagTaxes = (_order: Order) => {
   let shoppingBagTaxes = document.querySelectorAll('.clayer-shopping-bag-taxes')
-  shoppingBagTaxes.forEach((shoppingBagTax) => {
-    shoppingBagTax.innerHTML = order.formattedTotalTaxAmount
+  shoppingBagTaxes.forEach((_shoppingBagTax) => {
+    // shoppingBagTax.innerHTML = order.formattedTotalTaxAmount
   })
 }
 
-export const updateShoppingBagDiscount = (order: OrderCollection) => {
+export const updateShoppingBagDiscount = (_order: Order) => {
   let shoppingBagDiscounts = document.querySelectorAll(
     '.clayer-shopping-bag-discount'
   )
-  shoppingBagDiscounts.forEach((shoppingBagDiscount) => {
-    shoppingBagDiscount.innerHTML = order.formattedDiscountAmount
+  shoppingBagDiscounts.forEach((_shoppingBagDiscount) => {
+    // shoppingBagDiscount.innerHTML = order.formattedDiscountAmount
   })
 }
