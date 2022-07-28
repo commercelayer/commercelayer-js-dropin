@@ -1,7 +1,7 @@
 import type { Sku as TSku } from '@commercelayer/sdk'
 import placeholderImages from '#utils/placeholderImages'
 import type { SkuField } from './SkuField'
-type SkuDetail = {
+export type SkuDetail = {
   [code: string]: TSku
 }
 

@@ -3,7 +3,9 @@ import type { Sku } from '@commercelayer/sdk'
 import { CLSdk } from '#utils/get-sdk'
 
 export function getSkus(sdk: CLSdk) {
-  const skus: NodeListOf<HTMLElement> = document.querySelectorAll('cl-sku')
+  const skus: NodeListOf<HTMLElement> = document.querySelectorAll(
+    'cl-sku,cl-variant-option'
+  )
   if (skus.length > 0) {
     let allSkus: Sku[] = []
     const skuCodes: string[] = []

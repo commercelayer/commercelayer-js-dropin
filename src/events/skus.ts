@@ -14,4 +14,5 @@ export function updateSkus(skus: Sku[]) {
       )
     }
   })
+  document.dispatchEvent(new CustomEvent(`cl:skus:loaded`))
 }

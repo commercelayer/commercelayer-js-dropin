@@ -1,58 +1,96 @@
+import { Sku } from '@commercelayer/sdk'
+import { SkuDetail } from './Sku'
+
+const SelectorAttributes = ['as', 'placeholder', 'class'] as const
+
 type TSelectorType = 'select' | 'radio' | undefined
+type TSelectorAttributes = typeof SelectorAttributes
 
 class VariantSelector extends HTMLElement {
-  _type: TSelectorType
+  _as: TSelectorType
+  _placeholder: string
+  _class: string
   constructor() {
     super()
-    this._type = undefined
+    this._as = undefined
+    this._placeholder = ''
+    this._class = ''
   }
-  static observedAttributes = ['type']
+  static observedAttributes = ['as', 'placeholder', 'class']
   attributeChangedCallback(
-    _name: string,
+    name: string,
     _oldValue: string,
-    newValue: TSelectorType
+    newValue: string & Exclude<TSelectorType, undefined>
   ) {
-    this._type = newValue
+    const key = `_${name as TSelectorAttributes[number]}` as const
+    this[key] = newValue
   }
   connectedCallback() {
     this._updateRendering()
   }
   disconnectedCallback() {
-    window.removeEventListener(
-      `cl:sku:${this.code}:loaded`,
-      this._updateRendering
-    )
+    window.removeEventListener(`cl:sku:loaded`, this._updateRendering)
   }
   get code() {
-    return this._type
+    return this._as
   }
   set code(v) {
     this.setAttribute('type', v as string)
   }
   _updateRendering() {
-    // document.addEventListener(`cl:skus:${this.code}:loaded`, (({
-    //   detail,
-    // }: CustomEvent<SkuDetail>) => {
-    //   if (detail[this._type]) {
-    //     const sku = detail[this._type] as TSku
-    //     for (const i in this.children) {
-    //       if (Object.prototype.hasOwnProperty.call(this.children, i)) {
-    //         const e = this.children[i] as SkuField
-    //         const as = e.as
-    //         const attribute = e.attribute as keyof TSku
-    //         const eAttribute = sku[attribute]
-    //         const eClassName = e.className
-    //         e.removeAttribute('class')
-    //         if (as === 'img') {
-    //           const src = eAttribute ? eAttribute : placeholderImages.sku
-    //           e.innerHTML = `<${as} src="${src}" class="${eClassName}"></${as}>`
-    //         } else {
-    //           e.innerHTML = `<${as} class="${eClassName}">${eAttribute}</${as}>`
-    //         }
-    //       }
-    //     }
-    //   }
-    // }) as EventListener)
+    const child: string[] = []
+    const className = this._class
+    // this.removeAttribute('class')
+    if (this._as === 'select' && this._placeholder) {
+      child.push(
+        `<option disabled selected value="">${this._placeholder}</option>`
+      )
+    }
+    for (const i in this.children) {
+      if (Object.prototype.hasOwnProperty.call(this.children, i)) {
+        const e = this.children[i] as VariantOption
+        const code = e.getAttribute('code')
+        const name = e.getAttribute('name')
+        const reference = e.getAttribute('reference')
+        const label = e.textContent
+        const eClassName = e.getAttribute('class') || ''
+        document.addEventListener(`cl:skus:${code}:loaded`, (({
+          detail,
+        }: CustomEvent<SkuDetail>) => {
+          if (code && detail[code]) {
+            const sku = detail[code] as Sku
+            if (this._as === 'select') {
+              child.push(
+                `<option code="${
+                  sku.code
+                }" name="${name}" reference="${reference}" value="${sku.id}">${
+                  label || sku.name
+                }</option>`
+              )
+            } else {
+              child.push(
+                `<div><input class="${eClassName}" id="${
+                  sku.code
+                }" type="radio" code="${
+                  sku.code
+                }" name="variant-option" reference="${reference}" value="${
+                  sku.id
+                }"/><label for="${sku.code}">${label || sku.name}</label></div>`
+              )
+            }
+          }
+        }) as EventListener)
+      }
+    }
+    document.addEventListener('cl:skus:loaded', () => {
+      if (this._as === 'select') {
+        this.innerHTML = `<select name="variant-selector" class="${className}">${child.join(
+          ''
+        )}</select>`
+      } else {
+        this.innerHTML = `${child.join('')}`
+      }
+    })
   }
 }
 
