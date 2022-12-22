@@ -2,6 +2,8 @@
 
 A JavaScript library that helps you integrate the [Commerce Layer API](https://docs.commercelayer.io/api/) into any HTML page.
 
+> This library is deprecated and no longer maitained. A brand new Commerce Layer [JS Drop-in](https://github.com/commercelayer/drop-in.js) has been officially released — we strongly recommend you to use that instead and start exploring [Commerce Layer micro frontends](https://commercelayer.github.io/drop-in.js/?path=/docs/introduction--basic).
+
 ![A GIF of the demo project](docs/images/demo.gif)
 
 ## What is Commerce Layer?
